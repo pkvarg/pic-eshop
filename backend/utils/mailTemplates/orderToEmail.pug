@@ -1,0 +1,33 @@
+extends baseEmail 
+
+block content 
+                            
+  h3 Dobrý deň #{user},
+  
+  h1 Vaša objednávka 
+
+  h2 #{products}
+  h2 #{firstName}
+  h2 #{address}
+  h2 Spôsob platby: #{paymentMethod}
+  h2 Status: #{paid}
+  h2 Poštovné: €#{shippingPrice}
+  //- h2 Tax: €#{taxPrice}
+  h2 Celkom: €#{totalPrice}
+  h2 Číslo objednávky: #{orderNumber}
+  h2 Poznámka: #{note}
+ 
+
+  h3 Ďakujeme za Váš nákup!
+
+  //- table.btn.btn-primary(role='presentation', border='0', cellpadding='0', cellspacing='0')
+  //-   tbody
+  //-     tr
+  //-       td(align='left')
+  //-         table(role='presentation', border='0', cellpadding='0', cellspacing='0')
+  //-           tbody
+  //-             tr
+  //-               td
+  //-                 a(href=`${url}`, target='_blank') Reset your password
+  //- p If you didn't forget your password, please ignore this email!
+  
