@@ -1,6 +1,20 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
+import { LinkContainer } from 'react-router-bootstrap'
+import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
+import SearchBox from './SearchBox'
+import { logout } from '../actions/userActions'
+import { Link } from 'react-router-dom'
 
 const Header = () => {
+  const dispatch = useDispatch()
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
+  const logoutHandler = () => {
+    dispatch(logout())
+  }
+
   const [navbar, setNavbar] = useState(false)
 
   return (
@@ -10,9 +24,25 @@ const Header = () => {
           <a href='/contact' className='text-[1.2rem] hover:text-dark-red'>
             Kontakt
           </a>
-          <a href='/login' className='text-[1.2rem] hover:text-dark-red'>
+          {userInfo ? (
+            <NavDropdown title={userInfo.name} id='username'>
+              <LinkContainer to='profile'>
+                <NavDropdown.Item>Môj profil</NavDropdown.Item>
+              </LinkContainer>
+              <NavDropdown.Item onClick={logoutHandler}>
+                Odhlásiť sa
+              </NavDropdown.Item>
+            </NavDropdown>
+          ) : (
+            <LinkContainer to='/login' className='grey-navbar-sign-in'>
+              <Nav.Link>
+                <i className='fas fa-user'></i> Prihlásenie
+              </Nav.Link>
+            </LinkContainer>
+          )}
+          {/* <a href='/login' className='text-[1.2rem] hover:text-dark-red'>
             Prihlásenie
-          </a>
+          </a> */}
         </div>
       </div>
       <nav className='bg-[#777777] w-full text-white nav-font'>

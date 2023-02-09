@@ -190,7 +190,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
       shippingPrice: createdOrder.shippingPrice.toFixed(2),
       orderNumber: createdOrder.orderNumber,
       header: {
-        company_name: 'Prúd',
+        company_name: 'Eshop',
         company_logo: __dirname + '/backend/utils/prud-prud-logo.png',
         company_address: 'Špieszova 5, 84104, Bratislava, Slovensko',
       },

@@ -10,7 +10,7 @@ class Email {
     this.to = user.email
     this.firstName = user.name
     this.url = url
-    this.from = `Prúd Eshop <${process.env.EMAIL_FROM}>`
+    this.from = `Eshop <${process.env.EMAIL_FROM}>`
     // order
     this.products = []
     this.productsCount = user.productsCount
