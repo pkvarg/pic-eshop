@@ -49,9 +49,27 @@ const Header = () => {
         <div className='justify-between px-4 mx-auto lg:max-w-[90%] md:items-center md:flex md:px-8'>
           <div>
             <div className='flex items-center justify-between py-3 md:py-5 md:block'>
-              <a className='text-[2.05rem]' href='/'>
-                Eshop
-              </a>
+              <div className='flex flex-row items-center justify-center gap-4'>
+                <a className='text-[2.05rem]' href='/'>
+                  Eshop
+                </a>
+                <div className='header-search-box'>
+                  <SearchBox />
+                </div>
+                <i className='fa-solid fa-phone text-[25px]'></i>
+                <a href='tel:+421900000000'>
+                  <p>+421 900 000 000</p>
+                </a>
+                <i className='fa-solid fa-envelope  text-[25px]'></i>
+                <a href='mailto:admin@prud.sk'>
+                  <p>info@eshop.sk</p>
+                </a>
+                <div className='flex flex-row gap-2'>
+                  <i className='fa-solid fa-cart-shopping text-[25px]'></i>
+                  <p>Košík</p>
+                </div>
+              </div>
+
               <div className='md:hidden'>
                 <button
                   className='p-2 text-gray-700 rounded-md outline-none focus:border-gray-400 focus:border'
@@ -96,7 +114,7 @@ const Header = () => {
                 navbar ? 'block' : 'hidden'
               }`}
             >
-              <ul className='items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0'>
+              {/* <ul className='items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0'>
                 <li>
                   <a href='/' className='text-[2.05rem] hover:text-dark-red'>
                     Link 1
@@ -113,7 +131,7 @@ const Header = () => {
                     Link 3
                   </a>
                 </li>
-              </ul>
+              </ul> */}
             </div>
           </div>
         </div>

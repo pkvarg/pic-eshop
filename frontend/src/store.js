@@ -1,18 +1,18 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import thunk from 'redux-thunk' // I still add this for my reference so I know thunk middleware is added
-// import {
-//   productListReducer,
-//   productDetailsReducer,
-//   productDeleteReducer,
-//   productCreateReducer,
-//   productUpdateReducer,
-//   productReviewCreateReducer,
-//   productReviewAcknowledgeReducer,
-//   productReviewDeleteReducer,
-//   productTopRatedReducer,
-//   productRemoveFromFavoritesReducer,
-// } from './reducers/productReducers'
-// import { cartReducer } from './reducers/cartReducers'
+import {
+  productListReducer,
+  productDetailsReducer,
+  productDeleteReducer,
+  productCreateReducer,
+  productUpdateReducer,
+  productReviewCreateReducer,
+  productReviewAcknowledgeReducer,
+  productReviewDeleteReducer,
+  productTopRatedReducer,
+  productRemoveFromFavoritesReducer,
+} from './reducers/productReducers'
+import { cartReducer } from './reducers/cartReducers'
 import {
   userLoginReducer,
   forgotPasswordReducer,
@@ -61,26 +61,26 @@ import {
 // } from './reducers/bannerReducers'
 
 const reducer = combineReducers({
-  // productList: productListReducer,
-  // productDetails: productDetailsReducer,
-  // productDelete: productDeleteReducer,
-  // productCreate: productCreateReducer,
-  // productUpdate: productUpdateReducer,
-  // productReviewCreate: productReviewCreateReducer,
-  // productReviewAcknowledge: productReviewAcknowledgeReducer,
-  // productReviewDelete: productReviewDeleteReducer,
-  // productTopRated: productTopRatedReducer,
-  // productRemoveFromFavorites: productRemoveFromFavoritesReducer,
-  // cart: cartReducer,
+  productList: productListReducer,
+  productDetails: productDetailsReducer,
+  productDelete: productDeleteReducer,
+  productCreate: productCreateReducer,
+  productUpdate: productUpdateReducer,
+  productReviewCreate: productReviewCreateReducer,
+  productReviewAcknowledge: productReviewAcknowledgeReducer,
+  productReviewDelete: productReviewDeleteReducer,
+  productTopRated: productTopRatedReducer,
+  productRemoveFromFavorites: productRemoveFromFavoritesReducer,
+  cart: cartReducer,
   userLogin: userLoginReducer,
   forgotPassword: forgotPasswordReducer,
   resetPassword: resetPasswordReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
-  // userUpdateProfile: userUpdateProfileReducer,
-  // userList: userListReducer,
-  // userDelete: userDeleteReducer,
-  // userUpdate: userUpdateReducer,
+  userUpdateProfile: userUpdateProfileReducer,
+  userList: userListReducer,
+  userDelete: userDeleteReducer,
+  userUpdate: userUpdateReducer,
   // orderCreate: orderCreateReducer,
   // orderDetails: orderDetailsReducer,
   // orderPay: orderPayReducer,
