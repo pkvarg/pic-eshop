@@ -49,9 +49,9 @@ const productSchema = mongoose.Schema(
     description: {
       type: String,
     },
-    excerpt: {
-      type: Object,
-    },
+    // excerpt: {
+    //   type: Object,
+    // },
 
     reviews: [reviewSchema],
     rating: {
@@ -74,19 +74,19 @@ const productSchema = mongoose.Schema(
       required: true,
       default: 0,
     },
-    catalog: { type: String },
+    // catalog: { type: String },
     weight: { type: String },
     related: { type: Object },
     related2: { type: Object },
     related3: { type: Object },
     discount: { type: Number },
     discountedPrice: { type: Number },
-    tags: { type: String },
-    language: { type: String },
-    binding: { type: String },
-    pages: { type: String },
-    isbn: { type: String },
-    year: { type: String },
+    // tags: { type: String },
+    // language: { type: String },
+    // binding: { type: String },
+    // pages: { type: String },
+    // isbn: { type: String },
+    // year: { type: String },
     favoriteOf: [favoritesSchema],
   },
   {

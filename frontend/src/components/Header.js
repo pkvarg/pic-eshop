@@ -25,7 +25,11 @@ const Header = () => {
             Kontakt
           </a>
           {userInfo ? (
-            <NavDropdown title={userInfo.name} id='username'>
+            <NavDropdown
+              title={userInfo.name}
+              id='username'
+              className='ml-[75%]'
+            >
               <LinkContainer to='profile'>
                 <NavDropdown.Item>Môj profil</NavDropdown.Item>
               </LinkContainer>
@@ -39,6 +43,36 @@ const Header = () => {
                 <i className='fas fa-user'></i> Prihlásenie
               </Nav.Link>
             </LinkContainer>
+          )}
+          {userInfo && userInfo.isAdmin && !userInfo.isAssistant && (
+            <NavDropdown title='Admin' id='adminmenu'>
+              <LinkContainer to='/admin/userlist'>
+                <NavDropdown.Item>Používatelia</NavDropdown.Item>
+              </LinkContainer>
+              <LinkContainer to='/admin/productlist'>
+                <NavDropdown.Item>Produkty</NavDropdown.Item>
+              </LinkContainer>
+              <LinkContainer to='/admin/orderlist'>
+                <NavDropdown.Item>Objednávky</NavDropdown.Item>
+              </LinkContainer>
+
+              {/* <LinkContainer to='/admin/banner'>
+                <NavDropdown.Item>Bannery</NavDropdown.Item>
+              </LinkContainer> */}
+            </NavDropdown>
+          )}
+          {userInfo && userInfo.isAssistant && (
+            <NavDropdown title='Asistent' id='adminmenu'>
+              <LinkContainer to='/admin/audio'>
+                <NavDropdown.Item>Audio</NavDropdown.Item>
+              </LinkContainer>
+              <LinkContainer to='/admin/video'>
+                <NavDropdown.Item>Video</NavDropdown.Item>
+              </LinkContainer>
+              <LinkContainer to='/admin/banner'>
+                <NavDropdown.Item>Bannery</NavDropdown.Item>
+              </LinkContainer>
+            </NavDropdown>
           )}
           {/* <a href='/login' className='text-[1.2rem] hover:text-dark-red'>
             Prihlásenie

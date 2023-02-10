@@ -25,32 +25,16 @@ import {
   resetPasswordReducer,
 } from './reducers/userReducers'
 
-// import {
-//   orderCreateReducer,
-//   orderDetailsReducer,
-//   orderPayReducer,
-//   orderListMyReducer,
-//   orderListReducer,
-//   orderDeleteReducer,
-//   orderDeliverReducer,
-//   orderCancellReducer,
-// } from './reducers/orderReducers'
-
-// import {
-//   audioListReducer,
-//   audioCreateReducer,
-//   audioDetailsReducer,
-//   audioDeleteReducer,
-//   audioUpdateReducer,
-// } from './reducers/audioReducers'
-
-// import {
-//   videoListReducer,
-//   videoCreateReducer,
-//   videoDetailsReducer,
-//   videoDeleteReducer,
-//   videoUpdateReducer,
-// } from './reducers/videoReducers'
+import {
+  orderCreateReducer,
+  orderDetailsReducer,
+  orderPayReducer,
+  orderListMyReducer,
+  orderListReducer,
+  orderDeleteReducer,
+  orderDeliverReducer,
+  orderCancellReducer,
+} from './reducers/orderReducers'
 
 // import {
 //   bannerListReducer,
@@ -81,24 +65,15 @@ const reducer = combineReducers({
   userList: userListReducer,
   userDelete: userDeleteReducer,
   userUpdate: userUpdateReducer,
-  // orderCreate: orderCreateReducer,
-  // orderDetails: orderDetailsReducer,
-  // orderPay: orderPayReducer,
-  // orderDeliver: orderDeliverReducer,
-  // orderCancell: orderCancellReducer,
-  // orderListMy: orderListMyReducer,
-  // orderList: orderListReducer,
-  // orderDelete: orderDeleteReducer,
-  // audioList: audioListReducer,
-  // audioDetails: audioDetailsReducer,
-  // audioDelete: audioDeleteReducer,
-  // audioCreate: audioCreateReducer,
-  // audioUpdate: audioUpdateReducer,
-  // videoList: videoListReducer,
-  // videoDetails: videoDetailsReducer,
-  // videoDelete: videoDeleteReducer,
-  // videoCreate: videoCreateReducer,
-  // videoUpdate: videoUpdateReducer,
+  orderCreate: orderCreateReducer,
+  orderDetails: orderDetailsReducer,
+  orderPay: orderPayReducer,
+  orderDeliver: orderDeliverReducer,
+  orderCancell: orderCancellReducer,
+  orderListMy: orderListMyReducer,
+  orderList: orderListReducer,
+  orderDelete: orderDeleteReducer,
+
   // bannerList: bannerListReducer,
   // bannerDetails: bannerDetailsReducer,
   // bannerDelete: bannerDeleteReducer,
