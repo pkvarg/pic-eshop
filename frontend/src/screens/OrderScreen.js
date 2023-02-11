@@ -129,196 +129,198 @@ const OrderScreen = () => {
     <Message variant='danger'>{error}</Message>
   ) : (
     <>
-      <h1>Objednávka {order._id}</h1>
-      <Row>
-        <Col md={8}>
-          <ListGroup variant='flush'>
-            <ListGroup.Item>
-              <h2>Doručovacia Adresa</h2>
-              <p>
-                <strong>Meno: </strong> {order.name}
-              </p>
-              <p>
-                <strong>Email: </strong>
-                <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
-              </p>
-              <p>
-                <strong>Adresa: </strong>
-                {order.shippingAddress.address}, {order.shippingAddress.city},{' '}
-                {order.shippingAddress.postalCode},{' '}
-                {order.shippingAddress.country}
-              </p>
-              {cart.shippingAddress.billingName && (
-                <div>
-                  <h4>Fakturačné údaje</h4>
-                  <p>
-                    {cart.shippingAddress.billingName},{' '}
-                    {cart.shippingAddress.billingAddress},{' '}
-                    {cart.shippingAddress.billingPostalCode},{' '}
-                    {cart.shippingAddress.billingCity},{' '}
-                    {cart.shippingAddress.billingCountry}
-                    {cart.shippingAddress.billingICO && (
-                      <div>
-                        IČO:
-                        {cart.shippingAddress.billingICO}, DIČ:
-                        {cart.shippingAddress.billingDIC}
-                      </div>
-                    )}
-                  </p>
-                </div>
-              )}
-              {cart.shippingAddress.note && (
-                <h5>Poznámka: {cart.shippingAddress.note}</h5>
-              )}
-
-              <h2>Stav objednávky</h2>
-
-              {order.isDelivered ? (
-                <Message variant='success'>
-                  Odoslané {order.deliveredAt}
-                </Message>
-              ) : (
-                <Message variant='danger'>Neodoslané</Message>
-              )}
-              {order.isCancelled && (
-                <Message variant='danger'>Zrušená!</Message>
-              )}
-            </ListGroup.Item>
-
-            <ListGroup.Item>
-              <h2>Platba</h2>
-              <p>
-                <strong>Spôsob: </strong>
-                {order.paymentMethod === 'Hotovosť'
-                  ? 'Hotovosť pri prevzatí'
-                  : 'PayPal alebo karta'}
-              </p>
-              {order.isPaid ? (
-                <Message variant='success'>Zaplatené {order.paidAt}</Message>
-              ) : (
-                <Message variant='danger'>Nezaplatené</Message>
-              )}
-            </ListGroup.Item>
-
-            <ListGroup.Item>
-              <h2>Objednané produkty: </h2>
-              {order.orderItems.length === 0 ? (
-                <Message>Objednávka neobsahuje žiadne produkty</Message>
-              ) : (
-                <ListGroup variant='flush'>
-                  {order.orderItems.map((item, index) => (
-                    <ListGroup.Item key={index}>
-                      <Row>
-                        <Col md={1}>
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            fluid
-                            rounded
-                          />
-                        </Col>
-                        <Col>
-                          <Link to={`/product/${item.product}`}>
-                            {item.name}
-                          </Link>
-                          {order.discounts[index].discount > 0 && (
-                            <h5 className='place-order-discount'>
-                              Zľava
-                              {order.discounts[index].discount}%
-                            </h5>
-                          )}
-                        </Col>
-                        <Col md={4}>
-                          {item.qty} x €{item.price.toFixed(2)} = €
-                          {(item.qty * item.price).toFixed(2)}
-                        </Col>
-                      </Row>
-                    </ListGroup.Item>
-                  ))}
-                </ListGroup>
-              )}
-            </ListGroup.Item>
-          </ListGroup>
-        </Col>
-        <Col md={4}>
-          <Card>
+      <div className='mx-2 my-4'>
+        <h1 className='my-4'>Objednávka {order._id}</h1>
+        <Row>
+          <Col md={8}>
             <ListGroup variant='flush'>
               <ListGroup.Item>
-                <h2>Súhrn objednávky</h2>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Row>
-                  <Col>Produkty</Col>
-                  <Col>€ {order.itemsPrice}</Col>
-                </Row>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Row>
-                  <Col>Poštovné</Col>
-                  <Col>€ {order.shippingPrice.toFixed(2)}</Col>
-                </Row>
+                <h2>Doručovacia Adresa</h2>
+                <p>
+                  <strong>Meno: </strong> {order.name}
+                </p>
+                <p>
+                  <strong>Email: </strong>
+                  <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
+                </p>
+                <p>
+                  <strong>Adresa: </strong>
+                  {order.shippingAddress.address}, {order.shippingAddress.city},{' '}
+                  {order.shippingAddress.postalCode},{' '}
+                  {order.shippingAddress.country}
+                </p>
+                {cart.shippingAddress.billingName && (
+                  <div>
+                    <h4>Fakturačné údaje</h4>
+                    <p>
+                      {cart.shippingAddress.billingName},{' '}
+                      {cart.shippingAddress.billingAddress},{' '}
+                      {cart.shippingAddress.billingPostalCode},{' '}
+                      {cart.shippingAddress.billingCity},{' '}
+                      {cart.shippingAddress.billingCountry}
+                      {cart.shippingAddress.billingICO && (
+                        <div>
+                          IČO:
+                          {cart.shippingAddress.billingICO}, DIČ:
+                          {cart.shippingAddress.billingDIC}
+                        </div>
+                      )}
+                    </p>
+                  </div>
+                )}
+                {cart.shippingAddress.note && (
+                  <h5>Poznámka: {cart.shippingAddress.note}</h5>
+                )}
+
+                <h2>Stav objednávky</h2>
+
+                {order.isDelivered ? (
+                  <Message variant='success'>
+                    Odoslané {order.deliveredAt}
+                  </Message>
+                ) : (
+                  <Message variant='danger'>Neodoslané</Message>
+                )}
+                {order.isCancelled && (
+                  <Message variant='danger'>Zrušená!</Message>
+                )}
               </ListGroup.Item>
 
               <ListGroup.Item>
-                <Row>
-                  <Col>Celkom</Col>
-                  <Col>€ {order.totalPrice.toFixed(2)}</Col>
-                </Row>
+                <h2>Platba</h2>
+                <p>
+                  <strong>Spôsob: </strong>
+                  {order.paymentMethod === 'Hotovosť'
+                    ? 'Hotovosť pri prevzatí'
+                    : 'PayPal alebo karta'}
+                </p>
+                {order.isPaid ? (
+                  <Message variant='success'>Zaplatené {order.paidAt}</Message>
+                ) : (
+                  <Message variant='danger'>Nezaplatené</Message>
+                )}
               </ListGroup.Item>
-              {!order.isPaid &&
-                order.paymentMethod === 'PayPal alebo karta' && (
-                  <ListGroup.Item>
-                    {loadingPay && <Loader />}
-                    {/* {isPending && <Loader />}
+
+              <ListGroup.Item>
+                <h2>Objednané produkty: </h2>
+                {order.orderItems.length === 0 ? (
+                  <Message>Objednávka neobsahuje žiadne produkty</Message>
+                ) : (
+                  <ListGroup variant='flush'>
+                    {order.orderItems.map((item, index) => (
+                      <ListGroup.Item key={index}>
+                        <Row>
+                          <Col md={1}>
+                            <Image
+                              src={item.image}
+                              alt={item.name}
+                              fluid
+                              rounded
+                            />
+                          </Col>
+                          <Col>
+                            <Link to={`/product/${item.product}`}>
+                              {item.name}
+                            </Link>
+                            {order.discounts[index].discount > 0 && (
+                              <h5 className='place-order-discount'>
+                                Zľava
+                                {order.discounts[index].discount}%
+                              </h5>
+                            )}
+                          </Col>
+                          <Col md={4}>
+                            {item.qty} x €{item.price.toFixed(2)} = €
+                            {(item.qty * item.price).toFixed(2)}
+                          </Col>
+                        </Row>
+                      </ListGroup.Item>
+                    ))}
+                  </ListGroup>
+                )}
+              </ListGroup.Item>
+            </ListGroup>
+          </Col>
+          <Col md={4}>
+            <Card>
+              <ListGroup variant='flush'>
+                <ListGroup.Item>
+                  <h2>Súhrn objednávky</h2>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Produkty</Col>
+                    <Col>€ {order.itemsPrice}</Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Poštovné</Col>
+                    <Col>€ {order.shippingPrice.toFixed(2)}</Col>
+                  </Row>
+                </ListGroup.Item>
+
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Celkom</Col>
+                    <Col>€ {order.totalPrice.toFixed(2)}</Col>
+                  </Row>
+                </ListGroup.Item>
+                {!order.isPaid &&
+                  order.paymentMethod === 'PayPal alebo karta' && (
+                    <ListGroup.Item>
+                      {loadingPay && <Loader />}
+                      {/* {isPending && <Loader />}
                     {isRejected && (
                       <Message variant='danger'>SDK load error</Message>
                     )} */}
-                    {/* {isResolved && (
+                      {/* {isResolved && (
                       <PayPalButtons
                         createOrder={createOrder}
                         onApprove={successPaymentHandler}
                       />
                     )} */}
-                  </ListGroup.Item>
-                )}
-              {loadingDeliver && <Loader />}
-              {userInfo && userInfo.isAdmin && !order.isDelivered && (
-                <ListGroup.Item>
-                  <Button
-                    typ='button'
-                    className='btn w-100 btn-red'
-                    onClick={deliverHandler}
-                  >
-                    Označiť ako odoslané
-                  </Button>
-                </ListGroup.Item>
-              )}
-              {userInfo &&
-                userInfo.isAdmin &&
-                !order.isCancelled &&
-                !order.isDelivered && (
+                    </ListGroup.Item>
+                  )}
+                {loadingDeliver && <Loader />}
+                {userInfo && userInfo.isAdmin && !order.isDelivered && (
                   <ListGroup.Item>
                     <Button
                       typ='button'
-                      className='btn w-100 btn-danger'
-                      onClick={cancellHandler}
+                      className='btn w-100 bg-red'
+                      onClick={deliverHandler}
                     >
-                      Zrušiť objednávku
+                      Označiť ako odoslané
                     </Button>
                   </ListGroup.Item>
                 )}
-              <ListGroup.Item>
-                <Button
-                  className='w-100 btn-blue'
-                  onClick={() => newOrderHandler()}
-                >
-                  Vytvoriť novú objednávku
-                </Button>
-              </ListGroup.Item>
-            </ListGroup>
-          </Card>
-        </Col>
-      </Row>
+                {userInfo &&
+                  userInfo.isAdmin &&
+                  !order.isCancelled &&
+                  !order.isDelivered && (
+                    <ListGroup.Item>
+                      <Button
+                        typ='button'
+                        className='btn w-100 bg-red'
+                        onClick={cancellHandler}
+                      >
+                        Zrušiť objednávku
+                      </Button>
+                    </ListGroup.Item>
+                  )}
+                <ListGroup.Item>
+                  <Button
+                    className='w-100 bg-green'
+                    onClick={() => newOrderHandler()}
+                  >
+                    Vytvoriť novú objednávku
+                  </Button>
+                </ListGroup.Item>
+              </ListGroup>
+            </Card>
+          </Col>
+        </Row>
+      </div>
     </>
   )
 }

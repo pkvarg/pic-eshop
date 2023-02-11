@@ -27,57 +27,59 @@ const OrderListScreen = () => {
 
   return (
     <>
-      <h1>OBJEDNÁVKY</h1>
-      {loading ? (
-        <Loader />
-      ) : error ? (
-        <Message variant='danger'>{error}</Message>
-      ) : (
-        <Table striped bordered hover responsive className='table-sm'>
-          <thead>
-            <tr>
-              <th>Číslo</th>
-              <th>Užívateľ</th>
-              <th>Dátum</th>
-              <th>Cena</th>
-              <th>Zaplatené</th>
-              <th>Odoslané</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order) => (
-              <tr key={order._id}>
-                <td>{order.orderNumber}</td>
-                <td>{order.user && order.user.name}</td>
-                <td>{order.createdAt.substring(0, 10)}</td>
-                <td>€{order.totalPrice.toFixed(2)}</td>
-
-                <td>
-                  {order.isPaid ? (
-                    order.paidAt.substring(0, 10)
-                  ) : (
-                    <i className='fas fa-times' style={{ color: 'red' }}></i>
-                  )}
-                </td>
-                <td>
-                  {order.isDelivered ? (
-                    order.deliveredAt.substring(0, 10)
-                  ) : (
-                    <i className='fas fa-times' style={{ color: 'red' }}></i>
-                  )}
-                </td>
-                <td>
-                  <LinkContainer to={`/order/${order._id}`}>
-                    <Button variant='light' className='btn-sm'>
-                      Detaily
-                    </Button>
-                  </LinkContainer>
-                </td>
+      <div className='mx-2 my-4'>
+        <h1 className='my-4'>OBJEDNÁVKY</h1>
+        {loading ? (
+          <Loader />
+        ) : error ? (
+          <Message variant='danger'>{error}</Message>
+        ) : (
+          <Table striped bordered hover responsive className='table-sm'>
+            <thead>
+              <tr>
+                <th>Číslo</th>
+                <th>Užívateľ</th>
+                <th>Dátum</th>
+                <th>Cena</th>
+                <th>Zaplatené</th>
+                <th>Odoslané</th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
-      )}
+            </thead>
+            <tbody>
+              {orders.map((order) => (
+                <tr key={order._id}>
+                  <td>{order.orderNumber}</td>
+                  <td>{order.user && order.user.name}</td>
+                  <td>{order.createdAt.substring(0, 10)}</td>
+                  <td>€{order.totalPrice.toFixed(2)}</td>
+
+                  <td>
+                    {order.isPaid ? (
+                      order.paidAt.substring(0, 10)
+                    ) : (
+                      <i className='fas fa-times' style={{ color: 'red' }}></i>
+                    )}
+                  </td>
+                  <td>
+                    {order.isDelivered ? (
+                      order.deliveredAt.substring(0, 10)
+                    ) : (
+                      <i className='fas fa-times' style={{ color: 'red' }}></i>
+                    )}
+                  </td>
+                  <td>
+                    <LinkContainer to={`/order/${order._id}`}>
+                      <Button variant='light' className='btn-sm'>
+                        Detaily
+                      </Button>
+                    </LinkContainer>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
+      </div>
     </>
   )
 }

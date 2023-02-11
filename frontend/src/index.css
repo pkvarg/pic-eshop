@@ -25,6 +25,47 @@ code {
   display: none;
 }
 
+p.number-in-cart {
+  position: absolute;
+  right: -7px;
+  top: -11px;
+  display: inline-block;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  line-height: 19px !important;
+  background-color: red;
+  color: #fefefe;
+}
+
+p.number-in-cart span {
+  font-size: 18px;
+  margin-left: 25%;
+  padding-bottom: 10px !important;
+}
+
+.manage-single-review {
+  margin-top: 20px;
+  margin-bottom: 30px;
+  color: #071e46;
+  height: fit-content;
+  padding: 20px;
+  border: 1px solid #071e46;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.manage-single-review-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 7.5px;
+}
+
 /* MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE MOBILE*/
 /* Tablets and smaller */
 @media (min-width: 100px) and (max-width: 1180px) {

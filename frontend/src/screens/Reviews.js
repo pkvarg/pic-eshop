@@ -48,61 +48,64 @@ const Reviews = () => {
 
   return (
     <>
-      {hasReviews.map((product) => (
-        <>
-          <h2 key={product._id} className='manage-single-review-title'>
-            Titul: {product.name}
-          </h2>
+      <div className='mx-2 my-4'>
+        <h1 className='my-4'>Recenzie</h1>
+        {hasReviews.map((product) => (
+          <>
+            <h2 key={product._id} className='manage-single-review-title'>
+              Titul: {product.name}
+            </h2>
 
-          {product.reviews.map((review) => (
-            <div
-              className={
-                review.isAcknowledged
-                  ? 'manage-single-review green'
-                  : 'manage-single-review red'
-              }
-            >
-              <div key='0' className='manage-single-review-comment'>
-                <p>"{review.comment}"</p>
-                <p>{review.name}</p>
-                <p key='2'>{review.createdAt.substring(0, 10)}</p>
-                <p key='3' className='manage-single-review-isAck'>
-                  {review.isAcknowledged ? 'Schválená' : 'Neschválená'}
-                </p>
+            {product.reviews.map((review) => (
+              <div
+                className={
+                  review.isAcknowledged
+                    ? 'manage-single-review bg-green'
+                    : 'manage-single-review bg-red'
+                }
+              >
+                <div key='0' className='manage-single-review-comment'>
+                  <p>"{review.comment}"</p>
+                  <p>{review.name}</p>
+                  <p key='2'>{review.createdAt.substring(0, 10)}</p>
+                  <p key='3' className='manage-single-review-isAck'>
+                    {review.isAcknowledged ? 'Schválená' : 'Neschválená'}
+                  </p>
+                </div>
+                <div className='manage-single-review-buttons'>
+                  <Link
+                    to={`/product/${product._id}`}
+                    className='bg-white border border-white p-1'
+                  >
+                    Na produkt
+                  </Link>
+                  <button
+                    key='4'
+                    className='bg-green border border-white p-1'
+                    onClick={() =>
+                      acknowledgeHandler(product._id, review.comment)
+                    }
+                  >
+                    Schváliť recenziu
+                  </button>
+                  <button
+                    key='5'
+                    className='bg-red border border-white text-white p-1'
+                    onClick={() => deleteHandler(product, review.comment)}
+                  >
+                    Zmazať
+                  </button>
+                </div>
               </div>
-              <div className='manage-single-review-buttons'>
-                <Link
-                  to={`/product/${product._id}`}
-                  className='manage-single-review-link'
-                >
-                  Na produkt
-                </Link>
-                <button
-                  key='4'
-                  className='btn-blue reviews'
-                  onClick={() =>
-                    acknowledgeHandler(product._id, review.comment)
-                  }
-                >
-                  Schváliť recenziu
-                </button>
-                <button
-                  key='5'
-                  className='btn-red reviews'
-                  onClick={() => deleteHandler(product, review.comment)}
-                >
-                  Zmazať
-                </button>
-              </div>
-            </div>
-          ))}
-        </>
-      ))}
-      {/* <PaginateLibrary
+            ))}
+          </>
+        ))}
+        {/* <PaginateLibrary
         pages={pages}
         page={page}
         keyword={'reviews'}
       ></PaginateLibrary> */}
+      </div>
     </>
   )
 }

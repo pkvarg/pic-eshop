@@ -11,6 +11,8 @@ const Header = () => {
   const dispatch = useDispatch()
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
+  const cart = useSelector((state) => state.cart)
+  const { cartItems } = cart
   const logoutHandler = () => {
     dispatch(logout())
   }
@@ -98,10 +100,22 @@ const Header = () => {
                 <a href='mailto:admin@prud.sk'>
                   <p>info@eshop.sk</p>
                 </a>
-                <div className='flex flex-row gap-2'>
+                <LinkContainer
+                  to='/cart'
+                  className='flex flex-row gap-2 relative'
+                >
+                  <Nav.Link>
+                    <i className='fas fa-shopping-cart text-[25px]'></i>
+                    <p className='number-in-cart '>
+                      <span>{cartItems.length}</span>
+                    </p>
+                  </Nav.Link>
+                </LinkContainer>
+
+                {/* <div className='flex flex-row gap-2'>
                   <i className='fa-solid fa-cart-shopping text-[25px]'></i>
                   <p>Košík</p>
-                </div>
+                </div> */}
               </div>
 
               <div className='md:hidden'>

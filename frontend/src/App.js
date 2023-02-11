@@ -17,6 +17,11 @@ import OrderScreen from './screens/OrderScreen'
 import OrderListScreen from './screens/OrderListScreen'
 import CreateDiscount from './screens/CreateDiscount'
 import Reviews from './screens/Reviews'
+import CartScreen from './screens/CartScreen'
+import ProductScreen from './screens/ProductScreen'
+import ShippingScreen from './screens/ShippingScreen'
+import PaymentScreen from './screens/PaymentScreen'
+import PlaceOrderScreen from './screens/PlaceOrderScreen'
 
 // import axios from 'axios'
 
@@ -26,6 +31,13 @@ function App() {
       <Header />
       <Routes>
         <Route path='/' element={<HomeScreen />} />
+        <Route path='/search/:keyword' element={<HomeScreen />} />
+        <Route path='/page/:pageNumber' element={<HomeScreen />} />
+        <Route
+          path='/search/:keyword/page/:pageNumber'
+          element={<HomeScreen />}
+        />
+
         <Route path='/contact' element={<ContactScreen />} />
         <Route path='/login' element={<LoginScreen />} />
         <Route path='/forgot-password' element={<ForgotPasswordScreen />} />
@@ -47,6 +59,14 @@ function App() {
         <Route path='/admin/orderlist' element={<OrderListScreen />} />
         <Route path='/create-discount' element={<CreateDiscount />} />
         <Route path='/admin/reviews' element={<Reviews />} />
+        <Route path='/cart'>
+          <Route path=':id' element={<CartScreen />} />
+          <Route path='' element={<CartScreen />} />
+        </Route>
+        <Route path='/product/:id' element={<ProductScreen />} />
+        <Route path='/shipping' element={<ShippingScreen />} />
+        <Route path='/payment' element={<PaymentScreen />} />
+        <Route path='/placeorder' element={<PlaceOrderScreen />} />
       </Routes>
       <Footer />
     </Router>
