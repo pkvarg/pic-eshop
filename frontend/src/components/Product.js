@@ -107,17 +107,17 @@ const Product = ({ product }) => {
         <div className='flex flex-row gap-2'>
           <div className='flex flex-row items-center border gap-2 rounded-[10px] overflow-hidden'>
             <button
-              className='h-[100%] w-10 border-r border-grey  bg-[#faf5f5] text-[#fa7878] font-bold'
-              onClick={() => qtyHandlerUp()}
-            >
-              +
-            </button>
-            <p>{qty}</p>
-            <button
               className='h-[100%] w-10 border-l border-grey bg-[#faf5f5] text-[#fa7878] font-bold'
               onClick={() => qtyHandlerDown()}
             >
               -
+            </button>
+            <p>{qty}</p>
+            <button
+              className='h-[100%] w-10 border-r border-grey  bg-[#faf5f5] text-[#fa7878] font-bold'
+              onClick={() => qtyHandlerUp()}
+            >
+              +
             </button>
           </div>
 

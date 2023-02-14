@@ -18,9 +18,19 @@ code {
     monospace;
 }
 
-/* button:hover {
-  background-color: rgb(41, 203, 54) !important;
-} */
+.cat-link:hover {
+  color: #fa7878 !important;
+  text-decoration: underline;
+}
+
+.dropdown-menu.show {
+  transform: translate(-21rem, 5.75rem) !important;
+}
+.active.dropdown-item {
+  font-size: 20px;
+  background-color: #fefefe;
+  color: #1a1a1a;
+}
 
 .password-group {
   display: none;
