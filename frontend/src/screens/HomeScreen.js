@@ -35,11 +35,11 @@ const HomeScreen = () => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          <Row>
+          <Row className='w-[80%]'>
             {products.map((product) => (
               <Col
-                className='
-            align-items-stretch d-flex no-mobile
+                className='d-inline
+            no-mobile
             '
                 key={product._id}
                 sm={12}
