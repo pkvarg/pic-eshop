@@ -41,8 +41,8 @@ const CartScreen = () => {
 
   return (
     <>
-      <div className='cart-wrapper'>
-        <div className='cart-container'>
+      <div className='cart-wrapperX'>
+        <div className='cart-containerX'>
           <Row className='mx-2 my-4'>
             <Col md={8}>
               <h1 className='my-4'>Nákupný košík</h1>

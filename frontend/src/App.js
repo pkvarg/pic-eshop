@@ -22,15 +22,22 @@ import ProductScreen from './screens/ProductScreen'
 import ShippingScreen from './screens/ShippingScreen'
 import PaymentScreen from './screens/PaymentScreen'
 import PlaceOrderScreen from './screens/PlaceOrderScreen'
+import Cart from './components/Cart'
 
 // import axios from 'axios'
 
 function App() {
+  const [showCart, setShowCart] = useState(false)
+
   return (
     <Router>
-      <Header />
+      <Header showCart={showCart} setShowCart={setShowCart} />
+      {showCart && <Cart showCart={showCart} setShowCart={setShowCart} />}
       <Routes>
-        <Route path='/' element={<HomeScreen />} />
+        <Route
+          path='/'
+          element={<HomeScreen showCart={showCart} setShowCart={setShowCart} />}
+        />
         <Route path='/search/:keyword' element={<HomeScreen />} />
         <Route path='/page/:pageNumber' element={<HomeScreen />} />
         <Route

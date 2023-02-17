@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 /* Cart as component*/
 import Cart from './Cart'
 
-const Header = () => {
+const Header = ({ showCart, setShowCart }) => {
   const dispatch = useDispatch()
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
@@ -20,7 +20,6 @@ const Header = () => {
   }
 
   const [navbar, setNavbar] = useState(false)
-  const [showCart, setShowCart] = useState(false)
 
   return (
     <>

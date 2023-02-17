@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Link, useParams, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
 import Message from '../components/Message'
 import { addToCart, removeFromCart } from '../actions/cartActions'
 
-const Cart = () => {
+const Cart = ({ showCart, setShowCart }) => {
+  const cartRef = useRef()
+
   const params = useParams()
   const location = useLocation()
   const navigate = useNavigate()
@@ -39,10 +41,19 @@ const Cart = () => {
     navigate('/')
   }
 
+  console.log('cart:', showCart)
+
   return (
     <>
-      <div className='cart-wrapper'>
+      <div className='cart-wrapper' ref={cartRef}>
         <div className='cart-container'>
+          <button
+            type='button'
+            className='cart-heading'
+            onClick={() => setShowCart(false)}
+          >
+            Naspäť
+          </button>
           <Row className='mx-2 my-4'>
             <Col md={8}>
               <h1 className='my-4'>Nákupný košík</h1>

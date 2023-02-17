@@ -10,16 +10,18 @@ const addDecimals = (num) => {
 
 // const imgOracle = 'https://pictusweb.online/uploads'
 
-const Product = ({ product }) => {
+const Product = ({ product, showCart, setShowCart }) => {
   const [qty, setQty] = useState(1)
-  const [showCart, setShowCart] = useState(false)
+  // const [showCart, setShowCart] = useState(false)
   const params = useParams()
   const id = params.id
   const navigate = useNavigate()
 
+  console.log('prod:', showCart)
+
   const addToCartHandler = (id, qty) => {
-    navigate(`../cart/${id}?qty=${qty}`)
-    //setShowCart(true)
+    //navigate(`../cart/${id}?qty=${qty}`)
+    setShowCart(true)
   }
 
   const tax = 20
