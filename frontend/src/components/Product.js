@@ -12,12 +12,14 @@ const addDecimals = (num) => {
 
 const Product = ({ product }) => {
   const [qty, setQty] = useState(1)
+  const [showCart, setShowCart] = useState(false)
   const params = useParams()
   const id = params.id
   const navigate = useNavigate()
 
   const addToCartHandler = (id, qty) => {
     navigate(`../cart/${id}?qty=${qty}`)
+    //setShowCart(true)
   }
 
   const tax = 20
@@ -59,11 +61,9 @@ const Product = ({ product }) => {
         <div>
           {product.discount ? (
             <div className='flex flex-row items-center justify-between'>
-              <div className='flex flex-row bg-red text-white font-extrabold p-[5px] gap-3'>
-                <span>
-                  {'  '}- {product.discount}%
-                </span>
-                {addDecimals(product.discountedPrice)} €
+              <div className='flex flex-row bg-red text-white font-extrabold px-[3px] gap-3'>
+                <span> - {product.discount}%</span>
+                {addDecimals(product.discountedPrice)}€
               </div>
               {product.countInStock > 0 ? (
                 <div className='bg-[#e5f8ec] text-[#00bc47] font-[500] px-2 rounded-[15px]'>

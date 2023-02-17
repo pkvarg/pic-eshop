@@ -5,7 +5,7 @@ import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
 import Message from '../components/Message'
 import { addToCart, removeFromCart } from '../actions/cartActions'
 
-const CartScreen = () => {
+const Cart = () => {
   const params = useParams()
   const location = useLocation()
   const navigate = useNavigate()
@@ -199,4 +199,4 @@ const CartScreen = () => {
   )
 }
 
-export default CartScreen
+export default Cart

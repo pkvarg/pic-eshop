@@ -6,6 +6,8 @@ import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
 import SearchBox from './SearchBox'
 import { logout } from '../actions/userActions'
 import { Link } from 'react-router-dom'
+/* Cart as component*/
+import Cart from './Cart'
 
 const Header = () => {
   const dispatch = useDispatch()
@@ -18,6 +20,7 @@ const Header = () => {
   }
 
   const [navbar, setNavbar] = useState(false)
+  const [showCart, setShowCart] = useState(false)
 
   return (
     <>
@@ -100,7 +103,7 @@ const Header = () => {
                 <a href='mailto:admin@prud.sk'>
                   <p>info@eshop.sk</p>
                 </a>
-                <LinkContainer
+                {/* <LinkContainer
                   to='/cart'
                   className='flex flex-row gap-2 relative'
                 >
@@ -110,7 +113,20 @@ const Header = () => {
                       <span>{cartItems.length}</span>
                     </p>
                   </Nav.Link>
-                </LinkContainer>
+                </LinkContainer> */}
+                <button
+                  onClick={() => setShowCart(true)}
+                  className='flex flex-row gap-2 relative'
+                >
+                  <Nav.Link>
+                    <i className='fas fa-shopping-cart text-[25px]'></i>
+                    <p className='number-in-cart '>
+                      <span>{cartItems.length}</span>
+                    </p>
+                  </Nav.Link>
+                </button>
+
+                {showCart && <Cart />}
 
                 {/* <div className='flex flex-row gap-2'>
                   <i className='fa-solid fa-cart-shopping text-[25px]'></i>
