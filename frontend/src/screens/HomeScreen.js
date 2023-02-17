@@ -16,6 +16,7 @@ import Loader from '../components/Loader'
 import Paginate from '../components/Paginate'
 import { listProducts } from '../actions/productActions'
 import Meta from '../components/Meta'
+import ProductJSM from '../components/ProductJSM'
 
 const HomeScreen = ({ showCart, setShowCart }) => {
   const params = useParams()
@@ -103,11 +104,8 @@ const HomeScreen = ({ showCart, setShowCart }) => {
                   // lg={4}
                   // xl={3}
                 >
-                  <Product
-                    product={product}
-                    showCart={showCart}
-                    setShowCart={setShowCart}
-                  />
+                  <ProductJSM product={product} />
+                  {/* <ProductJSM product={product} /> */}
                 </Col>
               ))}
               {products.map((product) => (

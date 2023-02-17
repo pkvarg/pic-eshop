@@ -23,19 +23,14 @@ import ShippingScreen from './screens/ShippingScreen'
 import PaymentScreen from './screens/PaymentScreen'
 import PlaceOrderScreen from './screens/PlaceOrderScreen'
 import Cart from './components/Cart'
-
-// import axios from 'axios'
-export const CartContext = createContext()
+import { StateContext } from './context/StateContext'
 
 function App() {
-  const [showCart, setShowCart] = useState(false)
-
   return (
     <Router>
-      <CartContext.Provider value={{ showCart, setShowCart }}>
+      <StateContext>
         <Header />
-        {showCart && <Cart />}
-      </CartContext.Provider>
+      </StateContext>
 
       <Routes>
         <Route path='/' element={<HomeScreen />} />

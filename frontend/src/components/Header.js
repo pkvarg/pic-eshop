@@ -8,10 +8,13 @@ import { logout } from '../actions/userActions'
 import { Link } from 'react-router-dom'
 /* Cart as component*/
 import Cart from './Cart'
-import { CartContext } from '../App'
+//import { CartContext } from '../App'
+import { useStateContext } from '../context/StateContext'
 
 const Header = () => {
-  const { showCart, setShowCart } = useContext(CartContext)
+  // const { showCart, setShowCart } = useContext(CartContext)
+  const { showCart, setShowCart } = useStateContext()
+
   //console.log('cart:', showCart, setShowCart)
 
   const dispatch = useDispatch()

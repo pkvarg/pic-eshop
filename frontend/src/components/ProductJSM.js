@@ -10,7 +10,7 @@ const addDecimals = (num) => {
 
 // const imgOracle = 'https://pictusweb.online/uploads'
 
-const Product = ({ product }) => {
+const ProductJSM = ({ product }) => {
   const [qty, setQty] = useState(1)
   // const [showCart, setShowCart] = useState(false)
   const params = useParams()
@@ -140,4 +140,4 @@ const Product = ({ product }) => {
   )
 }
 
-export default Product
+export default ProductJSM
