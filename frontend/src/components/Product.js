@@ -17,11 +17,14 @@ const Product = ({ product, showCart, setShowCart }) => {
   const id = params.id
   const navigate = useNavigate()
 
-  console.log('prod:', showCart)
-
   const addToCartHandler = (id, qty) => {
-    //navigate(`../cart/${id}?qty=${qty}`)
-    setShowCart(true)
+    // const cartVals = {
+    //   id: id,
+    //   qty: qty,
+    // }
+    // localStorage.setItem('cartValues', JSON.stringify(cartVals))
+    navigate(`../cart/${id}?qty=${qty}`)
+    //setShowCart(true)
   }
 
   const tax = 20

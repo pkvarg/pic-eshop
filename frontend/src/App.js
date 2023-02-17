@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext, createContext } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -25,19 +25,20 @@ import PlaceOrderScreen from './screens/PlaceOrderScreen'
 import Cart from './components/Cart'
 
 // import axios from 'axios'
+export const CartContext = createContext()
 
 function App() {
   const [showCart, setShowCart] = useState(false)
 
   return (
     <Router>
-      <Header showCart={showCart} setShowCart={setShowCart} />
-      {showCart && <Cart showCart={showCart} setShowCart={setShowCart} />}
+      <CartContext.Provider value={{ showCart, setShowCart }}>
+        <Header />
+        {showCart && <Cart />}
+      </CartContext.Provider>
+
       <Routes>
-        <Route
-          path='/'
-          element={<HomeScreen showCart={showCart} setShowCart={setShowCart} />}
-        />
+        <Route path='/' element={<HomeScreen />} />
         <Route path='/search/:keyword' element={<HomeScreen />} />
         <Route path='/page/:pageNumber' element={<HomeScreen />} />
         <Route

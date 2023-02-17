@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { LinkContainer } from 'react-router-bootstrap'
@@ -8,8 +8,12 @@ import { logout } from '../actions/userActions'
 import { Link } from 'react-router-dom'
 /* Cart as component*/
 import Cart from './Cart'
+import { CartContext } from '../App'
 
-const Header = ({ showCart, setShowCart }) => {
+const Header = () => {
+  const { showCart, setShowCart } = useContext(CartContext)
+  //console.log('cart:', showCart, setShowCart)
+
   const dispatch = useDispatch()
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin

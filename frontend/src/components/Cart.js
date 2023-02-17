@@ -1,11 +1,13 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useContext, useState } from 'react'
 import { Link, useParams, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
 import Message from '../components/Message'
 import { addToCart, removeFromCart } from '../actions/cartActions'
+import { CartContext } from '../App'
 
-const Cart = ({ showCart, setShowCart }) => {
+const Cart = () => {
+  const { showCart, setShowCart } = useContext(CartContext)
   const cartRef = useRef()
 
   const params = useParams()
@@ -41,7 +43,8 @@ const Cart = ({ showCart, setShowCart }) => {
     navigate('/')
   }
 
-  console.log('cart:', showCart)
+  // const cartVals = localStorage.getItem('cartValues')
+  // console.log('cart:', cartVals)
 
   return (
     <>
