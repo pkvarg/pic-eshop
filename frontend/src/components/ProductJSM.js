@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
-import { Card, Form, Button } from 'react-bootstrap'
-
-// import Rating from './Rating'
+import { Card, Button } from 'react-bootstrap'
+import { useStateContext } from '../context/StateContext'
 
 const addDecimals = (num) => {
   return (Math.round(num * 100) / 100).toFixed(2)
@@ -11,40 +10,20 @@ const addDecimals = (num) => {
 // const imgOracle = 'https://pictusweb.online/uploads'
 
 const ProductJSM = ({ product }) => {
-  const [qty, setQty] = useState(1)
-  // const [showCart, setShowCart] = useState(false)
-  const params = useParams()
-  const id = params.id
-  const navigate = useNavigate()
+  const { image, name, details, price } = product
+  const [index, setIndex] = useState(0)
+  const { decQty, incQty, qty, onAdd, setShowCart } = useStateContext()
 
-  const addToCartHandler = (id, qty) => {
-    // const cartVals = {
-    //   id: id,
-    //   qty: qty,
-    // }
-    // localStorage.setItem('cartValues', JSON.stringify(cartVals))
-    navigate(`../cart/${id}?qty=${qty}`)
-    //setShowCart(true)
+  const handleBuyNow = () => {
+    onAdd(product, qty)
+
+    setShowCart(true)
   }
 
   const tax = 20
   const withoutTax = (price) => {
     const taxDue = tax * (price / 100)
     return price - taxDue
-  }
-
-  const qtyHandlerUp = () => {
-    const quantity = qty + 1
-    setQty(quantity)
-  }
-
-  const qtyHandlerDown = () => {
-    const quantity = qty - 1
-    if (qty <= 0) {
-      setQty(0)
-    } else {
-      setQty(quantity)
-    }
   }
 
   return (
@@ -113,21 +92,21 @@ const ProductJSM = ({ product }) => {
           <div className='flex flex-row items-center border gap-2 rounded-[10px] overflow-hidden'>
             <button
               className='h-[100%] w-10 border-l border-grey bg-[#faf5f5] text-[#fa7878] font-bold'
-              onClick={() => qtyHandlerDown()}
+              onClick={decQty}
             >
               -
             </button>
             <p>{qty}</p>
             <button
               className='h-[100%] w-10 border-r border-grey  bg-[#faf5f5] text-[#fa7878] font-bold'
-              onClick={() => qtyHandlerUp()}
+              onClick={incQty}
             >
               +
             </button>
           </div>
 
           <Button
-            onClick={() => addToCartHandler(product._id, qty)}
+            onClick={handleBuyNow}
             className='w-100 bg-[#fa7878] rounded-[17.5px] hover:bg-green'
             type='button'
             disabled={product.countInStock === 0}

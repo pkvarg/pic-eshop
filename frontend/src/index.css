@@ -115,7 +115,8 @@ p.number-in-cart span {
   gap: 2px;
   margin-left: 10px;
   border: none;
-  background-color: transparent;
+  background-color: #071e46;
+  padding: 10px;
 }
 
 .cart-heading .heading {
@@ -132,6 +133,90 @@ p.number-in-cart span {
 .empty-cart h3 {
   font-weight: 600;
   font-size: 20px;
+}
+
+.remove-item {
+  font-size: 24px;
+  color: #f02d34;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+}
+.cart-bottom {
+  position: absolute;
+  bottom: 12px;
+  right: 5px;
+  width: 100%;
+  padding: 30px 65px;
+}
+
+.btn-container {
+  width: 400px;
+  margin: auto;
+}
+.btn {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px 12px;
+  border-radius: 15px;
+  border: none;
+  font-size: 20px;
+  margin-top: 10px;
+  margin-top: 40px;
+  text-transform: uppercase;
+  background-color: #f02d34;
+  color: #fff;
+  cursor: pointer;
+  transform: scale(1, 1);
+  transition: transform 0.5s ease;
+}
+.btn:hover {
+  transform: scale(1.1, 1.1);
+}
+
+.product-container {
+  margin-top: 10px;
+}
+.product {
+  padding: 20px 5px;
+}
+.product .cart-product-image {
+  width: 35%;
+  height: 35%;
+}
+
+.item-desc {
+  display: flex;
+  width: 350px;
+  color: #324d67;
+}
+.item-desc .bottom {
+  margin-top: 60px;
+}
+
+.top {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.quantity-desc {
+  border: 1px solid gray;
+}
+.quantity-desc span {
+  font-size: 16px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+.quantity-desc .minus {
+  color: #f02d34;
+}
+.quantity-desc .num {
+  border-left: 1px solid gray;
+  border-right: 1px solid gray;
+  font-size: 20px;
+}
+.quantity-desc .plus {
+  color: rgb(49, 168, 49);
 }
 
 .manage-single-review {
