@@ -11,7 +11,6 @@ import {
   Form,
   Button,
 } from 'react-bootstrap'
-// import Rating from '../components/Rating'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import Meta from '../components/Meta'
@@ -22,6 +21,7 @@ import {
   updateProductAnybody,
 } from '../actions/productActions'
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
+import Categories from '../components/Categories'
 
 const ProductScreen = () => {
   const [qty, setQty] = useState(1)
@@ -115,180 +115,230 @@ const ProductScreen = () => {
           <Message variant='danger'>{error}</Message>
         ) : (
           <>
-            {products.map(
-              (product) =>
-                product._id === id && (
-                  <div key={product._id}>
-                    <Meta title={product.name} />
-                    <Row>
-                      <Col md={3} key={product._id}>
-                        <Image
-                          src={product.image}
-                          alt={product.name}
-                          className='prod-img-width'
-                        ></Image>
-                        <ListGroup.Item
-                          className='product-see-also no-mobile'
-                          key={product._id}
-                        >
-                          {product.related && <h5>Súvisiace produkty</h5>}
+            <div className='flex flex-row items-center gap-12 mx-12'>
+              <Categories />
+              <div>
+                {products.map(
+                  (product) =>
+                    product._id === id && (
+                      <div key={product._id}>
+                        <Meta title={product.name} />
+                        {/* <Row>
+                          <Col md={3} key={product._id}>
+                            <Image
+                              src={product.image}
+                              alt={product.name}
+                              className='prod-img-width'
+                            ></Image>
+                            <ListGroup.Item
+                              className='product-see-also no-mobile'
+                              key={product._id}
+                            >
+                              {product.related && <h5>Súvisiace produkty</h5>}
 
-                          {product.related && (
-                            <Form
-                              onClick={() => handleLink(product.related.id)}
-                            >
-                              <h6 className='related-link'>
-                                {product.related.name}
-                              </h6>
-                            </Form>
-                          )}
-                          {product.related2 && (
-                            <Form
-                              onClick={() => handleLink(product.related2.id)}
-                            >
-                              <h6 className='related-link'>
-                                {product.related2.name}
-                              </h6>
-                            </Form>
-                          )}
-                          {product.related3 && (
-                            <Form
-                              onClick={() => handleLink(product.related3.id)}
-                            >
-                              <h6 className='related-link'>
-                                {product.related3.name}
-                              </h6>
-                            </Form>
-                          )}
-                          <div className='mx-4 my-4'>
-                            <h5>Hmotnosť</h5>
-                            <h6>{product.weight}kg</h6>
-                          </div>
-                        </ListGroup.Item>
-                      </Col>
-                      <Col md={6}>
-                        <ListGroup variant='flush'>
-                          <ListGroup.Item className='product-author'>
-                            <div className='product-title-and-favorites'>
-                              <h3 className='product-name'>{product.name}</h3>
-                              {userInfo && (
-                                <button
-                                  className='favorites-button-class'
+                              {product.related && (
+                                <Form
+                                  onClick={() => handleLink(product.related.id)}
+                                >
+                                  <h6 className='related-link'>
+                                    {product.related.name}
+                                  </h6>
+                                </Form>
+                              )}
+                              {product.related2 && (
+                                <Form
                                   onClick={() =>
-                                    addToFavoritesHandler(product._id)
+                                    handleLink(product.related2.id)
                                   }
                                 >
-                                  {isFavorite ? (
-                                    <i className='fa-solid fa-heart red'></i>
-                                  ) : (
-                                    <p className='favorites-add'>
-                                      Pridať k obľúbeným
-                                    </p>
-                                  )}
-                                  {/* <i
-                                className={
-                                  isFavorite === true
-                                    ? 'fa-solid fa-heart red'
-                                    : 'fa-solid fa-heart no-color'
-                                }
-                              ></i> */}
-                                </button>
+                                  <h6 className='related-link'>
+                                    {product.related2.name}
+                                  </h6>
+                                </Form>
                               )}
-                            </div>
-                            <h4>{product.author}</h4>
-                          </ListGroup.Item>
-
-                          <ListGroup.Item className='product-price'>
-                            Cena: €{addDecimals(product.price)}
-                          </ListGroup.Item>
-                          <ListGroup.Item className='product-description'>
-                            Popis: {product.description}
-                          </ListGroup.Item>
-                        </ListGroup>
-                      </Col>
-                      <Col md={3}>
-                        <Card>
-                          <ListGroup variant='flush'>
-                            <ListGroup.Item>
-                              <Row>
-                                <Col>Cena :</Col>
-                                <Col>
-                                  {product.discount ? (
-                                    <h5 className='discounted-price'>
-                                      <span className='discounted-price-span'>
-                                        Zľava {product.discount}%
-                                      </span>
-                                      €{addDecimals(product.discountedPrice)}
-                                    </h5>
-                                  ) : (
-                                    <h4>€{addDecimals(product.price)}</h4>
-                                  )}
-                                </Col>
-                              </Row>
+                              {product.related3 && (
+                                <Form
+                                  onClick={() =>
+                                    handleLink(product.related3.id)
+                                  }
+                                >
+                                  <h6 className='related-link'>
+                                    {product.related3.name}
+                                  </h6>
+                                </Form>
+                              )}
+                              <div className='mx-4 my-4'>
+                                <h5>Hmotnosť</h5>
+                                <h6>{product.weight}kg</h6>
+                              </div>
                             </ListGroup.Item>
-                            <ListGroup.Item>
-                              <Row>
-                                <Col>Status:</Col>
-                                <Col>
-                                  {product.countInStock > 0
-                                    ? 'Na sklade'
-                                    : 'Vypredané'}
-                                </Col>
-                              </Row>
-                            </ListGroup.Item>
-
-                            {product.countInStock > 0 && (
-                              <ListGroup.Item>
-                                <Row>
-                                  <Col>Počet:</Col>
-                                  <Col>
-                                    <Form.Control
-                                      as='select'
-                                      value={qty}
-                                      onChange={(e) => setQty(e.target.value)}
+                          </Col>
+                          <Col md={6}>
+                            <ListGroup variant='flush'>
+                              <ListGroup.Item className='product-author'>
+                                <div className='product-title-and-favorites'>
+                                  <h3 className='product-name'>
+                                    {product.name}
+                                  </h3>
+                                  {userInfo && (
+                                    <button
+                                      className='favorites-button-class'
+                                      onClick={() =>
+                                        addToFavoritesHandler(product._id)
+                                      }
                                     >
-                                      {[
-                                        ...Array(product.countInStock).keys(),
-                                      ].map((x) => (
-                                        <option key={x + 1} value={x + 1}>
-                                          {x + 1}
-                                        </option>
-                                      ))}
-                                    </Form.Control>
-                                  </Col>
-                                </Row>
+                                      {isFavorite ? (
+                                        <i className='fa-solid fa-heart red'></i>
+                                      ) : (
+                                        <p className='favorites-add'>
+                                          Pridať k obľúbeným
+                                        </p>
+                                      )}
+                                   
+                                    </button>
+                                  )}
+                                </div>
+                                <h4>{product.author}</h4>
                               </ListGroup.Item>
-                            )}
 
-                            <ListGroup.Item>
-                              <Button
-                                onClick={addToCartHandler}
-                                className='w-100 bg-message-green'
-                                type='button'
-                                disabled={product.countInStock === 0}
-                              >
-                                Pridať do košíka
-                              </Button>
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                              <Button
-                                onClick={continueShopping}
-                                className='w-100 bg-violet'
-                                type='button'
-                              >
-                                Pokračovať v nákupe
-                              </Button>
-                            </ListGroup.Item>
-                          </ListGroup>
-                          {message && (
-                            <Message variant='success'>{message}</Message>
-                          )}
-                        </Card>
-                      </Col>
-                    </Row>
-                  </div>
-                )
-            )}
+                              <ListGroup.Item className='product-price'>
+                                Cena: €{addDecimals(product.price)}
+                              </ListGroup.Item>
+                              <ListGroup.Item className='product-description'>
+                                Popis: {product.description}
+                              </ListGroup.Item>
+                            </ListGroup>
+                          </Col>
+                          <Col md={3}>
+                            <Card>
+                              <ListGroup variant='flush'>
+                                <ListGroup.Item>
+                                  <Row>
+                                    <Col>Cena :</Col>
+                                    <Col>
+                                      {product.discount ? (
+                                        <h5 className='discounted-price'>
+                                          <span className='discounted-price-span'>
+                                            Zľava {product.discount}%
+                                          </span>
+                                          €
+                                          {addDecimals(product.discountedPrice)}
+                                        </h5>
+                                      ) : (
+                                        <h4>€{addDecimals(product.price)}</h4>
+                                      )}
+                                    </Col>
+                                  </Row>
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                  <Row>
+                                    <Col>Status:</Col>
+                                    <Col>
+                                      {product.countInStock > 0
+                                        ? 'Na sklade'
+                                        : 'Vypredané'}
+                                    </Col>
+                                  </Row>
+                                </ListGroup.Item>
+
+                                {product.countInStock > 0 && (
+                                  <ListGroup.Item>
+                                    <Row>
+                                      <Col>Počet:</Col>
+                                      <Col>
+                                        <Form.Control
+                                          as='select'
+                                          value={qty}
+                                          onChange={(e) =>
+                                            setQty(e.target.value)
+                                          }
+                                        >
+                                          {[
+                                            ...Array(
+                                              product.countInStock
+                                            ).keys(),
+                                          ].map((x) => (
+                                            <option key={x + 1} value={x + 1}>
+                                              {x + 1}
+                                            </option>
+                                          ))}
+                                        </Form.Control>
+                                      </Col>
+                                    </Row>
+                                  </ListGroup.Item>
+                                )}
+
+                                <ListGroup.Item>
+                                  <Button
+                                    onClick={addToCartHandler}
+                                    className='w-100 bg-message-green'
+                                    type='button'
+                                    disabled={product.countInStock === 0}
+                                  >
+                                    Pridať do košíka
+                                  </Button>
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                  <Button
+                                    onClick={continueShopping}
+                                    className='w-100 bg-violet'
+                                    type='button'
+                                  >
+                                    Pokračovať v nákupe
+                                  </Button>
+                                </ListGroup.Item>
+                              </ListGroup>
+                              {message && (
+                                <Message variant='success'>{message}</Message>
+                              )}
+                            </Card>
+                          </Col>
+                        </Row> */}
+                        <h1 className='my-3'>{product.name}</h1>
+                        <div className='flex flex-row items-center gap-4'>
+                          <div className='border'>
+                            <img src={product.image} alt={product.name} />
+                          </div>
+                          {/* short desc */}
+                          <div>
+                            <h2 className='my-3'>{product.description}</h2>
+                            {/* link to full desc */}
+                            <div className='flex flex-col'>
+                              <div className='bg-grey flex flex-row p-6 justify-between'>
+                                <p>Dostupnosť</p>
+                                <p>
+                                  {product.countInStock > 0 ? (
+                                    <div className='bg-[#e5f8ec] text-[#00bc47] font-[500] px-2 rounded-[15px]'>
+                                      Skladom
+                                    </div>
+                                  ) : (
+                                    <div className='bg-[#fa7878] text-white font-[500] px-2 rounded-[15px]'>
+                                      {' '}
+                                      Vypredané
+                                    </div>
+                                  )}
+                                </p>
+                              </div>
+                              <div className='flex flex-row items-center'>
+                                {product.discount ? (
+                                  <div className='flex flex-row bg-red text-white font-extrabold px-[3px] gap-3'>
+                                    <span> - {product.discount}%</span>
+                                    {addDecimals(product.discountedPrice)}€
+                                  </div>
+                                ) : (
+                                  <h4 className='font-bold text-[25px]'>
+                                    €{addDecimals(product.price)}
+                                  </h4>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                )}
+              </div>
+            </div>
             <Container>
               {products.map(
                 (product) =>
@@ -329,71 +379,6 @@ const ProductScreen = () => {
                   )
               )}
             </Container>
-
-            <Row className='mx-2 my-4'>
-              {products.map(
-                (product) =>
-                  product._id === id && (
-                    <Col md={6} key={product._id}>
-                      <h2 className='my-2'>Recenzie</h2>
-                      {product.reviews.length === 0 && (
-                        <Message>Žiadne recenzie</Message>
-                      )}
-                      <ListGroup variant='flush'>
-                        {product.reviews.map(
-                          (review) =>
-                            review.isAcknowledged === true && (
-                              <ListGroup.Item
-                                key={review._id}
-                                className='review-items'
-                              >
-                                <strong>{review.name}</strong>
-                                <p>{review.comment}</p>
-                              </ListGroup.Item>
-                            )
-                        )}
-                        <ListGroup.Item className='review-write'>
-                          <h2 className='review-write'>Napíšte recenziu</h2>
-                          {errorProductReview && (
-                            <Message variant='danger'>
-                              {errorProductReview}
-                            </Message>
-                          )}
-                          {userInfo ? (
-                            <Form onSubmit={submitHandler}>
-                              <Form.Group controlId='comment'>
-                                <Form.Label className='review-comment'>
-                                  Komentár
-                                </Form.Label>
-                                <Form.Control
-                                  as='textarea'
-                                  row='3'
-                                  value={comment}
-                                  onChange={(e) =>
-                                    commentHandler(e.target.value)
-                                  }
-                                  className='review-stop'
-                                ></Form.Control>
-                              </Form.Group>
-                              <Button
-                                type='submit'
-                                className='my-3 bg-violet rounded'
-                              >
-                                Odoslať
-                              </Button>
-                            </Form>
-                          ) : (
-                            <Message>
-                              Prosím <Link to='/login'>Prihláste sa</Link> pre
-                              napísanie recenzie
-                            </Message>
-                          )}
-                        </ListGroup.Item>
-                      </ListGroup>
-                    </Col>
-                  )
-              )}
-            </Row>
           </>
         )}
       </div>

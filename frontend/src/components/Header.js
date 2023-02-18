@@ -1,27 +1,21 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { LinkContainer } from 'react-router-bootstrap'
-import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
+import { Nav, NavDropdown } from 'react-bootstrap'
 import SearchBox from './SearchBox'
 import { logout } from '../actions/userActions'
 import { Link } from 'react-router-dom'
 /* Cart as component*/
 import Cart from './Cart'
-//import { CartContext } from '../App'
 import { useStateContext } from '../context/StateContext'
 
 const Header = () => {
-  // const { showCart, setShowCart } = useContext(CartContext)
-  const { showCart, setShowCart } = useStateContext()
-
-  //console.log('cart:', showCart, setShowCart)
+  const { showCart, setShowCart, totalQuantities } = useStateContext()
 
   const dispatch = useDispatch()
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
-  const cart = useSelector((state) => state.cart)
-  const { cartItems } = cart
   const logoutHandler = () => {
     dispatch(logout())
   }
@@ -109,17 +103,7 @@ const Header = () => {
                 <a href='mailto:admin@prud.sk'>
                   <p>info@eshop.sk</p>
                 </a>
-                {/* <LinkContainer
-                  to='/cart'
-                  className='flex flex-row gap-2 relative'
-                >
-                  <Nav.Link>
-                    <i className='fas fa-shopping-cart text-[25px]'></i>
-                    <p className='number-in-cart '>
-                      <span>{cartItems.length}</span>
-                    </p>
-                  </Nav.Link>
-                </LinkContainer> */}
+
                 <button
                   onClick={() => setShowCart(true)}
                   className='flex flex-row gap-2 relative'
@@ -127,17 +111,12 @@ const Header = () => {
                   <Nav.Link>
                     <i className='fas fa-shopping-cart text-[25px]'></i>
                     <p className='number-in-cart '>
-                      <span>{cartItems.length}</span>
+                      <span>{totalQuantities}</span>
                     </p>
                   </Nav.Link>
                 </button>
 
                 {showCart && <Cart />}
-
-                {/* <div className='flex flex-row gap-2'>
-                  <i className='fa-solid fa-cart-shopping text-[25px]'></i>
-                  <p>Košík</p>
-                </div> */}
               </div>
 
               <div className='md:hidden'>

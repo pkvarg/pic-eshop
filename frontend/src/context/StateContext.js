@@ -54,8 +54,6 @@ export const StateContext = ({ children }) => {
     setCartItems(newCartItems)
   }
 
-  /* add prod as prop? when calling*/
-
   const toggleCartItemQuanitity = (product, value) => {
     const id = product._id
     console.log(product)
