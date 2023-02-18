@@ -22,14 +22,15 @@ import ProductScreen from './screens/ProductScreen'
 import ShippingScreen from './screens/ShippingScreen'
 import PaymentScreen from './screens/PaymentScreen'
 import PlaceOrderScreen from './screens/PlaceOrderScreen'
-import Cart from './components/Cart'
 import { StateContext } from './context/StateContext'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
   return (
     <Router>
       <StateContext>
         <Header />
+        <Toaster />
 
         <Routes>
           <Route path='/' element={<HomeScreen />} />

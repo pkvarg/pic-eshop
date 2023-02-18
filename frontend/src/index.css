@@ -64,19 +64,21 @@ p.number-in-cart span {
 /*  CART ACC JSM*/
 .cart-wrapper {
   width: 100vw;
+  height: 100%;
   background: rgba(0, 0, 0, 0.5);
   position: fixed;
   right: 0;
   top: 0;
   z-index: 100;
+  display: flex;
+  justify-content: center;
   /* will-change: transform; */
   transition: all 1s ease-in-out;
 }
 .cart-container {
-  height: 100vh;
-  width: 600px;
+  height: 90%;
+  width: 75%;
   background-color: white;
-  float: right;
   padding: 40px 10px;
   position: relative;
 }
@@ -142,27 +144,14 @@ p.number-in-cart span {
   background: transparent;
   border: none;
 }
-.cart-bottom {
-  position: absolute;
-  bottom: 12px;
-  right: 5px;
-  width: 100%;
-  padding: 30px 65px;
-}
 
-.btn-container {
-  width: 400px;
-  margin: auto;
-}
-.btn {
+.btn-cart {
   width: 100%;
   max-width: 400px;
   padding: 10px 12px;
   border-radius: 15px;
   border: none;
   font-size: 20px;
-  margin-top: 10px;
-  margin-top: 40px;
   text-transform: uppercase;
   background-color: #f02d34;
   color: #fff;
@@ -170,7 +159,7 @@ p.number-in-cart span {
   transform: scale(1, 1);
   transition: transform 0.5s ease;
 }
-.btn:hover {
+.btn-cart:hover {
   transform: scale(1.1, 1.1);
 }
 
@@ -181,8 +170,10 @@ p.number-in-cart span {
   padding: 20px 5px;
 }
 .product .cart-product-image {
-  width: 35%;
-  height: 35%;
+  width: 150px;
+  height: 150px;
+  border: 1px solid grey;
+  border-radius: 15px;
 }
 
 .item-desc {

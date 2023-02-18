@@ -37,7 +37,7 @@ export const StateContext = ({ children }) => {
       setCartItems([...cartItems, { ...product }])
     }
 
-    toast.success(`${qty} ${product.name} added to the cart.`)
+    toast.success(`${qty} x ${product.name} bol vložený do košíka.`)
   }
 
   const onRemove = (product) => {
@@ -56,43 +56,37 @@ export const StateContext = ({ children }) => {
 
   /* add prod as prop? when calling*/
 
-  // const toggleCartItemQuanitity = (id, value) => {
-  //   foundProduct = cartItems.find((item) => item._id === id)
-  //   index = cartItems.findIndex((product) => product._id === id)
-  //   // const newCartItems = cartItems.filter((item) => item._id !== id)
-  //   const newCardItems = cartItems.map((item) =>
-  //     item._id === id ? { ...item, quantity: product.quantity + 1 } : item
-  //   )
+  const toggleCartItemQuanitity = (product, value) => {
+    const id = product._id
+    console.log(product)
+    foundProduct = cartItems.find((item) => item._id === id)
+    index = cartItems.findIndex((product) => product._id === id)
 
-  //   if (value === 'inc') {
-  //     // setCartItems([
-  //     //   ...newCartItems,
-  //     //   { ...foundProduct, quantity: foundProduct.quantity + 1 },
-  //     // ])
-  //     newCardItems.map(
-  //       (item) => item._id === id && (item.quantity = foundProduct.quantity + 1)
-  //     )
-  //     setCartItems([...newCardItems])
+    const newCardItems = cartItems.map((item) =>
+      item._id === id ? { ...item, quantity: product.quantity + 1 } : item
+    )
 
-  //     setTotalPrice((prevTotalPrice) => prevTotalPrice + foundProduct.price)
-  //     setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + 1)
-  //   } else if (value === 'dec') {
-  //     if (foundProduct.quantity > 1) {
-  //       // setCartItems([
-  //       //   ...newCartItems,
-  //       //   { ...foundProduct, quantity: foundProduct.quantity - 1 },
-  //       // ])
-  //       newCardItems.map(
-  //         (item) =>
-  //           item._id === id && (item.quantity = foundProduct.quantity - 1)
-  //       )
-  //       setCartItems([...newCardItems])
+    if (value === 'inc') {
+      newCardItems.map(
+        (item) => item._id === id && (item.quantity = foundProduct.quantity + 1)
+      )
+      setCartItems([...newCardItems])
 
-  //       setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price)
-  //       setTotalQuantities((prevTotalQuantities) => prevTotalQuantities - 1)
-  //     }
-  //   }
-  // }
+      setTotalPrice((prevTotalPrice) => prevTotalPrice + foundProduct.price)
+      setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + 1)
+    } else if (value === 'dec') {
+      if (foundProduct.quantity > 1) {
+        newCardItems.map(
+          (item) =>
+            item._id === id && (item.quantity = foundProduct.quantity - 1)
+        )
+        setCartItems([...newCardItems])
+
+        setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price)
+        setTotalQuantities((prevTotalQuantities) => prevTotalQuantities - 1)
+      }
+    }
+  }
 
   const incQty = () => {
     setQty((prevQty) => prevQty + 1)
@@ -118,7 +112,7 @@ export const StateContext = ({ children }) => {
         incQty,
         decQty,
         onAdd,
-        //toggleCartItemQuanitity,
+        toggleCartItemQuanitity,
         onRemove,
         setCartItems,
         setTotalPrice,

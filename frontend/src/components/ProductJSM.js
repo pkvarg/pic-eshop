@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { Card, Button } from 'react-bootstrap'
 import { useStateContext } from '../context/StateContext'
+import { toast } from 'react-hot-toast'
 
 const addDecimals = (num) => {
   return (Math.round(num * 100) / 100).toFixed(2)
@@ -12,7 +13,16 @@ const addDecimals = (num) => {
 const ProductJSM = ({ product }) => {
   const { image, name, details, price } = product
   const [index, setIndex] = useState(0)
-  const { decQty, incQty, qty, onAdd, setShowCart } = useStateContext()
+  const { decQty, incQty, qty, onAdd, setShowCart, cartItems } =
+    useStateContext()
+
+  const checkThenhandleBuyNow = () => {
+    if (cartItems.find((item) => item._id === product._id)) {
+      toast.success('Produkt už máte v košíku')
+    } else {
+      handleBuyNow()
+    }
+  }
 
   const handleBuyNow = () => {
     onAdd(product, qty)
@@ -106,7 +116,7 @@ const ProductJSM = ({ product }) => {
           </div>
 
           <Button
-            onClick={handleBuyNow}
+            onClick={() => checkThenhandleBuyNow()}
             className='w-100 bg-[#fa7878] rounded-[17.5px] hover:bg-green'
             type='button'
             disabled={product.countInStock === 0}
