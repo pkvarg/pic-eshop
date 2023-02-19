@@ -1,18 +1,13 @@
-import React, { useState } from 'react'
-import { Link, useParams, useNavigate } from 'react-router-dom'
+import React from 'react'
+import { Link } from 'react-router-dom'
 import { Card, Button } from 'react-bootstrap'
 import { useStateContext } from '../context/StateContext'
 import { toast } from 'react-hot-toast'
-
-const addDecimals = (num) => {
-  return (Math.round(num * 100) / 100).toFixed(2)
-}
+import { withoutTax, addDecimals } from '../functions/functions'
 
 // const imgOracle = 'https://pictusweb.online/uploads'
 
 const ProductJSM = ({ product }) => {
-  const { image, name, details, price } = product
-  const [index, setIndex] = useState(0)
   const { decQty, incQty, qty, onAdd, setShowCart, cartItems } =
     useStateContext()
 
@@ -30,11 +25,7 @@ const ProductJSM = ({ product }) => {
     setShowCart(true)
   }
 
-  const tax = 20
-  const withoutTax = (price) => {
-    const taxDue = tax * (price / 100)
-    return price - taxDue
-  }
+  // console.log('prodJSM:', product)
 
   return (
     <div className='my-3 p-3 border rounded'>
@@ -55,7 +46,7 @@ const ProductJSM = ({ product }) => {
         <div>
           {product.discount ? (
             <div className='flex flex-row items-center justify-between'>
-              <div className='flex flex-row bg-red text-white font-extrabold px-[3px] gap-3'>
+              <div className='flex flex-row bg-red text-white font-extrabold px-[3px] mt-[1%] gap-3'>
                 <span> - {product.discount}%</span>
                 {addDecimals(product.discountedPrice)}€
               </div>
@@ -89,7 +80,7 @@ const ProductJSM = ({ product }) => {
           )}
         </div>
         {product.discount ? (
-          <div className='text-[#9b9b9b] font-[350] mb-2'>
+          <div className='text-[#9b9b9b] font-[350] mb-2 mt-[1.5%]'>
             €{addDecimals(withoutTax(product.discountedPrice))} bez DPH
           </div>
         ) : (

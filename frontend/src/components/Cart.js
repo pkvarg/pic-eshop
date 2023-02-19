@@ -1,6 +1,5 @@
 import React, { useRef } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import toast from 'react-hot-toast'
+import { Link } from 'react-router-dom'
 import {
   AiOutlineMinus,
   AiOutlinePlus,
@@ -9,6 +8,7 @@ import {
 } from 'react-icons/ai'
 import { TiDeleteOutline } from 'react-icons/ti'
 import { useStateContext } from '../context/StateContext'
+import { addDecimals } from '../functions/functions'
 
 const handleCheckout = () => {
   console.log('456')
@@ -25,15 +25,7 @@ const Cart = () => {
     onRemove,
   } = useStateContext()
 
-  const navigate = useNavigate()
-
-  const addDecimals = (num) => {
-    return (Math.round(num * 100) / 100).toFixed(2)
-  }
-
-  const continueShopping = () => {
-    navigate('/')
-  }
+  console.log('cart:', cartItems)
 
   return (
     <>
@@ -76,11 +68,15 @@ const Cart = () => {
                   className='product flex flex-row items-center gap-6'
                   key={item._id}
                 >
-                  <img src={item.image} className='cart-product-image ' />
+                  <img
+                    src={item.image}
+                    className='cart-product-image'
+                    alt={item.name}
+                  />
                   <div className='item-desc flex flex-col'>
                     <div className='flex flex-row justify-between'>
                       <h5>{item.name}</h5>
-                      <h4>{item.price}€</h4>
+                      <h4>{addDecimals(item.price)}€</h4>
                     </div>
                     <div className='flex flex-row bottom justify-between items-center'>
                       <div className=''>
@@ -115,7 +111,7 @@ const Cart = () => {
               <div className='mt-1'>
                 <div className='flex flex-row justify-between items-center text-[25px]'>
                   <h3>Spolu:</h3>
-                  <h3>{totalPrice} €</h3>
+                  <h3>{addDecimals(totalPrice)} €</h3>
                 </div>
                 <div className='flex justify-center mt-4'>
                   <button

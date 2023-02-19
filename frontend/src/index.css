@@ -27,9 +27,9 @@ code {
   border: none;
   background-color: #f7f7f7;
 }
-.active.dropdown-item {
+.home-categs .dropdown-item {
   background-color: #f7f7f7;
-  font-size: 20px;
+  font-size: 25px;
   color: #1a1a1a;
   padding-left: 6.5%;
 }
