@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import {
   AiOutlineMinus,
@@ -20,6 +20,7 @@ const Cart = () => {
     totalPrice,
     totalQuantities,
     cartItems,
+    // setCartItems,
     setShowCart,
     toggleCartItemQuanitity,
     onRemove,

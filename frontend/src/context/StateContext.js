@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useState, useEffect } from 'react'
 import { toast } from 'react-hot-toast'
 
 const Context = createContext()
@@ -97,6 +97,30 @@ export const StateContext = ({ children }) => {
       return prevQty - 1
     })
   }
+
+  useEffect(() => {
+    const LocalStorageCartItems = window.localStorage.getItem('cartItems')
+    if (LocalStorageCartItems !== null)
+      setCartItems(JSON.parse(LocalStorageCartItems))
+    const LocalStorageTotalQuantities =
+      window.localStorage.getItem('totalQuantities')
+    if (LocalStorageTotalQuantities !== null)
+      setTotalQuantities(JSON.parse(LocalStorageTotalQuantities))
+    const LocalStorageTotalPrice = window.localStorage.getItem('totalPrice')
+    if (LocalStorageTotalPrice !== null)
+      setTotalPrice(JSON.parse(LocalStorageTotalPrice))
+  }, [])
+
+  useEffect(() => {
+    window.localStorage.setItem('cartItems', JSON.stringify(cartItems))
+    window.localStorage.setItem(
+      'totalQuantities',
+      JSON.stringify(totalQuantities)
+    )
+    window.localStorage.setItem('totalPrice', JSON.stringify(totalPrice))
+  }, [cartItems, totalQuantities, totalPrice])
+
+  console.log(cartItems)
 
   return (
     <Context.Provider
