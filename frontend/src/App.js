@@ -65,10 +65,10 @@ function App() {
           <Route path='/admin/orderlist' element={<OrderListScreen />} />
           <Route path='/create-discount' element={<CreateDiscount />} />
           <Route path='/admin/reviews' element={<Reviews />} />
-          <Route path='/cart'>
+          {/* <Route path='/cart'>
             <Route path=':id' element={<CartScreen />} />
             <Route path='' element={<CartScreen />} />
-          </Route>
+          </Route> */}
           <Route path='/product/:id' element={<ProductScreen />} />
           <Route path='/shipping' element={<ShippingScreen />} />
           <Route path='/payment' element={<PaymentScreen />} />

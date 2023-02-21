@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   AiOutlineMinus,
   AiOutlinePlus,
@@ -10,11 +10,13 @@ import { TiDeleteOutline } from 'react-icons/ti'
 import { useStateContext } from '../context/StateContext'
 import { addDecimals } from '../functions/functions'
 
-const handleCheckout = () => {
-  console.log('456')
-}
-
 const Cart = () => {
+  const navigate = useNavigate()
+  const handleCheckout = () => {
+    setShowCart(false)
+    navigate('/login?redirect=/shipping')
+  }
+
   const cartRef = useRef()
   const {
     totalPrice,
@@ -120,7 +122,7 @@ const Cart = () => {
                     className='btn-cart'
                     onClick={handleCheckout}
                   >
-                    Platba cez Stripe
+                    Do pokladne
                   </button>
                 </div>
               </div>

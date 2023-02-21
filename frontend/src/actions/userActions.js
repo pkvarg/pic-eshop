@@ -99,6 +99,8 @@ export const getGoogleUserInfo = (dataInfo) => {
 export const logout = () => (dispatch) => {
   localStorage.removeItem('userInfo')
   localStorage.removeItem('cartItems')
+  localStorage.removeItem('totalQuantities')
+  localStorage.removeItem('totalPrice')
   localStorage.removeItem('shippingAddress')
   localStorage.removeItem('paymentMethod')
   dispatch({ type: USER_LOGOUT })

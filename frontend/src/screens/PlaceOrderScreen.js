@@ -5,36 +5,37 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import CheckoutSteps from '../components/CheckoutSteps'
 import { createOrder } from '../actions/orderActions'
+import { useStateContext } from '../context/StateContext'
+import { addDecimals } from '../functions/functions'
 
 const PlaceOrderScreen = () => {
+  const {
+    totalPrice,
+    totalQuantities,
+    cartItems,
+    setShowCart,
+    toggleCartItemQuanitity,
+    onRemove,
+  } = useStateContext()
+
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const cart = useSelector((state) => state.cart)
-
-  // Calculate Prices
-  const addDecimals = (num) => {
-    return (Math.round(num * 100) / 100).toFixed(2)
-  }
-  cart.itemsPrice = addDecimals(
-    cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
-  )
+  const { shippingAddress, paymentMethod } = cart
 
   // DEFINE SHIPPING PRICE and TAX HERE
-  cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : addDecimals(3.5))
-  // cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)))
+  // New
+  const shippingPrice = addDecimals(totalPrice > 100 ? 0 : addDecimals(3.5))
 
-  cart.totalPrice = (
-    Number(cart.itemsPrice) + Number(cart.shippingPrice)
-  ).toFixed(2)
-
-  // cart.totalPrice = (
-  //   Number(cart.itemsPrice) +
-  //   Number(cart.shippingPrice) +
-  //   Number(cart.taxPrice)
-  // ).toFixed(2)
+  // New
+  const totalPriceWithShipping = addDecimals(
+    Number(totalPrice) + Number(shippingPrice)
+  )
 
   const orderCreate = useSelector((state) => state.orderCreate)
   const { order, success, error } = orderCreate
+  // ***************************************************
+  console.log(order)
 
   useEffect(() => {
     if (success) {
@@ -46,37 +47,41 @@ const PlaceOrderScreen = () => {
   // send by email
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
-  //const orderToEmailName = userInfo.name
   const orderEmailToEmail = userInfo.email
 
   const [message, setMessage] = useState(null)
 
   /* prod quantities TO update countInStock */
+  // New
   let prodsQtys = {}
-  cart.cartItems.map((item, index) => {
-    const productId = cart.cartItems[index].product
-    const productQty = Number(cart.cartItems[index].qty)
+  cartItems.map((item, index) => {
+    const productId = cartItems[index]._id
+    const productQty = Number(cartItems[index].quantity)
     return (prodsQtys[index] = { product: productId, qty: productQty })
   })
 
   let prodsDiscounts = {}
-  cart.cartItems.map((item, index) => {
-    const productId = cart.cartItems[index].product
-    const productDiscount = Number(cart.cartItems[index].discount)
+  cartItems.map((item, index) => {
+    const productId = cartItems[index]._id
+    const productDiscount = Number(cartItems[index].discount)
     return (prodsDiscounts[index] = {
       product: productId,
       discount: productDiscount,
     })
   })
 
+  console.log(prodsDiscounts)
+
+  // ******************** dokonci od ship price
+
   const placeOrderhandler = () => {
     if (gdrpOrderChecked && tradeRulesOrderChecked) {
       dispatch(
         createOrder({
-          orderItems: cart.cartItems,
-          shippingAddress: cart.shippingAddress,
-          paymentMethod: cart.paymentMethod,
-          itemsPrice: cart.itemsPrice,
+          orderItems: cartItems,
+          shippingAddress: shippingAddress.address,
+          paymentMethod: paymentMethod,
+          itemsPrice: totalPrice,
           shippingPrice: cart.shippingPrice,
           taxPrice: cart.taxPrice,
           totalPrice: cart.totalPrice,
