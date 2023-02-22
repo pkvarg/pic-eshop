@@ -69,14 +69,41 @@ const PlaceOrderScreen = () => {
     })
   })
 
+  console.log(cartItems)
+
+  let orderedItems = []
+  let orderItems = {}
+  cartItems.map((items, index) => {
+    const id = cartItems[index]._id
+    const image = cartItems[index].image
+    const quantity = cartItems[index].quantity
+    const name = cartItems[index].name
+    const discount = cartItems[index].discount
+    const price = cartItems[index].price
+    const discountedPrice = cartItems[index].discountedPrice
+    const priceToSend = discountedPrice > 0 ? discountedPrice : price
+
+    return orderedItems.push(
+      (orderedItems[index] = {
+        _id: id,
+        image: image,
+        name: name,
+        price: priceToSend,
+        quantity: quantity,
+        discounts: prodsDiscounts,
+      })
+    )
+  })
+
+  console.log(cartItems)
+
   const placeOrderhandler = () => {
     if (gdrpOrderChecked && tradeRulesOrderChecked) {
       dispatch(
         createOrder({
-          orderItems: cartItems,
+          orderItems: orderedItems,
           shippingAddress: shippingAddress,
           paymentMethod: paymentMethod,
-
           shippingPrice: shippingPrice,
           //taxPrice: cart.taxPrice,
           totalPrice: totalPrice,

@@ -218,7 +218,7 @@ const OrderScreen = () => {
                   <ListGroup variant='flush'>
                     {order.orderItems.map((item, index) => (
                       <ListGroup.Item key={index}>
-                        {console.log(item)}
+                        {/* {console.log(item)} */}
                         <Row className='items-center'>
                           <Col md={1}>
                             <Image

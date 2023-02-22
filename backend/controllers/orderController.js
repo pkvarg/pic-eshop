@@ -13,13 +13,12 @@ const __dirname = path.resolve()
 
 const addOrderItems = asyncHandler(async (req, res) => {
   const {
-    orderItems,
     shippingAddress,
     paymentMethod,
-
     taxPrice,
     shippingPrice,
     totalPrice,
+    orderItems,
   } = req.body
 
   const user = req.body.user
@@ -45,7 +44,6 @@ const addOrderItems = asyncHandler(async (req, res) => {
 
   /* Update Count in stock on purchased products */
   const qtys = req.body.qtys
-  console.log('ioioio:', req.body)
   Object.keys(qtys).forEach(async (key, index) => {
     let purchasedProductId = `${qtys[key].product}`
     let purchasedProductQty = `${qtys[key].qty}`
@@ -67,7 +65,6 @@ const addOrderItems = asyncHandler(async (req, res) => {
       user: req.user._id,
       shippingAddress,
       paymentMethod,
-
       taxPrice,
       shippingPrice,
       totalPrice,
@@ -76,12 +73,11 @@ const addOrderItems = asyncHandler(async (req, res) => {
       discounts,
       orderNumber,
     })
-    console.log('order:', order)
     const createdOrder = await order.save()
     // array of items
     const loop = createdOrder.orderItems
-    console.log('loop', loop)
     const productsCount = loop.length
+    console.log('dloop', discounts[1].discount)
     let productsObject = {}
     loop.map((item, i) => {
       if (discounts[i].discount > 0) {
