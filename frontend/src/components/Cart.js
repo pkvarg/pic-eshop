@@ -79,7 +79,15 @@ const Cart = () => {
                   <div className='item-desc flex flex-col'>
                     <div className='flex flex-row justify-between'>
                       <h5>{item.name}</h5>
-                      <h4>{addDecimals(item.price)}€</h4>
+                      {item.discount ? (
+                        <h4 className='bg-red text-white p-2'>
+                          {-item.discount}%{' '}
+                          {addDecimals(item.discountedPrice).replace('.', ',')}{' '}
+                          €
+                        </h4>
+                      ) : (
+                        <h4>{addDecimals(item.price).replace('.', ',')} €</h4>
+                      )}
                     </div>
                     <div className='flex flex-row bottom justify-between items-center'>
                       <div className=''>
@@ -114,7 +122,7 @@ const Cart = () => {
               <div className='mt-1'>
                 <div className='flex flex-row justify-between items-center text-[25px]'>
                   <h3>Spolu:</h3>
-                  <h3>{addDecimals(totalPrice)} €</h3>
+                  <h3>{addDecimals(totalPrice).replace('.', ',')} €</h3>
                 </div>
                 <div className='flex justify-center mt-4'>
                   <button

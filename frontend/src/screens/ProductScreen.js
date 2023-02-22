@@ -96,23 +96,32 @@ const ProductScreen = () => {
                                   <div className='mr-6'>
                                     <div className='flex flex-row bg-red text-white font-extrabold px-[3px] gap-3'>
                                       <span> - {product.discount}%</span>
-                                      {addDecimals(product.discountedPrice)}€
+                                      {addDecimals(
+                                        product.discountedPrice
+                                      ).replace('.', ',')}
+                                      {''} €
                                     </div>
                                     <div>
                                       {addDecimals(
                                         withoutTax(product.discountedPrice)
-                                      )}{' '}
+                                      ).replace('.', ',')}{' '}
                                       € bez DPH
                                     </div>
                                   </div>
                                 ) : (
                                   <div className='mr-6'>
                                     <h4 className='font-[700] text-[20px]'>
-                                      {addDecimals(product.price)}€
+                                      {addDecimals(product.price).replace(
+                                        '.',
+                                        ','
+                                      )}
+                                      {''}€
                                     </h4>
                                     <div>
-                                      {addDecimals(withoutTax(product.price))} €
-                                      bez DPH
+                                      {addDecimals(
+                                        withoutTax(product.price)
+                                      ).replace('.', ',')}
+                                      {''} € bez DPH
                                     </div>
                                   </div>
                                 )}

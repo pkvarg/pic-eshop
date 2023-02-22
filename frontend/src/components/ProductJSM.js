@@ -48,7 +48,7 @@ const ProductJSM = ({ product }) => {
             <div className='flex flex-row items-center justify-between'>
               <div className='flex flex-row bg-red text-white font-extrabold px-[3px] mt-[1%] gap-3'>
                 <span> - {product.discount}%</span>
-                {addDecimals(product.discountedPrice)}€
+                {addDecimals(product.discountedPrice).replace('.', ',')} €
               </div>
               {product.countInStock > 0 ? (
                 <div className='bg-[#e5f8ec] text-[#00bc47] font-[500] px-2 rounded-[15px]'>
@@ -64,7 +64,7 @@ const ProductJSM = ({ product }) => {
           ) : (
             <div className='flex flex-row items-center justify-between'>
               <h4 className='font-bold text-[25px]'>
-                €{addDecimals(product.price)}
+                {addDecimals(product.price).replace('.', ',')} €
               </h4>
               {product.countInStock > 0 ? (
                 <div className='bg-[#e5f8ec] text-[#00bc47] font-[500] px-2 rounded-[15px]'>
@@ -81,11 +81,12 @@ const ProductJSM = ({ product }) => {
         </div>
         {product.discount ? (
           <div className='text-[#9b9b9b] font-[350] mb-2 mt-[1.5%]'>
-            €{addDecimals(withoutTax(product.discountedPrice))} bez DPH
+            {addDecimals(withoutTax(product.discountedPrice)).replace('.', ',')}{' '}
+            € bez DPH
           </div>
         ) : (
           <div className='text-[#9b9b9b] font-[350] mb-2'>
-            €{addDecimals(withoutTax(product.price))} bez DPH
+            {addDecimals(withoutTax(product.price)).replace('.', ',')} € bez DPH
           </div>
         )}
 

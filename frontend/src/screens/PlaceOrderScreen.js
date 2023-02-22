@@ -35,7 +35,6 @@ const PlaceOrderScreen = () => {
   const orderCreate = useSelector((state) => state.orderCreate)
   const { order, success, error } = orderCreate
   // ***************************************************
-  console.log(order)
 
   useEffect(() => {
     if (success) {
@@ -70,21 +69,21 @@ const PlaceOrderScreen = () => {
     })
   })
 
-  console.log(prodsDiscounts)
+  // console.log(shippingAddress.country)
 
-  // ******************** dokonci od ship price
+  // ******************** dokonci order controller ?
 
   const placeOrderhandler = () => {
     if (gdrpOrderChecked && tradeRulesOrderChecked) {
       dispatch(
         createOrder({
           orderItems: cartItems,
-          shippingAddress: shippingAddress.address,
+          shippingAddress: shippingAddress,
           paymentMethod: paymentMethod,
           itemsPrice: totalPrice,
-          shippingPrice: cart.shippingPrice,
-          taxPrice: cart.taxPrice,
-          totalPrice: cart.totalPrice,
+          shippingPrice: shippingPrice,
+          //taxPrice: cart.taxPrice,
+          totalPrice: totalPrice,
           user: userInfo.name,
           name: cart.shippingAddress.name,
           email: orderEmailToEmail,
@@ -106,6 +105,8 @@ const PlaceOrderScreen = () => {
   const handleTradeRulesOrder = () => {
     setTradeRulesOrderChecked(!tradeRulesOrderChecked)
   }
+
+  // console.log(orderItems)
 
   return (
     <>
@@ -158,13 +159,13 @@ const PlaceOrderScreen = () => {
 
             <ListGroup.Item>
               <h2>Objednané produkty: </h2>
-              {cart.cartItems.length === 0 ? (
+              {cartItems.length === 0 ? (
                 <Message>Váš košík je prázdny</Message>
               ) : (
                 <ListGroup variant='flush'>
-                  {cart.cartItems.map((item, index) => (
+                  {cartItems.map((item, index) => (
                     <ListGroup.Item key={index}>
-                      <Row>
+                      <Row className='items-center'>
                         <Col md={1}>
                           <Image
                             src={item.image}
@@ -186,8 +187,12 @@ const PlaceOrderScreen = () => {
                           )}
                         </Col>
                         <Col md={4}>
-                          {item.qty} x €{item.price.toFixed(2)} = €
-                          {(item.qty * item.price).toFixed(2)}
+                          {item.quantity} x{' '}
+                          {item.price.toFixed(2).replace('.', ',')} € ={' '}
+                          {(item.quantity * item.price)
+                            .toFixed(2)
+                            .replace('.', ',')}{' '}
+                          €
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -206,13 +211,13 @@ const PlaceOrderScreen = () => {
               <ListGroup.Item>
                 <Row>
                   <Col>Produkty</Col>
-                  <Col>€ {cart.itemsPrice}</Col>
+                  <Col>{addDecimals(totalPrice).replace('.', ',')} €</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Poštovné</Col>
-                  <Col>€ {cart.shippingPrice}</Col>
+                  <Col>{addDecimals(shippingPrice).replace('.', ',')} €</Col>
                 </Row>
               </ListGroup.Item>
               {/* Zľava...
@@ -225,7 +230,9 @@ const PlaceOrderScreen = () => {
               <ListGroup.Item>
                 <Row>
                   <Col>Celkom</Col>
-                  <Col>€ {cart.totalPrice}</Col>
+                  <Col>
+                    {addDecimals(totalPriceWithShipping).replace('.', ',')} €
+                  </Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>

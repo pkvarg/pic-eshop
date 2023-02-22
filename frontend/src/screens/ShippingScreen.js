@@ -9,7 +9,7 @@ import { saveShippingAddress } from '../actions/cartActions'
 const ShippingScreen = () => {
   const cart = useSelector((state) => state.cart)
   const { shippingAddress } = cart
-  const [name, setName] = useState('')
+  const [name, setName] = useState(shippingAddress.name)
 
   const [address, setAddress] = useState(shippingAddress.address)
   const [city, setCity] = useState(shippingAddress.city)
