@@ -25,8 +25,11 @@ import { addDecimals, calcDiscountedPrice } from '../functions/functions'
 const OrderScreen = () => {
   const {
     totalPrice,
+    setTotalPrice,
     totalQuantities,
+    setTotalQuantities,
     cartItems,
+    setCartItems,
     setShowCart,
     toggleCartItemQuanitity,
     onRemove,
@@ -128,6 +131,9 @@ const OrderScreen = () => {
     localStorage.removeItem('cartItems')
     localStorage.removeItem('shippingAddress')
     localStorage.removeItem('paymentMethod')
+    setTotalPrice(0)
+    setTotalQuantities(0)
+    setCartItems([])
     dispatch({ type: ORDER_LIST_MY_RESET })
     document.location.href = '/'
   }
@@ -218,7 +224,6 @@ const OrderScreen = () => {
                   <ListGroup variant='flush'>
                     {order.orderItems.map((item, index) => (
                       <ListGroup.Item key={index}>
-                        {/* {console.log(item)} */}
                         <Row className='items-center'>
                           <Col md={1}>
                             <Image
@@ -281,23 +286,33 @@ const OrderScreen = () => {
                   <h2>Súhrn objednávky</h2>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <Row>
-                    <Col>Produkty</Col>
-                    <Col>€ {order.itemsPrice}</Col>
-                  </Row>
+                  <div className='flex'>
+                    Produkty:
+                    <div className='ml-auto'>
+                      {addDecimals(order.totalPrice).replace('.', ',')} €{' '}
+                    </div>
+                  </div>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <Row>
-                    <Col>Poštovné</Col>
-                    <Col>€ {order.shippingPrice.toFixed(2)}</Col>
-                  </Row>
+                  <div className='flex'>
+                    Poštovné:
+                    <div className='ml-auto'>
+                      {addDecimals(order.shippingPrice.toFixed(2)).replace(
+                        '.',
+                        ','
+                      )}{' '}
+                      €{' '}
+                    </div>
+                  </div>
                 </ListGroup.Item>
 
                 <ListGroup.Item>
-                  <Row>
-                    <Col>Celkom</Col>
-                    <Col>€ {order.totalPrice.toFixed(2)}</Col>
-                  </Row>
+                  <div className='flex'>
+                    Celkom:
+                    <div className='ml-auto'>
+                      € {order.totalPrice.toFixed(2)}
+                    </div>
+                  </div>
                 </ListGroup.Item>
                 {!order.isPaid &&
                   order.paymentMethod === 'PayPal alebo karta' && (

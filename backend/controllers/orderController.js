@@ -44,6 +44,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
 
   /* Update Count in stock on purchased products */
   const qtys = req.body.qtys
+  console.log('qtys:', qtys, 'reqB:', req.body)
   Object.keys(qtys).forEach(async (key, index) => {
     let purchasedProductId = `${qtys[key].product}`
     let purchasedProductQty = `${qtys[key].qty}`
@@ -77,28 +78,29 @@ const addOrderItems = asyncHandler(async (req, res) => {
     // array of items
     const loop = createdOrder.orderItems
     const productsCount = loop.length
-    console.log('dloop', discounts[1].discount)
     let productsObject = {}
     loop.map((item, i) => {
       if (discounts[i].discount > 0) {
         productsObject[i] =
           ' ' +
-          item.qty +
+          item.quantity +
           ' x ' +
           item.name +
+          ' ' +
+          item.price.toFixed(2).replace('.', ',') +
           ' €' +
-          item.price.toFixed(2) +
           ' zľava: ' +
           discounts[i].discount +
           ' %'
       } else {
         productsObject[i] =
           ' ' +
-          item.qty +
+          item.quantity +
           ' x ' +
           item.name +
+          ' ' +
+          item.price.toFixed(2).replace('.', ',') +
           ' €' +
-          item.price.toFixed(2) +
           '  '
       }
     })
@@ -191,7 +193,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
       orderNumber: createdOrder.orderNumber,
       header: {
         company_name: 'Eshop',
-        company_logo: __dirname + '/backend/utils/prud-prud-logo.png',
+        company_logo: __dirname + '/backend/utils/pic-eshop.png',
         company_address: 'Špieszova 5, 84104, Bratislava, Slovensko',
       },
       ico: 'IČO: 36076589',
@@ -265,30 +267,27 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
       if (discounts[i].discount > 0) {
         updatedOrderProductsObject[i] =
           ' ' +
-          item.qty +
+          item.quantity +
           ' x ' +
           item.name +
+          ' ' +
+          item.price.toFixed(2).replace('.', ',') +
           ' €' +
-          item.price.toFixed(2) +
           ' zľava: ' +
           discounts[i].discount +
           ' %'
       } else {
         updatedOrderProductsObject[i] =
           ' ' +
-          item.qty +
+          item.quantity +
           ' x ' +
           item.name +
+          ' ' +
+          item.price.toFixed(2).replace('.', ',') +
           ' €' +
-          item.price.toFixed(2) +
           '  '
       }
     })
-
-    // updatedOrderLoop.map((item, i) => {
-    //   updatedOrderProductsObject[i] =
-    //     item.qty + ' x ' + item.name + ' €' + item.price.toFixed(2)
-    // })
 
     // object with address info
     const updatedOrderAddressInfo = updatedOrder.shippingAddress

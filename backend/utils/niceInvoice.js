@@ -30,11 +30,11 @@ let header = (doc, invoice) => {
       .image(invoice.header.company_logo, 50, 45, { width: 100 })
       .fontSize(18)
       .font('Cardo-Bold')
-      .text(invoice.header.company_name, 515, 31)
+      .text(invoice.header.company_name, 500, 31)
       .moveDown()
   } else {
     doc.fontSize(18).font('Cardo-Bold')
-    text(invoice.header.company_name, 515, 31).moveDown()
+    text(invoice.header.company_name, 500, 31).moveDown()
   }
 
   if (invoice.header.company_address.length !== 0) {
@@ -135,7 +135,7 @@ let invoiceTable = (doc, invoice) => {
 
   for (i = 0; i < invoice.items.length; i++) {
     let item = invoice.items[i]
-    let total = Number(invoice.items[i].qty * invoice.items[i].price)
+    let total = Number(invoice.items[i].quantity * invoice.items[i].price)
     productsTotalPrice = productsTotalPrice + total
     /* loop discounts */
     disc = invoice.discounts[i].discount
@@ -151,9 +151,9 @@ let invoiceTable = (doc, invoice) => {
       position,
       item.name,
       discount,
-      formatCurrency(item.price.toFixed(2), currencySymbol),
-      item.qty,
-      addDecimals(total)
+      formatCurrency(currencySymbol, item.price.toFixed(2).replace('.', ',')),
+      item.quantity,
+      formatCurrency(currencySymbol, total.toFixed(2).replace('.', ','))
     ),
       generateHr(doc, position + 20)
   }
@@ -169,7 +169,10 @@ let invoiceTable = (doc, invoice) => {
     doc,
     productsTotalPosition,
     'Produkty',
-    formatCurrency(productsTotalPrice, currencySymbol)
+    formatCurrency(
+      currencySymbol,
+      addDecimals(productsTotalPrice).replace('.', '.')
+    )
   )
 
   const shippingPosition = productsTotalPosition + 20
@@ -178,7 +181,7 @@ let invoiceTable = (doc, invoice) => {
     doc,
     shippingPosition,
     'Poštovné',
-    formatCurrency(shippingPrice, currencySymbol)
+    formatCurrency(currencySymbol, addDecimals(shippingPrice).replace('.', '.'))
   )
 
   const paidToDatePosition = shippingPosition + 20
@@ -187,7 +190,7 @@ let invoiceTable = (doc, invoice) => {
     doc,
     paidToDatePosition,
     'Celkom',
-    formatCurrency(totalPrice, currencySymbol)
+    formatCurrency(currencySymbol, addDecimals(totalPrice).replace('.', '.'))
   )
 }
 
@@ -202,8 +205,8 @@ let footer = (doc, invoice) => {
 let totalTable = (doc, y, name, description) => {
   doc
     .fontSize(15)
-    .text(name, 400, y, { width: 90, align: 'right' })
-    .text(description, 500, y, { align: 'right' })
+    .text(name, 390, y, { width: 90, align: 'right' })
+    .text(description, 490, y, { align: 'right' })
 }
 
 let tableRow = (doc, y, item, discount, price, quantity, lineTotal) => {

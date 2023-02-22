@@ -84,13 +84,12 @@ const PlaceOrderScreen = () => {
     const priceToSend = discountedPrice > 0 ? discountedPrice : price
 
     return orderedItems.push(
-      (orderedItems[index] = {
+      (orderItems[index] = {
         _id: id,
         image: image,
         name: name,
         price: priceToSend,
         quantity: quantity,
-        discounts: prodsDiscounts,
       })
     )
   })
