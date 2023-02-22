@@ -69,10 +69,6 @@ const PlaceOrderScreen = () => {
     })
   })
 
-  // console.log(shippingAddress.country)
-
-  // ******************** dokonci order controller ?
-
   const placeOrderhandler = () => {
     if (gdrpOrderChecked && tradeRulesOrderChecked) {
       dispatch(
@@ -80,7 +76,7 @@ const PlaceOrderScreen = () => {
           orderItems: cartItems,
           shippingAddress: shippingAddress,
           paymentMethod: paymentMethod,
-          itemsPrice: totalPrice,
+
           shippingPrice: shippingPrice,
           //taxPrice: cart.taxPrice,
           totalPrice: totalPrice,
@@ -187,12 +183,28 @@ const PlaceOrderScreen = () => {
                           )}
                         </Col>
                         <Col md={4}>
-                          {item.quantity} x{' '}
-                          {item.price.toFixed(2).replace('.', ',')} € ={' '}
-                          {(item.quantity * item.price)
-                            .toFixed(2)
-                            .replace('.', ',')}{' '}
-                          €
+                          {item.discount ? (
+                            <div>
+                              {item.quantity} x{' '}
+                              {item.discountedPrice
+                                .toFixed(2)
+                                .replace('.', ',')}{' '}
+                              € ={' '}
+                              {(item.quantity * item.discountedPrice)
+                                .toFixed(2)
+                                .replace('.', ',')}{' '}
+                              €
+                            </div>
+                          ) : (
+                            <div>
+                              {item.quantity} x{' '}
+                              {item.price.toFixed(2).replace('.', ',')} € ={' '}
+                              {(item.quantity * item.price)
+                                .toFixed(2)
+                                .replace('.', ',')}{' '}
+                              €
+                            </div>
+                          )}
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -209,16 +221,20 @@ const PlaceOrderScreen = () => {
                 <h2>Súhrn objednávky</h2>
               </ListGroup.Item>
               <ListGroup.Item>
-                <Row>
-                  <Col>Produkty</Col>
-                  <Col>{addDecimals(totalPrice).replace('.', ',')} €</Col>
-                </Row>
+                <div className='flex'>
+                  Produkty:
+                  <div className='ml-auto'>
+                    {addDecimals(totalPrice).replace('.', ',')} €
+                  </div>
+                </div>
               </ListGroup.Item>
               <ListGroup.Item>
-                <Row>
-                  <Col>Poštovné</Col>
-                  <Col>{addDecimals(shippingPrice).replace('.', ',')} €</Col>
-                </Row>
+                <div className='flex'>
+                  Poštovné:
+                  <div className='ml-auto'>
+                    {addDecimals(shippingPrice).replace('.', ',')} €
+                  </div>
+                </div>
               </ListGroup.Item>
               {/* Zľava...
               <ListGroup.Item>
@@ -228,12 +244,12 @@ const PlaceOrderScreen = () => {
                 </Row>
               </ListGroup.Item> */}
               <ListGroup.Item>
-                <Row>
-                  <Col>Celkom</Col>
-                  <Col>
+                <div className='flex'>
+                  Celkom:
+                  <div className='ml-auto'>
                     {addDecimals(totalPriceWithShipping).replace('.', ',')} €
-                  </Col>
-                </Row>
+                  </div>
+                </div>
               </ListGroup.Item>
               <ListGroup.Item>
                 {error && <Message variant='danger'>{error}</Message>}

@@ -16,11 +16,12 @@ const addOrderItems = asyncHandler(async (req, res) => {
     orderItems,
     shippingAddress,
     paymentMethod,
-    itemsPrice,
+
     taxPrice,
     shippingPrice,
     totalPrice,
   } = req.body
+
   const user = req.body.user
   const name = req.body.name
   const email = req.body.email
@@ -44,6 +45,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
 
   /* Update Count in stock on purchased products */
   const qtys = req.body.qtys
+  console.log('ioioio:', req.body)
   Object.keys(qtys).forEach(async (key, index) => {
     let purchasedProductId = `${qtys[key].product}`
     let purchasedProductQty = `${qtys[key].qty}`
@@ -65,7 +67,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
       user: req.user._id,
       shippingAddress,
       paymentMethod,
-      itemsPrice,
+
       taxPrice,
       shippingPrice,
       totalPrice,
@@ -74,9 +76,11 @@ const addOrderItems = asyncHandler(async (req, res) => {
       discounts,
       orderNumber,
     })
+    console.log('order:', order)
     const createdOrder = await order.save()
     // array of items
     const loop = createdOrder.orderItems
+    console.log('loop', loop)
     const productsCount = loop.length
     let productsObject = {}
     loop.map((item, i) => {

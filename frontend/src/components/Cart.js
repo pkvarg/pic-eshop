@@ -28,8 +28,6 @@ const Cart = () => {
     onRemove,
   } = useStateContext()
 
-  console.log('cart:', cartItems)
-
   return (
     <>
       <div className='cart-wrapper' ref={cartRef}>

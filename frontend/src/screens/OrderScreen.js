@@ -19,8 +19,19 @@ import {
   ORDER_CANCELL_RESET,
   ORDER_LIST_MY_RESET,
 } from '../constants/orderConstants'
+import { useStateContext } from '../context/StateContext'
+import { addDecimals, calcDiscountedPrice } from '../functions/functions'
 
 const OrderScreen = () => {
+  const {
+    totalPrice,
+    totalQuantities,
+    cartItems,
+    setShowCart,
+    toggleCartItemQuanitity,
+    onRemove,
+  } = useStateContext()
+
   const cart = useSelector((state) => state.cart)
 
   const dispatch = useDispatch()
@@ -47,15 +58,13 @@ const OrderScreen = () => {
   const orderDelete = useSelector((state) => state.orderDelete)
   const { success: successDelete } = orderDelete
 
-  if (!loading) {
-    // Calculate Prices
-    const addDecimals = (num) => {
-      return (Math.round(num * 100) / 100).toFixed(2)
-    }
-    order.itemsPrice = addDecimals(
-      order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
-    )
-  }
+  // if (!loading) {
+  //   // Calculate Prices
+
+  //   order.itemsPrice = addDecimals(
+  //     order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+  //   )
+  // }
 
   //useEffect becomes shorter
   useEffect(() => {
@@ -130,7 +139,7 @@ const OrderScreen = () => {
   ) : (
     <>
       <div className='mx-2 my-4'>
-        <h1 className='my-4'>Objednávka {order._id}</h1>
+        <h1 className='my-4'>Objednávka {order.orderNumber}</h1>
         <Row>
           <Col md={8}>
             <ListGroup variant='flush'>
@@ -209,7 +218,8 @@ const OrderScreen = () => {
                   <ListGroup variant='flush'>
                     {order.orderItems.map((item, index) => (
                       <ListGroup.Item key={index}>
-                        <Row>
+                        {console.log(item)}
+                        <Row className='items-center'>
                           <Col md={1}>
                             <Image
                               src={item.image}
@@ -223,15 +233,38 @@ const OrderScreen = () => {
                               {item.name}
                             </Link>
                             {order.discounts[index].discount > 0 && (
-                              <h5 className='place-order-discount'>
+                              <p className='bg-red text-white inline p-1 ml-1'>
                                 Zľava
                                 {order.discounts[index].discount}%
-                              </h5>
+                              </p>
                             )}
                           </Col>
                           <Col md={4}>
-                            {item.qty} x €{item.price.toFixed(2)} = €
-                            {(item.qty * item.price).toFixed(2)}
+                            {item.discount ? (
+                              <div>
+                                {item.quantity} x{' '}
+                                {calcDiscountedPrice(item.price, item.discount)
+                                  .toFixed(2)
+                                  .replace('.', ',')}{' '}
+                                € ={' '}
+                                {(
+                                  item.quantity *
+                                  calcDiscountedPrice(item.price, item.discount)
+                                )
+                                  .toFixed(2)
+                                  .replace('.', ',')}{' '}
+                                €
+                              </div>
+                            ) : (
+                              <div>
+                                {item.quantity} x{' '}
+                                {item.price.toFixed(2).replace('.', ',')} € ={' '}
+                                {(item.quantity * item.price)
+                                  .toFixed(2)
+                                  .replace('.', ',')}{' '}
+                                €
+                              </div>
+                            )}
                           </Col>
                         </Row>
                       </ListGroup.Item>

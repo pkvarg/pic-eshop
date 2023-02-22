@@ -24,7 +24,6 @@ export const StateContext = ({ children }) => {
       ? (price = product.discountedPrice)
       : (price = product.price)
 
-    // setTotalPrice((prevTotalPrice) => prevTotalPrice + product.price * quantity)
     setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + quantity)
 
     if (checkProductInCart) {
@@ -59,10 +58,6 @@ export const StateContext = ({ children }) => {
         prevTotalPrice - foundProductPrice * foundProduct.quantity
     )
 
-    // setTotalPrice(
-    //   (prevTotalPrice) =>
-    //     prevTotalPrice - foundProduct.price * foundProduct.quantity
-    // )
     setTotalQuantities(
       (prevTotalQuantities) => prevTotalQuantities - foundProduct.quantity
     )
@@ -71,7 +66,6 @@ export const StateContext = ({ children }) => {
 
   const toggleCartItemQuanitity = (product, value) => {
     const id = product._id
-    console.log(product)
     foundProduct = cartItems.find((item) => item._id === id)
     index = cartItems.findIndex((product) => product._id === id)
 
@@ -92,7 +86,6 @@ export const StateContext = ({ children }) => {
 
       setTotalPrice((prevTotalPrice) => prevTotalPrice + foundProductPrice)
 
-      // setTotalPrice((prevTotalPrice) => prevTotalPrice + foundProduct.price)
       setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + 1)
     } else if (value === 'dec') {
       if (foundProduct.quantity > 1) {
@@ -103,7 +96,6 @@ export const StateContext = ({ children }) => {
         setCartItems([...newCardItems])
         setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProductPrice)
 
-        // setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price)
         setTotalQuantities((prevTotalQuantities) => prevTotalQuantities - 1)
       }
     }
@@ -142,8 +134,6 @@ export const StateContext = ({ children }) => {
     )
     window.localStorage.setItem('totalPrice', JSON.stringify(totalPrice))
   }, [cartItems, totalQuantities, totalPrice])
-
-  console.log(cartItems)
 
   return (
     <Context.Provider
