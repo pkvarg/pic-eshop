@@ -49,6 +49,15 @@ const PaymentScreen = () => {
               ></Form.Check>
               <Form.Check
                 type='radio'
+                label='Karta - Stripe'
+                id='Stripe'
+                name='paymentMethod'
+                value='Stripe'
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              ></Form.Check>
+
+              <Form.Check
+                type='radio'
                 label='Hotovosť pri prevzatí'
                 id='Cash'
                 name='paymentMethod'

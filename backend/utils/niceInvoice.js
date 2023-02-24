@@ -30,11 +30,11 @@ let header = (doc, invoice) => {
       .image(invoice.header.company_logo, 50, 45, { width: 100 })
       .fontSize(18)
       .font('Cardo-Bold')
-      .text(invoice.header.company_name, 500, 31)
+      .text(invoice.header.company_name, 505, 31)
       .moveDown()
   } else {
     doc.fontSize(18).font('Cardo-Bold')
-    text(invoice.header.company_name, 500, 31).moveDown()
+    text(invoice.header.company_name, 505, 31).moveDown()
   }
 
   if (invoice.header.company_address.length !== 0) {

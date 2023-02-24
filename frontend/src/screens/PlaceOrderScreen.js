@@ -78,7 +78,7 @@ const PlaceOrderScreen = () => {
     const image = cartItems[index].image
     const quantity = cartItems[index].quantity
     const name = cartItems[index].name
-    const discount = cartItems[index].discount
+    //const discount = cartItems[index].discount
     const price = cartItems[index].price
     const discountedPrice = cartItems[index].discountedPrice
     const priceToSend = discountedPrice > 0 ? discountedPrice : price
@@ -174,9 +174,7 @@ const PlaceOrderScreen = () => {
             <ListGroup.Item>
               <h2>Platba</h2>
               <strong>Spôsob platby: </strong>
-              {cart.paymentMethod === 'Hotovosť'
-                ? 'Hotovosť pri prevzatí'
-                : 'PayPal alebo karta'}
+              {cart.paymentMethod}
             </ListGroup.Item>
 
             <ListGroup.Item>

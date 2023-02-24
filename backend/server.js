@@ -14,6 +14,7 @@ import authRoutes from './routes/authRoutes.js'
 import audioRoutes from './routes/audioRoutes.js'
 import videoRoutes from './routes/videoRoutes.js'
 import bannerRoutes from './routes/bannerRoutes.js'
+import Stripe from 'stripe'
 
 dotenv.config()
 connectDB()
@@ -45,6 +46,25 @@ app.use('/api/auth', authRoutes)
 app.use('/api/audio', audioRoutes)
 app.use('/api/video', videoRoutes)
 app.use('/api/banner', bannerRoutes)
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+
+app.post('/api/stripe', async (req, res) => {
+  let status, error
+  const { token, amount } = req.body
+  try {
+    await stripe.charges.create({
+      source: token.id,
+      amount,
+      currency: 'eur',
+    })
+    status = 'success'
+  } catch (error) {
+    console.log(error)
+    status = 'failure'
+  }
+  res.json({ error, status })
+})
 
 app.get('/api/config/paypal', (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)

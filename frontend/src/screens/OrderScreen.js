@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import StripeCheckout from 'react-stripe-checkout'
 // import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
@@ -138,6 +139,24 @@ const OrderScreen = () => {
     document.location.href = '/'
   }
 
+  const payNow = async (token) => {
+    try {
+      const response = await axios({
+        url: '/api/stripe',
+        method: 'POST',
+        data: {
+          amount: totalPrice * 100,
+          token,
+        },
+      })
+      if (response.status === 200) {
+        console.log('payment successful')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return loading ? (
     <Loader />
   ) : error ? (
@@ -205,9 +224,7 @@ const OrderScreen = () => {
                 <h2>Platba</h2>
                 <p>
                   <strong>Spôsob: </strong>
-                  {order.paymentMethod === 'Hotovosť'
-                    ? 'Hotovosť pri prevzatí'
-                    : 'PayPal alebo karta'}
+                  {order.paymentMethod}
                 </p>
                 {order.isPaid ? (
                   <Message variant='success'>Zaplatené {order.paidAt}</Message>
@@ -314,22 +331,43 @@ const OrderScreen = () => {
                     </div>
                   </div>
                 </ListGroup.Item>
-                {!order.isPaid &&
-                  order.paymentMethod === 'PayPal alebo karta' && (
-                    <ListGroup.Item>
-                      {loadingPay && <Loader />}
-                      {/* {isPending && <Loader />}
+                {!order.isPaid && order.paymentMethod === 'Stripe' && (
+                  <ListGroup.Item>
+                    {loadingPay && <Loader />}
+                    {/* {isPending && <Loader />}
                     {isRejected && (
                       <Message variant='danger'>SDK load error</Message>
                     )} */}
-                      {/* {isResolved && (
+
+                    <StripeCheckout
+                      stripeKey={process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}
+                      label='Zaplatiť kartou'
+                      name='Zaplatiť kartou'
+                      billingAddress
+                      shippingAddress
+                      amount={totalPrice * 100}
+                      description={`Celkom: ${addDecimals(totalPrice).replace(
+                        '.',
+                        ','
+                      )}€`}
+                      token={payNow}
+
+                      // createOrder={createOrder}
+                      // onApprove={successPaymentHandler}
+                    />
+
+                    {/* {isPending && <Loader />}
+                    {isRejected && (
+                      <Message variant='danger'>SDK load error</Message>
+                    )} */}
+                    {/* {isResolved && (
                       <PayPalButtons
                         createOrder={createOrder}
                         onApprove={successPaymentHandler}
                       />
                     )} */}
-                    </ListGroup.Item>
-                  )}
+                  </ListGroup.Item>
+                )}
                 {loadingDeliver && <Loader />}
                 {userInfo && userInfo.isAdmin && !order.isDelivered && (
                   <ListGroup.Item>

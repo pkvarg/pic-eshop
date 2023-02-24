@@ -44,7 +44,6 @@ const addOrderItems = asyncHandler(async (req, res) => {
 
   /* Update Count in stock on purchased products */
   const qtys = req.body.qtys
-  console.log('qtys:', qtys, 'reqB:', req.body)
   Object.keys(qtys).forEach(async (key, index) => {
     let purchasedProductId = `${qtys[key].product}`
     let purchasedProductQty = `${qtys[key].qty}`
