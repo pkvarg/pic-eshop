@@ -24,6 +24,7 @@ import PaymentScreen from './screens/PaymentScreen'
 import PlaceOrderScreen from './screens/PlaceOrderScreen'
 import { StateContext } from './context/StateContext'
 import { Toaster } from 'react-hot-toast'
+import PaymentCompletion from './screens/PaymentCompletion'
 
 function App() {
   return (
@@ -73,6 +74,7 @@ function App() {
           <Route path='/shipping' element={<ShippingScreen />} />
           <Route path='/payment' element={<PaymentScreen />} />
           <Route path='/placeorder' element={<PlaceOrderScreen />} />
+          <Route path='/completion' element={<PaymentCompletion />} />
         </Routes>
         <Footer />
       </StateContext>

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import StripeCheckout from 'react-stripe-checkout'
+import { loadStripe } from '@stripe/stripe-js'
+import CheckoutForm from '../components/CheckoutForm'
+import { Elements } from '@stripe/react-stripe-js'
+// import StripeCheckout from 'react-stripe-checkout'
 // import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
@@ -36,6 +39,31 @@ const OrderScreen = () => {
     onRemove,
   } = useStateContext()
 
+  const [stripePromise, setStripePromise] = useState(null)
+  const [clientSecret, setClientSecret] = useState('')
+
+  useEffect(() => {
+    fetch('/config').then(async (r) => {
+      const { publishableKey } = await r.json()
+      setStripePromise(loadStripe(publishableKey))
+    })
+  }, [])
+
+  useEffect(() => {
+    fetch('/create-payment-intent', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ cartItems, totalPrice }),
+    }).then(async (r) => {
+      const { clientSecret } = await r.json()
+
+      setClientSecret(clientSecret)
+    })
+  }, [cartItems])
+
+  console.log(cartItems)
   const cart = useSelector((state) => state.cart)
 
   const dispatch = useDispatch()
@@ -157,6 +185,27 @@ const OrderScreen = () => {
     }
   }
 
+  const payWithStripe = async () => {
+    const response = await axios('/api/create-checkout-session', {
+      method: 'POST',
+      data: {
+        body: JSON.stringify(cartItems),
+      },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    if (response.statusCode === 500) return
+
+    const data = await response.json()
+
+    console.log(data)
+
+    // toast.loading('Redirecting...')
+
+    // stripe.redirectToCheckout({ sessionId: data.id })
+  }
   return loading ? (
     <Loader />
   ) : error ? (
@@ -339,22 +388,16 @@ const OrderScreen = () => {
                       <Message variant='danger'>SDK load error</Message>
                     )} */}
 
-                    <StripeCheckout
-                      stripeKey={process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}
-                      label='Zaplatiť kartou'
-                      name='Zaplatiť kartou'
-                      billingAddress
-                      shippingAddress
-                      amount={totalPrice * 100}
-                      description={`Celkom: ${addDecimals(totalPrice).replace(
-                        '.',
-                        ','
-                      )}€`}
-                      token={payNow}
+                    {/* <button onClick={() => payWithStripe()}>Checkout</button> */}
 
-                      // createOrder={createOrder}
-                      // onApprove={successPaymentHandler}
-                    />
+                    {stripePromise && clientSecret && (
+                      <Elements
+                        stripe={stripePromise}
+                        options={{ clientSecret }}
+                      >
+                        <CheckoutForm />
+                      </Elements>
+                    )}
 
                     {/* {isPending && <Loader />}
                     {isRejected && (

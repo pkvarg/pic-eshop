@@ -49,21 +49,52 @@ app.use('/api/banner', bannerRoutes)
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
-app.post('/api/stripe', async (req, res) => {
-  let status, error
-  const { token, amount } = req.body
+// app.post('/api/stripe', async (req, res) => {
+//   let status, error
+//   const { token, amount } = req.body
+//   try {
+//     await stripe.charges.create({
+//       source: token.id,
+//       amount,
+//       currency: 'eur',
+//     })
+//     status = 'success'
+//   } catch (error) {
+//     console.log(error)
+//     status = 'failure'
+//   }
+//   res.json({ error, status })
+// })
+
+app.get('/config', (req, res) => {
+  res.send({
+    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+  })
+})
+
+app.post('/create-payment-intent', async (req, res) => {
+  const cartItems = req.body.cartItems
+  const totalPrice = req.body.totalPrice * 100
+  console.log('req:', totalPrice)
+
   try {
-    await stripe.charges.create({
-      source: token.id,
-      amount,
-      currency: 'eur',
+    const paymentIntent = await stripe.paymentIntents.create({
+      currency: 'EUR',
+      amount: totalPrice,
+      automatic_payment_methods: { enabled: false },
     })
-    status = 'success'
-  } catch (error) {
-    console.log(error)
-    status = 'failure'
+
+    // Send publishable key and PaymentIntent details to client
+    res.send({
+      clientSecret: paymentIntent.client_secret,
+    })
+  } catch (e) {
+    return res.status(400).send({
+      error: {
+        message: e.message,
+      },
+    })
   }
-  res.json({ error, status })
 })
 
 app.get('/api/config/paypal', (req, res) =>
