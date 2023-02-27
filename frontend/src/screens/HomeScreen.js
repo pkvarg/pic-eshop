@@ -56,7 +56,7 @@ const HomeScreen = () => {
                   <ProductJSM product={product} />
                 </Col>
               ))}
-              {products.map((product) => (
+              {/* {products.map((product) => (
                 <Col
                   className='
             align-items-stretch mobile-only
@@ -69,7 +69,7 @@ const HomeScreen = () => {
                 >
                   <Product product={product} />
                 </Col>
-              ))}
+              ))} */}
             </Row>
           </div>
           {/* {pageNumber > 1 && (

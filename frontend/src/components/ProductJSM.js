@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Card, Button } from 'react-bootstrap'
 import { useStateContext } from '../context/StateContext'
@@ -8,8 +8,24 @@ import { withoutTax, addDecimals } from '../functions/functions'
 // const imgOracle = 'https://pictusweb.online/uploads'
 
 const ProductJSM = ({ product }) => {
-  const { decQty, incQty, qty, onAdd, setShowCart, cartItems } =
-    useStateContext()
+  const { onAdd, setShowCart, cartItems } = useStateContext()
+
+  const [prodQty, setProdQty] = useState(1)
+
+  const qtyHandlerUp = (productId) => {
+    const quantity = prodQty + 1
+
+    setProdQty(quantity)
+  }
+
+  const qtyHandlerDown = () => {
+    const quantity = prodQty - 1
+    if (prodQty <= 1) {
+      setProdQty(1)
+    } else {
+      setProdQty(quantity)
+    }
+  }
 
   const checkThenhandleBuyNow = () => {
     if (cartItems.find((item) => item._id === product._id)) {
@@ -20,7 +36,7 @@ const ProductJSM = ({ product }) => {
   }
 
   const handleBuyNow = () => {
-    onAdd(product, qty)
+    onAdd(product, prodQty)
 
     setShowCart(true)
   }
@@ -94,14 +110,14 @@ const ProductJSM = ({ product }) => {
           <div className='flex flex-row items-center border gap-2 rounded-[10px] overflow-hidden'>
             <button
               className='h-[100%] w-10 border-l border-grey bg-[#faf5f5] text-[#fa7878] font-bold'
-              onClick={decQty}
+              onClick={() => qtyHandlerDown()}
             >
               -
             </button>
-            <p>{qty}</p>
+            <p>{prodQty}</p>
             <button
               className='h-[100%] w-10 border-r border-grey  bg-[#faf5f5] text-[#fa7878] font-bold'
-              onClick={incQty}
+              onClick={() => qtyHandlerUp()}
             >
               +
             </button>
@@ -111,7 +127,7 @@ const ProductJSM = ({ product }) => {
             onClick={() => checkThenhandleBuyNow()}
             className='w-100 bg-[#fa7878] rounded-[17.5px] hover:bg-green'
             type='button'
-            disabled={product.countInStock === 0}
+            disabled={product.countInStock <= 0 && true}
           >
             Kúpiť
           </Button>

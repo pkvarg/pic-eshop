@@ -25,6 +25,7 @@ export default function CheckoutForm() {
         // Make sure to change this to your payment completion page
         return_url: `${window.location.origin}/completion`,
       },
+
       //redirect: 'if_required',
     })
 
@@ -38,10 +39,17 @@ export default function CheckoutForm() {
   }
 
   return (
-    <form id='payment-form' onSubmit={handleSubmit}>
-      <button disabled={isProcessing} id='submit'>
-        <PaymentElement id='payment-element' />
-        <span id='button-text'>
+    <form id='payment-form' onSubmit={handleSubmit} className='mb-6'>
+      <button
+        disabled={isProcessing}
+        id='submit'
+        className='p-8 bg-green w-100'
+      >
+        <PaymentElement id='payment-element' className='mb-4' />
+        <span
+          id='button-text'
+          className='text-white uppercase p-2.5 border rounded hover:bg-violet'
+        >
           {isProcessing ? 'Processing ... ' : 'Zaplatiť'}
         </span>
       </button>

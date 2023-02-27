@@ -1,17 +1,18 @@
 import React, { useState } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { Card, Form, Button } from 'react-bootstrap'
+import { withoutTax, addDecimals } from '../functions/functions'
+import { useStateContext } from '../context/StateContext'
 
 // import Rating from './Rating'
-
-const addDecimals = (num) => {
-  return (Math.round(num * 100) / 100).toFixed(2)
-}
 
 // const imgOracle = 'https://pictusweb.online/uploads'
 
 const Product = ({ product }) => {
-  const [qty, setQty] = useState(1)
+  const { decQty, incQty, qty, setQty, onAdd, setShowCart, cartItems } =
+    useStateContext()
+
+  // const [qty, setQty] = useState(1)
   // const [showCart, setShowCart] = useState(false)
   const params = useParams()
   const id = params.id
@@ -33,9 +34,11 @@ const Product = ({ product }) => {
     return price - taxDue
   }
 
-  const qtyHandlerUp = () => {
+  const qtyHandlerUp = (productId) => {
     const quantity = qty + 1
-    setQty(quantity)
+    if (productId === product._id) {
+      setQty(quantity)
+    } else return
   }
 
   const qtyHandlerDown = () => {
@@ -113,14 +116,14 @@ const Product = ({ product }) => {
           <div className='flex flex-row items-center border gap-2 rounded-[10px] overflow-hidden'>
             <button
               className='h-[100%] w-10 border-l border-grey bg-[#faf5f5] text-[#fa7878] font-bold'
-              onClick={() => qtyHandlerDown()}
+              onClick={() => decQty()}
             >
               -
             </button>
             <p>{qty}</p>
             <button
               className='h-[100%] w-10 border-r border-grey  bg-[#faf5f5] text-[#fa7878] font-bold'
-              onClick={() => qtyHandlerUp()}
+              onClick={() => qtyHandlerUp(product._id)}
             >
               +
             </button>

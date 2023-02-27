@@ -167,24 +167,6 @@ const OrderScreen = () => {
     document.location.href = '/'
   }
 
-  const payNow = async (token) => {
-    try {
-      const response = await axios({
-        url: '/api/stripe',
-        method: 'POST',
-        data: {
-          amount: totalPrice * 100,
-          token,
-        },
-      })
-      if (response.status === 200) {
-        console.log('payment successful')
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   const payWithStripe = async () => {
     const response = await axios('/api/create-checkout-session', {
       method: 'POST',
@@ -381,7 +363,7 @@ const OrderScreen = () => {
                   </div>
                 </ListGroup.Item>
                 {!order.isPaid && order.paymentMethod === 'Stripe' && (
-                  <ListGroup.Item>
+                  <ListGroup.Item className='flex justify-center my-6'>
                     {loadingPay && <Loader />}
                     {/* {isPending && <Loader />}
                     {isRejected && (

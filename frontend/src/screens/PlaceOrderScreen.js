@@ -113,6 +113,7 @@ const PlaceOrderScreen = () => {
           discounts: prodsDiscounts,
         })
       )
+      //setLoading(true)
     } else {
       setMessage('Potvrďte súhlas nižšie')
     }
