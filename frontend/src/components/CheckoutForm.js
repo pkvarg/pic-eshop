@@ -1,12 +1,20 @@
 import { PaymentElement } from '@stripe/react-stripe-js'
 import { useState } from 'react'
 import { useStripe, useElements } from '@stripe/react-stripe-js'
+import { addDecimals } from '../functions/functions'
+import { useDispatch } from 'react-redux'
+import { payOrder } from '../actions/orderActions'
+import { useParams } from 'react-router-dom'
 
-export default function CheckoutForm() {
+export default function CheckoutForm(totalPrice) {
   const stripe = useStripe()
   const elements = useElements()
   const [message, setMessage] = useState(null)
   const [isProcessing, setIsProcessing] = useState(false)
+
+  const dispatch = useDispatch()
+  const params = useParams()
+  const orderId = params.id
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -23,17 +31,19 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: `${window.location.origin}/completion`,
+        //return_url: `${window.location.origin}/completion`,
       },
 
-      //redirect: 'if_required',
+      redirect: 'if_required',
     })
 
     if (error) {
       setMessage(error.message)
     } else {
-      setMessage('An unexpected error occured.')
+      setMessage('Vyskytla sa chyba.')
     }
+
+    dispatch(payOrder(orderId))
 
     setIsProcessing(false)
   }
@@ -50,7 +60,9 @@ export default function CheckoutForm() {
           id='button-text'
           className='text-white uppercase p-2.5 border rounded hover:bg-violet'
         >
-          {isProcessing ? 'Processing ... ' : 'Zaplatiť'}
+          {isProcessing
+            ? 'Platba sa spracováva ... '
+            : `Zaplatiť  ${addDecimals(totalPrice.totalPrice)} €`}
         </span>
       </button>
 

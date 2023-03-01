@@ -30,13 +30,9 @@ const OrderScreen = () => {
   const {
     totalPrice,
     setTotalPrice,
-    totalQuantities,
     setTotalQuantities,
     cartItems,
     setCartItems,
-    setShowCart,
-    toggleCartItemQuanitity,
-    onRemove,
   } = useStateContext()
 
   const [stripePromise, setStripePromise] = useState(null)
@@ -63,7 +59,6 @@ const OrderScreen = () => {
     })
   }, [cartItems])
 
-  console.log(cartItems)
   const cart = useSelector((state) => state.cart)
 
   const dispatch = useDispatch()
@@ -358,26 +353,20 @@ const OrderScreen = () => {
                   <div className='flex'>
                     Celkom:
                     <div className='ml-auto'>
-                      € {order.totalPrice.toFixed(2)}
+                      {order.totalPrice.toFixed(2)} €
                     </div>
                   </div>
                 </ListGroup.Item>
                 {!order.isPaid && order.paymentMethod === 'Stripe' && (
                   <ListGroup.Item className='flex justify-center my-6'>
                     {loadingPay && <Loader />}
-                    {/* {isPending && <Loader />}
-                    {isRejected && (
-                      <Message variant='danger'>SDK load error</Message>
-                    )} */}
-
-                    {/* <button onClick={() => payWithStripe()}>Checkout</button> */}
 
                     {stripePromise && clientSecret && (
                       <Elements
                         stripe={stripePromise}
                         options={{ clientSecret }}
                       >
-                        <CheckoutForm />
+                        <CheckoutForm totalPrice={totalPrice} />
                       </Elements>
                     )}
 
@@ -421,7 +410,7 @@ const OrderScreen = () => {
                   )}
                 <ListGroup.Item>
                   <Button
-                    className='w-100 bg-green'
+                    className='w-100 bg-violet'
                     onClick={() => newOrderHandler()}
                   >
                     Vytvoriť novú objednávku

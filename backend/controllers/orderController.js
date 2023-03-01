@@ -240,24 +240,34 @@ const getOrderByid = asyncHandler(async (req, res) => {
 
 const updateOrderToPaid = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id)
+  console.log('rp:', req.params)
+  console.log('rb:', req.body)
 
   if (order) {
     order.isPaid = true
     order.paidAt = Date.now()
+    // order.paymentResult = {
+    //   id: req.body.id,
+    //   status: req.body.status,
+    //   update_time: req.body.update_time,
+    //   email_address: req.body.payer.email_address,
+    //   address: req.body.payer.address,
+    //   name: req.body.payer.name,
+    // }
     order.paymentResult = {
-      id: req.body.id,
-      status: req.body.status,
-      update_time: req.body.update_time,
-      email_address: req.body.payer.email_address,
-      address: req.body.payer.address,
-      name: req.body.payer.name,
+      id: '',
+      status: '',
+      update_time: '',
+      email_address: '',
+      address: '',
+      name: '',
     }
 
     const updatedOrder = await order.save()
     const discounts = order.discounts
     const orderNumber = order.orderNumber
 
-    // send PaymentSuccessfull Email
+    //send PaymentSuccessfull Email
     const updatedOrderLoop = updatedOrder.orderItems
     const updatedOrderProductsCount = updatedOrderLoop.length
     let updatedOrderProductsObject = {}

@@ -14,10 +14,14 @@ const PaymentCompletion = () => {
   useEffect(() => {
     setCartItems([])
     setTotalQuantities(0)
-    // setTotalPrice(0)
   }, [])
 
-  return <h1>Payment Completed! 🎉</h1>
+  return (
+    <div className='h-[37.5vh] text-[30px] mt-[15%] text-center'>
+      <h1>Platba bola uspešná! 🎉 Ďakujeme!</h1>
+      <h2 className='mt-2'>Očakávajte potvrdzujúci email.</h2>
+    </div>
+  )
 }
 
 export default PaymentCompletion
