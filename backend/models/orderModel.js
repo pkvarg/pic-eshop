@@ -51,14 +51,14 @@ const orderSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    paymentResult: {
-      id: { type: String },
-      status: { type: String },
-      update_time: { type: String },
-      email_address: { type: String },
-      address: { type: Object },
-      name: { type: Object },
-    },
+    // paymentResult: {
+    //   id: { type: String },
+    //   status: { type: String },
+    //   update_time: { type: String },
+    //   email_address: { type: String },
+    //   address: { type: Object },
+    //   name: { type: Object },
+    // },
     discounts: {
       type: Object,
     },

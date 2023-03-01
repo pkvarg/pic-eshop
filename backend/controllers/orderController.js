@@ -254,14 +254,14 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
     //   address: req.body.payer.address,
     //   name: req.body.payer.name,
     // }
-    order.paymentResult = {
-      id: '',
-      status: '',
-      update_time: '',
-      email_address: '',
-      address: '',
-      name: '',
-    }
+    // order.paymentResult = {
+    //   id: '',
+    //   status: '',
+    //   update_time: '',
+    //   email_address: '',
+    //   address: '',
+    //   name: '',
+    // }
 
     const updatedOrder = await order.save()
     const discounts = order.discounts
@@ -304,10 +304,10 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
     // ADD THESE LATER
     updatedOrderProductsObject.email = updatedOrder.email
     updatedOrderProductsObject.name = updatedOrder.name
-    updatedOrderProductsObject.paidByWhom =
-      updatedOrder.paymentResult.name.given_name +
-      ' ' +
-      updatedOrder.paymentResult.name.surname
+    // updatedOrderProductsObject.paidByWhom =
+    //   updatedOrder.paymentResult.name.given_name +
+    //   ' ' +
+    //   updatedOrder.paymentResult.name.surname
     updatedOrderProductsObject.orderNumber = orderNumber
     updatedOrderProductsObject.taxPrice = updatedOrder.taxPrice
     updatedOrderProductsObject.totalPrice = updatedOrder.totalPrice.toFixed(2)

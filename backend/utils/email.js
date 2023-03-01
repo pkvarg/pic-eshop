@@ -20,14 +20,14 @@ class Email {
     this.addressinfo = user.addressinfo
     this.billinginfo = user.billinginfo
     this.paidByWhom = user.paidByWhom
-    //this.paymentMethod = user.paymentMethod
-    let paymentMethod
-    if (user.paymentMethod === 'Hotovosť') {
-      paymentMethod = 'Zaplatíte pri prevzatí'
-    } else {
-      paymentMethod = 'PayPal alebo platba kartou'
-    }
-    this.paymentMethod = paymentMethod
+    this.paymentMethod = user.paymentMethod
+    // let paymentMethod
+    // if (user.paymentMethod === 'Hotovosť') {
+    //   paymentMethod = 'Zaplatíte pri prevzatí'
+    // } else {
+    //   paymentMethod = 'PayPal alebo platba kartou'
+    // }
+    //this.paymentMethod = paymentMethod
     this.isPaid = user.isPaid ? 'Zaplatené' : 'Nezaplatené'
     this.shippingPrice = user.shippingPrice
     this.taxPrice = user.taxPrice
@@ -70,7 +70,7 @@ class Email {
         products: this.products,
         address: this.addressinfo,
         billing: this.billinginfo,
-        paidByWhom: this.paidByWhom,
+        // paidByWhom: this.paidByWhom,
         paymentMethod: this.paymentMethod,
         paid: this.isPaid,
         shippingPrice: this.shippingPrice,

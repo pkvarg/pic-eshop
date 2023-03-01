@@ -89,7 +89,7 @@ const ShippingScreen = () => {
           <Form.Control
             type='text'
             placeholder='Meno a priezvisko'
-            value={name}
+            defaultValue={name}
             required
             onChange={(e) => setName(e.target.value)}
           ></Form.Control>
@@ -101,7 +101,7 @@ const ShippingScreen = () => {
           <Form.Control
             type='text'
             placeholder='Adresa'
-            value={address}
+            defaultValue={address}
             required
             onChange={(e) => setAddress(e.target.value)}
           ></Form.Control>
@@ -113,7 +113,7 @@ const ShippingScreen = () => {
           <Form.Control
             type='text'
             placeholder='Mesto'
-            value={city}
+            defaultValue={city}
             required
             onChange={(e) => setCity(e.target.value)}
           ></Form.Control>
@@ -125,7 +125,7 @@ const ShippingScreen = () => {
           <Form.Control
             type='text'
             placeholder='PSČ'
-            value={postalCode}
+            defaultValue={postalCode}
             required
             onChange={(e) => setPostalCode(e.target.value)}
           ></Form.Control>
@@ -137,7 +137,7 @@ const ShippingScreen = () => {
           <Form.Control
             type='text'
             placeholder='Štát'
-            value={country}
+            defaultValue={country}
             required
             onChange={(e) => setCountry(e.target.value)}
           ></Form.Control>

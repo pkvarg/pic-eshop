@@ -40,10 +40,13 @@ export default function CheckoutForm(totalPrice) {
     if (error) {
       setMessage(error.message)
     } else {
-      setMessage('Vyskytla sa chyba.')
+      //setMessage('Vyskytla sa chyba.')
+      dispatch(payOrder(orderId))
     }
 
-    dispatch(payOrder(orderId))
+    // if (!error) {
+    //   dispatch(payOrder(orderId))
+    // }
 
     setIsProcessing(false)
   }
