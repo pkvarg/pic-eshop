@@ -15,10 +15,38 @@ import audioRoutes from './routes/audioRoutes.js'
 import videoRoutes from './routes/videoRoutes.js'
 import bannerRoutes from './routes/bannerRoutes.js'
 import Stripe from 'stripe'
+import { Server } from 'socket.io'
+import http from 'http'
 
 dotenv.config()
 connectDB()
 const app = express()
+
+const httpServer = http.createServer(app)
+
+const io = new Server(httpServer, {
+  cors: {
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST'],
+  },
+})
+
+io.on('connection', (socket) => {
+  console.log(`User Connected: ${socket.id}`)
+
+  socket.on('join_room', (data) => {
+    socket.join(data)
+    console.log(`User with ID: ${socket.id} joined room: ${data}`)
+  })
+
+  socket.on('send_message', (data) => {
+    socket.to(data.room).emit('receive_message', data)
+  })
+
+  socket.on('disconnect', () => {
+    console.log('User Disconnected', socket.id)
+  })
+})
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
@@ -36,8 +64,6 @@ app.use(
   })
 )
 
-// const users = []
-
 app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/orders', orderRoutes)
@@ -48,23 +74,6 @@ app.use('/api/video', videoRoutes)
 app.use('/api/banner', bannerRoutes)
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
-
-// app.post('/api/stripe', async (req, res) => {
-//   let status, error
-//   const { token, amount } = req.body
-//   try {
-//     await stripe.charges.create({
-//       source: token.id,
-//       amount,
-//       currency: 'eur',
-//     })
-//     status = 'success'
-//   } catch (error) {
-//     console.log(error)
-//     status = 'failure'
-//   }
-//   res.json({ error, status })
-// })
 
 app.get('/config', (req, res) => {
   res.send({
@@ -119,8 +128,8 @@ app.use(notFound)
 app.use(errorHandler)
 // RENDER
 
-const PORT = process.env.PORT || 2000
-app.listen(
+const PORT = process.env.PORT || 5000
+httpServer.listen(
   PORT,
   console.log(
     `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold

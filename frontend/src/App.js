@@ -25,60 +25,101 @@ import PlaceOrderScreen from './screens/PlaceOrderScreen'
 import { StateContext } from './context/StateContext'
 import { Toaster } from 'react-hot-toast'
 import PaymentCompletion from './screens/PaymentCompletion'
+import Chat from './components/Chat'
+import io from 'socket.io-client'
+const socket = io.connect('http://localhost:5000')
 
 function App() {
+  const [username, setUsername] = useState('')
+  const [room, setRoom] = useState('')
+  const [showChat, setShowChat] = useState(false)
+
+  const joinRoom = () => {
+    if (username !== '' && room !== '') {
+      socket.emit('join_room', room)
+      setShowChat(true)
+    }
+  }
   return (
-    <Router>
-      <StateContext>
-        <Header />
-        <Toaster />
+    <>
+      <div className='Socket'>
+        {!showChat ? (
+          <div className='joinChatContainer'>
+            <h3>Join A Chat</h3>
+            <input
+              type='text'
+              placeholder='John...'
+              onChange={(event) => {
+                setUsername(event.target.value)
+              }}
+            />
+            <input
+              type='text'
+              placeholder='Room ID...'
+              onChange={(event) => {
+                setRoom(event.target.value)
+              }}
+            />
+            <button onClick={joinRoom}>Join A Room</button>
+          </div>
+        ) : (
+          <Chat socket={socket} username={username} room={room} />
+        )}
+      </div>
 
-        <Routes>
-          <Route path='/' element={<HomeScreen />} />
-          <Route path='/search/:keyword' element={<HomeScreen />} />
-          <Route path='/page/:pageNumber' element={<HomeScreen />} />
-          <Route
-            path='/search/:keyword/page/:pageNumber'
-            element={<HomeScreen />}
-          />
+      <Router>
+        <StateContext>
+          <Header />
+          <Toaster />
+          {/* <Chat /> */}
 
-          <Route path='/contact' element={<ContactScreen />} />
-          <Route path='/login' element={<LoginScreen />} />
-          <Route path='/forgot-password' element={<ForgotPasswordScreen />} />
-          <Route
-            path='/reset-password/:token/:name/:email/:id/:genToken'
-            element={<ResetPasswordScreen />}
-          />
-          <Route path='/register' element={<RegisterScreen />} />
-          <Route path='/profile' element={<ProfileScreen />} />
-          <Route path='/admin/userlist' element={<UserListScreen />} />
-          <Route path='/admin/user/:id/edit' element={<UserEditScreen />} />
-          <Route path='/admin/productlist' element={<ProductListScreen />} />
-          <Route
-            path='/admin/productlist/:pageNumber'
-            element={<ProductListScreen />}
-          />
-          <Route
-            path='/admin/product/:id/edit'
-            element={<ProductEditScreen />}
-          />
-          <Route path='/order/:id' element={<OrderScreen />} />
-          <Route path='/admin/orderlist' element={<OrderListScreen />} />
-          <Route path='/create-discount' element={<CreateDiscount />} />
-          <Route path='/admin/reviews' element={<Reviews />} />
-          {/* <Route path='/cart'>
+          <Routes>
+            <Route path='/' element={<HomeScreen />} />
+            <Route path='/search/:keyword' element={<HomeScreen />} />
+            <Route path='/page/:pageNumber' element={<HomeScreen />} />
+            <Route
+              path='/search/:keyword/page/:pageNumber'
+              element={<HomeScreen />}
+            />
+
+            <Route path='/contact' element={<ContactScreen />} />
+            <Route path='/login' element={<LoginScreen />} />
+            <Route path='/forgot-password' element={<ForgotPasswordScreen />} />
+            <Route
+              path='/reset-password/:token/:name/:email/:id/:genToken'
+              element={<ResetPasswordScreen />}
+            />
+            <Route path='/register' element={<RegisterScreen />} />
+            <Route path='/profile' element={<ProfileScreen />} />
+            <Route path='/admin/userlist' element={<UserListScreen />} />
+            <Route path='/admin/user/:id/edit' element={<UserEditScreen />} />
+            <Route path='/admin/productlist' element={<ProductListScreen />} />
+            <Route
+              path='/admin/productlist/:pageNumber'
+              element={<ProductListScreen />}
+            />
+            <Route
+              path='/admin/product/:id/edit'
+              element={<ProductEditScreen />}
+            />
+            <Route path='/order/:id' element={<OrderScreen />} />
+            <Route path='/admin/orderlist' element={<OrderListScreen />} />
+            <Route path='/create-discount' element={<CreateDiscount />} />
+            <Route path='/admin/reviews' element={<Reviews />} />
+            {/* <Route path='/cart'>
             <Route path=':id' element={<CartScreen />} />
             <Route path='' element={<CartScreen />} />
           </Route> */}
-          <Route path='/product/:id' element={<ProductScreen />} />
-          <Route path='/shipping' element={<ShippingScreen />} />
-          <Route path='/payment' element={<PaymentScreen />} />
-          <Route path='/placeorder' element={<PlaceOrderScreen />} />
-          <Route path='/completion' element={<PaymentCompletion />} />
-        </Routes>
-        <Footer />
-      </StateContext>
-    </Router>
+            <Route path='/product/:id' element={<ProductScreen />} />
+            <Route path='/shipping' element={<ShippingScreen />} />
+            <Route path='/payment' element={<PaymentScreen />} />
+            <Route path='/placeorder' element={<PlaceOrderScreen />} />
+            <Route path='/completion' element={<PaymentCompletion />} />
+          </Routes>
+          <Footer />
+        </StateContext>
+      </Router>
+    </>
   )
 }
 
