@@ -233,11 +233,26 @@ p.number-in-cart span {
 }
 
 /*  chat */
+.chatButton {
+  position: absolute;
+  bottom: 0px;
+  right: 50px;
+  background-color: #071e46;
+  padding: 20px;
+  color: white;
+  border-radius: 15px;
+}
+
+.Socket-none {
+  display: none;
+}
 
 .Socket {
-  width: 100vw;
+  position: absolute;
+  bottom: 0px;
+  right: 50px;
+  width: 250px;
   height: 60vh;
-  background: #fff;
   color: #212121;
   font-family: 'Open Sans', sans-serif;
   display: grid;
@@ -282,6 +297,9 @@ p.number-in-cart span {
 }
 
 .chat-window {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
   width: 300px;
   height: 420px;
 }
@@ -291,8 +309,8 @@ p.number-in-cart span {
 }
 .chat-window .chat-header {
   height: 45px;
-  border-radius: 6px;
-  background: #263238;
+  /* border-radius: 6px; */
+  background: #43a047;
   position: relative;
   cursor: pointer;
 }

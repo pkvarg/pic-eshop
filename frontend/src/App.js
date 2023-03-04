@@ -22,17 +22,18 @@ import ProductScreen from './screens/ProductScreen'
 import ShippingScreen from './screens/ShippingScreen'
 import PaymentScreen from './screens/PaymentScreen'
 import PlaceOrderScreen from './screens/PlaceOrderScreen'
-import { StateContext } from './context/StateContext'
+import { StateContext, useStateContext } from './context/StateContext'
 import { Toaster } from 'react-hot-toast'
 import PaymentCompletion from './screens/PaymentCompletion'
 import Chat from './components/Chat'
 import io from 'socket.io-client'
-const socket = io.connect('http://localhost:5000')
+const socket = io.connect('http://localhost:2000')
 
 function App() {
   const [username, setUsername] = useState('')
   const [room, setRoom] = useState('')
   const [showChat, setShowChat] = useState(false)
+  const [chatButton, setChatButton] = useState(false)
 
   const joinRoom = () => {
     if (username !== '' && room !== '') {
@@ -40,38 +41,40 @@ function App() {
       setShowChat(true)
     }
   }
+
+  console.log(chatButton)
   return (
     <>
-      <div className='Socket'>
-        {!showChat ? (
-          <div className='joinChatContainer'>
-            <h3>Join A Chat</h3>
-            <input
-              type='text'
-              placeholder='John...'
-              onChange={(event) => {
-                setUsername(event.target.value)
-              }}
-            />
-            <input
-              type='text'
-              placeholder='Room ID...'
-              onChange={(event) => {
-                setRoom(event.target.value)
-              }}
-            />
-            <button onClick={joinRoom}>Join A Room</button>
-          </div>
-        ) : (
-          <Chat socket={socket} username={username} room={room} />
-        )}
-      </div>
+      {chatButton && (
+        <div className='Socket'>
+          {!showChat ? (
+            <div className='joinChatContainer'>
+              <input
+                type='text'
+                placeholder='Meno...'
+                onChange={(event) => {
+                  setUsername(event.target.value)
+                }}
+              />
+              <input
+                type='text'
+                placeholder='Room ID...'
+                onChange={(event) => {
+                  setRoom(event.target.value)
+                }}
+              />
+              <button onClick={joinRoom}>Vstúpiť</button>
+            </div>
+          ) : (
+            <Chat socket={socket} username={username} room={room} />
+          )}
+        </div>
+      )}
 
       <Router>
         <StateContext>
           <Header />
           <Toaster />
-          {/* <Chat /> */}
 
           <Routes>
             <Route path='/' element={<HomeScreen />} />
@@ -117,6 +120,12 @@ function App() {
             <Route path='/completion' element={<PaymentCompletion />} />
           </Routes>
           <Footer />
+          <button
+            //className={setShowChat ? '' : 'chatButton'}
+            onClick={() => setChatButton(true)}
+          >
+            Chat
+          </button>
         </StateContext>
       </Router>
     </>
