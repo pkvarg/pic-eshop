@@ -234,9 +234,9 @@ p.number-in-cart span {
 
 /*  chat */
 .chatButton {
-  position: absolute;
-  bottom: 0px;
-  right: 50px;
+  /* position: absolute;
+  bottop: 95%;
+  right: 50px; */
   background-color: #071e46;
   padding: 20px;
   color: white;
@@ -279,8 +279,11 @@ p.number-in-cart span {
   font-size: 16px;
 }
 
-.joinChatContainer button {
-  width: 225px;
+/* joinChatContainer */
+
+.enter,
+.exit {
+  width: 70%;
   height: 50px;
   margin: 7px;
   border: none;
@@ -290,6 +293,11 @@ p.number-in-cart span {
   background: #43a047;
   color: #fff;
   cursor: pointer;
+}
+
+.exit {
+  width: 25%;
+  background-color: red;
 }
 
 .joinChatContainer button:hover {
@@ -304,11 +312,23 @@ p.number-in-cart span {
   height: 420px;
 }
 
+.minimized {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 300px;
+  height: 25px;
+  padding: 0px 0px 10px 10px;
+  border-radius: 10px;
+  background-color: #43a047;
+}
+
 .chat-window p {
   margin: 0;
 }
 .chat-window .chat-header {
   height: 45px;
+  border-radius: 6px 6px 0px 0px;
   /* border-radius: 6px; */
   background: #43a047;
   position: relative;

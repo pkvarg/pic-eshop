@@ -38,7 +38,7 @@ const HomeScreen = () => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          <div className='flex flex-row items-center gap-12 mx-12'>
+          <div className='flex flex-row items-center gap-12 mx-12 h-[90vh]'>
             <Categories />
 
             <Row className=''>

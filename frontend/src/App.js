@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, createContext } from 'react'
+import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -22,57 +22,17 @@ import ProductScreen from './screens/ProductScreen'
 import ShippingScreen from './screens/ShippingScreen'
 import PaymentScreen from './screens/PaymentScreen'
 import PlaceOrderScreen from './screens/PlaceOrderScreen'
-import { StateContext, useStateContext } from './context/StateContext'
+import { StateContext } from './context/StateContext'
 import { Toaster } from 'react-hot-toast'
 import PaymentCompletion from './screens/PaymentCompletion'
-import Chat from './components/Chat'
-import io from 'socket.io-client'
-const socket = io.connect('http://localhost:2000')
+import Socket from './components/Socket'
 
 function App() {
-  const [username, setUsername] = useState('')
-  const [room, setRoom] = useState('')
-  const [showChat, setShowChat] = useState(false)
-  const [chatButton, setChatButton] = useState(false)
-
-  const joinRoom = () => {
-    if (username !== '' && room !== '') {
-      socket.emit('join_room', room)
-      setShowChat(true)
-    }
-  }
-
-  console.log(chatButton)
   return (
     <>
-      {chatButton && (
-        <div className='Socket'>
-          {!showChat ? (
-            <div className='joinChatContainer'>
-              <input
-                type='text'
-                placeholder='Meno...'
-                onChange={(event) => {
-                  setUsername(event.target.value)
-                }}
-              />
-              <input
-                type='text'
-                placeholder='Room ID...'
-                onChange={(event) => {
-                  setRoom(event.target.value)
-                }}
-              />
-              <button onClick={joinRoom}>Vstúpiť</button>
-            </div>
-          ) : (
-            <Chat socket={socket} username={username} room={room} />
-          )}
-        </div>
-      )}
-
       <Router>
         <StateContext>
+          <Socket />
           <Header />
           <Toaster />
 
@@ -109,10 +69,7 @@ function App() {
             <Route path='/admin/orderlist' element={<OrderListScreen />} />
             <Route path='/create-discount' element={<CreateDiscount />} />
             <Route path='/admin/reviews' element={<Reviews />} />
-            {/* <Route path='/cart'>
-            <Route path=':id' element={<CartScreen />} />
-            <Route path='' element={<CartScreen />} />
-          </Route> */}
+
             <Route path='/product/:id' element={<ProductScreen />} />
             <Route path='/shipping' element={<ShippingScreen />} />
             <Route path='/payment' element={<PaymentScreen />} />
@@ -120,12 +77,6 @@ function App() {
             <Route path='/completion' element={<PaymentCompletion />} />
           </Routes>
           <Footer />
-          <button
-            //className={setShowChat ? '' : 'chatButton'}
-            onClick={() => setChatButton(true)}
-          >
-            Chat
-          </button>
         </StateContext>
       </Router>
     </>

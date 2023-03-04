@@ -9,7 +9,7 @@ export const StateContext = ({ children }) => {
   const [totalPrice, setTotalPrice] = useState(0)
   const [totalQuantities, setTotalQuantities] = useState(0)
   const [qty, setQty] = useState(1)
-  const [chatButton, setChatButton] = useState(false)
+  const [chatButton, setChatButton] = useState(true)
 
   let foundProduct
   let index

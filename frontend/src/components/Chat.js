@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import ScrollToBottom from 'react-scroll-to-bottom'
 
-function Chat({ socket, username, room }) {
+function Chat({ socket, username, room, setChatButton, setShowChat }) {
   const [currentMessage, setCurrentMessage] = useState('')
   const [messageList, setMessageList] = useState([])
+  const [minimize, setMinimize] = useState(false)
 
   const sendMessage = async () => {
     if (currentMessage !== '') {
@@ -29,11 +30,25 @@ function Chat({ socket, username, room }) {
     })
   }, [socket])
 
+  const closeChat = () => {
+    setChatButton(true)
+    setShowChat(false)
+  }
+
+  const toggleMinimize = () => {
+    setMinimize((current) => !current)
+  }
+
   return (
-    <div className='chat-window'>
+    <div className={minimize ? 'minimized' : 'chat-window'}>
       <div className='chat-header flex flex-row text-white justify-between'>
         <p>Chat</p>
-        <button className='mr-6'>X</button>
+        <div className='flex items-align gap-4'>
+          <button onClick={() => toggleMinimize()}>_</button>
+          <button className='mr-6' onClick={() => closeChat()}>
+            X
+          </button>
+        </div>
       </div>
       <div className='chat-body'>
         <ScrollToBottom className='message-container'>
@@ -56,7 +71,7 @@ function Chat({ socket, username, room }) {
           ))}
         </ScrollToBottom>
       </div>
-      <div className='chat-footer'>
+      <div className={minimize ? 'Socket-none' : 'chat-footer'}>
         <input
           type='text'
           value={currentMessage}
