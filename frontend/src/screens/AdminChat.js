@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react'
 import { useStateContext } from '../context/StateContext'
 import Chat from '../components/Chat'
 import io from 'socket.io-client'
-// const socket = io.connect('http://localhost:2000')
 
 const AdminChat = () => {
   const socket = useRef()
@@ -12,7 +11,7 @@ const AdminChat = () => {
   const { chatButton, setChatButton } = useStateContext()
 
   // useEffect(() => {
-  //   socket.current = io('http://localhost:2000')
+  //   socket.current = io('ws://localhost:8900')
   //   socket.current.on('getMessage', (data) => {
   //     console.log(data)
 
@@ -27,7 +26,7 @@ const AdminChat = () => {
   // }, [username])
 
   const joinChat = () => {
-    socket.current = io('http://localhost:2000')
+    socket.current = io('http://localhost:8900')
     socket.current.emit('addUser', username)
     socket.current.on('getUsers', (users) => {
       console.log(users)
@@ -67,7 +66,7 @@ const AdminChat = () => {
           </>
         ) : (
           <Chat
-            sckt={(socket.current = io('http://localhost:2000'))}
+            sckt={socket}
             username={username}
             setChatButton={setChatButton}
             setShowChat={setShowChat}

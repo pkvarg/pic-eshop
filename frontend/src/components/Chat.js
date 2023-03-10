@@ -6,12 +6,41 @@ function Chat({ sckt, username, setChatButton, setShowChat }) {
   const [messageList, setMessageList] = useState([])
   const [minimize, setMinimize] = useState(false)
 
+  useEffect(() => {
+    sckt.on =
+      ('getMessage',
+      (data) => {
+        console.log(data)
+      })
+  }, [])
+
+  let senderUser
+
+  let receiver = 'Admin'
+
+  // if (username !== 'Admin') {
+  //   receiver = 'Admin'
+  // } else {
+  //   receiver = ''
+  // }
+
+  // useEffect(() => {
+  //   sckt.current.on('getMessage', (data) => {
+  //     console.log(data)
+  //     setCurrentMessage({
+  //       author: data.author,
+  //       message: data.message,
+  //       time: data.time,
+  //     })
+  //   })
+  // }, [sckt])
+
   const sendMessage = async () => {
     if (currentMessage !== '') {
       const messageData = {
         //room: room,
         author: username,
-        receiver: 'admin',
+        receiver: receiver,
         message: currentMessage,
         time:
           new Date(Date.now()).getHours() +
@@ -25,6 +54,14 @@ function Chat({ sckt, username, setChatButton, setShowChat }) {
     }
   }
 
+  // sckt.current.emit('sendMessage', {
+  //   author: username,
+  //   receiver: receiver,
+  //   message: currentMessage,
+  //   time:
+  //     new Date(Date.now()).getHours() + ':' + new Date(Date.now()).getMinutes(),
+  // })
+
   // useEffect(() => {
   //   socket.on('receive_message', (data) => {
   //     setMessageList((list) => [...list, data])
@@ -33,6 +70,7 @@ function Chat({ sckt, username, setChatButton, setShowChat }) {
 
   // useEffect(() => {
   //   sckt.on('getMessage', (data) => {
+  //     console.log(data)
   //     setMessageList((list) => [...list, data])
   //   })
   // }, [sckt])

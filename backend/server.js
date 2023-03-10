@@ -15,71 +15,13 @@ import audioRoutes from './routes/audioRoutes.js'
 import videoRoutes from './routes/videoRoutes.js'
 import bannerRoutes from './routes/bannerRoutes.js'
 import Stripe from 'stripe'
-import { Server } from 'socket.io'
-import http from 'http'
+// import http from 'http'
 
 dotenv.config()
 connectDB()
 const app = express()
 
-const httpServer = http.createServer(app)
-
-const io = new Server(httpServer, {
-  cors: {
-    origin: 'http://localhost:3000',
-    methods: ['GET', 'POST'],
-  },
-})
-
-const users = []
-
-const addUser = (username, socketId) => {
-  console.log('addU', username)
-  !users.some((user) => user.username === username) &&
-    users.push({ username, socketId })
-  console.log('UsersArray', users)
-}
-
-const removeUser = (socketId) => {
-  users.filter((user) => user.socketId !== socketId)
-}
-
-const getUser = (username) => {
-  return users.find((user) => user.username === username)
-}
-
-io.on('connection', (socket) => {
-  // when connect
-  console.log(`User Connected: ${socket.id}`)
-  // Take userId and socketId from user
-  socket.on('addUser', (username) => {
-    addUser(username, socket.id)
-    io.emit('getUsers', users)
-    console.log('UN', username)
-  })
-
-  // send and get message
-  // socket.on('send_message', (data) => {
-  //   console.log(data)
-  //   socket.to(data.room).emit('receive_message', data)
-  //  })
-  socket.on('sendMessage', ({ author, receiver, message, time }) => {
-    console.log('SM:', author, receiver, message, time)
-    const user = getUser(receiver)
-    // io.to(user.socket.id).emit('getMessage', {
-    //   author,
-    //   message,
-    //   time,
-    // })
-  })
-
-  // when disconnect
-  socket.on('disconnect', () => {
-    console.log('User Disconnected', socket.id)
-    removeUser(socket.id)
-    io.emit('getUsers', users)
-  })
-})
+// const httpServer = http.createServer(app)
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
@@ -162,7 +104,7 @@ app.use(errorHandler)
 // RENDER
 
 const PORT = process.env.PORT || 2000
-httpServer.listen(
+app.listen(
   PORT,
   console.log(
     `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold

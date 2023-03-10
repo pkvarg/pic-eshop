@@ -9,10 +9,18 @@ const Socket = () => {
   const [arrivingMessage, setArrivingMessage] = useState(null)
 
   const { chatButton, setChatButton } = useStateContext()
-  const socket = useRef()
+  const socket = useRef(io('ws://localhost:8900'))
 
   // useEffect(() => {
-  //   socket.current = io('http://localhost:2000')
+  //   socket.current.on =
+  //     ('getMessage',
+  //     (data) => {
+  //       console.log(data)
+  //     })
+  // }, [])
+
+  // useEffect(() => {
+  //   socket.current = io('ws://localhost:8900')
   //   socket.current.on('getMessage', (data) => {
   //     console.log(data)
   //     setArrivingMessage({
@@ -34,7 +42,7 @@ const Socket = () => {
   // }, [])
 
   const joinChat = () => {
-    socket.current = io('http://localhost:2000')
+    // socket.current = io('ws://localhost:8900')
     socket.current.emit('addUser', username)
     socket.current.on('getUsers', (users) => {
       console.log(users)
@@ -73,7 +81,7 @@ const Socket = () => {
             </>
           ) : (
             <Chat
-              sckt={(socket.current = io('http://localhost:2000'))}
+              sckt={socket}
               username={username}
               setChatButton={setChatButton}
               setShowChat={setShowChat}
