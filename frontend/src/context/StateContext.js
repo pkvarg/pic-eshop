@@ -10,6 +10,7 @@ export const StateContext = ({ children }) => {
   const [totalQuantities, setTotalQuantities] = useState(0)
   const [qty, setQty] = useState(1)
   const [chatButton, setChatButton] = useState(true)
+  const [roomNumbers, setRoomNumbers] = useState('')
 
   let foundProduct
   let index
@@ -155,6 +156,8 @@ export const StateContext = ({ children }) => {
         setTotalQuantities,
         chatButton,
         setChatButton,
+        roomNumbers,
+        setRoomNumbers,
       }}
     >
       {children}

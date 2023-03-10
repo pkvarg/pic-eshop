@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ScrollToBottom from 'react-scroll-to-bottom'
 
-function Chat({ socket, username, room, setChatButton, setShowChat }) {
+function Chat({ sckt, username, setChatButton, setShowChat }) {
   const [currentMessage, setCurrentMessage] = useState('')
   const [messageList, setMessageList] = useState([])
   const [minimize, setMinimize] = useState(false)
@@ -9,8 +9,9 @@ function Chat({ socket, username, room, setChatButton, setShowChat }) {
   const sendMessage = async () => {
     if (currentMessage !== '') {
       const messageData = {
-        room: room,
+        //room: room,
         author: username,
+        receiver: 'admin',
         message: currentMessage,
         time:
           new Date(Date.now()).getHours() +
@@ -18,17 +19,23 @@ function Chat({ socket, username, room, setChatButton, setShowChat }) {
           new Date(Date.now()).getMinutes(),
       }
 
-      await socket.emit('send_message', messageData)
+      await sckt.emit('sendMessage', messageData)
       setMessageList((list) => [...list, messageData])
       setCurrentMessage('')
     }
   }
 
-  useEffect(() => {
-    socket.on('receive_message', (data) => {
-      setMessageList((list) => [...list, data])
-    })
-  }, [socket])
+  // useEffect(() => {
+  //   socket.on('receive_message', (data) => {
+  //     setMessageList((list) => [...list, data])
+  //   })
+  // }, [socket])
+
+  // useEffect(() => {
+  //   sckt.on('getMessage', (data) => {
+  //     setMessageList((list) => [...list, data])
+  //   })
+  // }, [sckt])
 
   const closeChat = () => {
     setChatButton(true)

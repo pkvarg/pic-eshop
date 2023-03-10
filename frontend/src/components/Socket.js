@@ -1,20 +1,45 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useStateContext } from '../context/StateContext'
 import Chat from './Chat'
-import io from 'socket.io-client'
-const socket = io.connect('http://localhost:2000')
+import { io } from 'socket.io-client'
 
 const Socket = () => {
   const [username, setUsername] = useState('')
-  const [room, setRoom] = useState('')
   const [showChat, setShowChat] = useState(false)
-  const { chatButton, setChatButton } = useStateContext()
+  const [arrivingMessage, setArrivingMessage] = useState(null)
 
-  const joinRoom = () => {
-    if (username !== '' && room !== '') {
-      socket.emit('join_room', room)
-      setShowChat(true)
-    }
+  const { chatButton, setChatButton } = useStateContext()
+  const socket = useRef()
+
+  // useEffect(() => {
+  //   socket.current = io('http://localhost:2000')
+  //   socket.current.on('getMessage', (data) => {
+  //     console.log(data)
+  //     setArrivingMessage({
+  //       author: data.author,
+  //       message: data.message,
+  //       time: data.time,
+
+  //     })
+  //   })
+  // }, [])
+
+  //useEffect(() => {}, [arrivingMessage])
+
+  // useEffect(() => {
+  //   socket.current.emit('addUser', username)
+  //   socket.current.on('getUsers', (users) => {
+  //     console.log(users)
+  //   })
+  // }, [])
+
+  const joinChat = () => {
+    socket.current = io('http://localhost:2000')
+    socket.current.emit('addUser', username)
+    socket.current.on('getUsers', (users) => {
+      console.log(users)
+    })
+    setShowChat(true)
   }
 
   const closeChat = () => {
@@ -35,15 +60,9 @@ const Socket = () => {
                     setUsername(event.target.value)
                   }}
                 />
-                <input
-                  type='text'
-                  placeholder='Room ID...'
-                  onChange={(event) => {
-                    setRoom(event.target.value)
-                  }}
-                />
+
                 <div className='flex flex-row'>
-                  <button onClick={joinRoom} className='enter'>
+                  <button onClick={joinChat} className='enter'>
                     Vstúpiť
                   </button>
                   <button className='exit' onClick={() => closeChat()}>
@@ -54,9 +73,8 @@ const Socket = () => {
             </>
           ) : (
             <Chat
-              socket={socket}
+              sckt={(socket.current = io('http://localhost:2000'))}
               username={username}
-              room={room}
               setChatButton={setChatButton}
               setShowChat={setShowChat}
             />

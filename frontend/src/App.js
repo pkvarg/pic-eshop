@@ -26,6 +26,7 @@ import { StateContext } from './context/StateContext'
 import { Toaster } from 'react-hot-toast'
 import PaymentCompletion from './screens/PaymentCompletion'
 import Socket from './components/Socket'
+import AdminChat from './screens/AdminChat'
 
 function App() {
   return (
@@ -75,6 +76,7 @@ function App() {
             <Route path='/payment' element={<PaymentScreen />} />
             <Route path='/placeorder' element={<PlaceOrderScreen />} />
             <Route path='/completion' element={<PaymentCompletion />} />
+            <Route path='/admin/chat' element={<AdminChat />} />
           </Routes>
           <Footer />
         </StateContext>

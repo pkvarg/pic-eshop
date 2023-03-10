@@ -31,20 +31,53 @@ const io = new Server(httpServer, {
   },
 })
 
+const users = []
+
+const addUser = (username, socketId) => {
+  console.log('addU', username)
+  !users.some((user) => user.username === username) &&
+    users.push({ username, socketId })
+  console.log('UsersArray', users)
+}
+
+const removeUser = (socketId) => {
+  users.filter((user) => user.socketId !== socketId)
+}
+
+const getUser = (username) => {
+  return users.find((user) => user.username === username)
+}
+
 io.on('connection', (socket) => {
+  // when connect
   console.log(`User Connected: ${socket.id}`)
-
-  socket.on('join_room', (data) => {
-    socket.join(data)
-    console.log(`User with ID: ${socket.id} joined room: ${data}`)
+  // Take userId and socketId from user
+  socket.on('addUser', (username) => {
+    addUser(username, socket.id)
+    io.emit('getUsers', users)
+    console.log('UN', username)
   })
 
-  socket.on('send_message', (data) => {
-    socket.to(data.room).emit('receive_message', data)
+  // send and get message
+  // socket.on('send_message', (data) => {
+  //   console.log(data)
+  //   socket.to(data.room).emit('receive_message', data)
+  //  })
+  socket.on('sendMessage', ({ author, receiver, message, time }) => {
+    console.log('SM:', author, receiver, message, time)
+    const user = getUser(receiver)
+    // io.to(user.socket.id).emit('getMessage', {
+    //   author,
+    //   message,
+    //   time,
+    // })
   })
 
+  // when disconnect
   socket.on('disconnect', () => {
     console.log('User Disconnected', socket.id)
+    removeUser(socket.id)
+    io.emit('getUsers', users)
   })
 })
 
