@@ -1,27 +1,56 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import ScrollToBottom from 'react-scroll-to-bottom'
-import { io } from 'socket.io-client'
 
-function Chat({ username, onlineUsers, setChatButton, setShowChat }) {
+function ChatAdmin({
+  sckt,
+  username,
+  mySocketId,
+  customers,
+  setChatButton,
+  setShowChat,
+}) {
   const [currentMessage, setCurrentMessage] = useState('')
   const [messageList, setMessageList] = useState([])
   const [minimize, setMinimize] = useState(false)
-  const socket = useRef()
-  socket.current = io('ws://localhost:8900')
 
-  console.log('Me:', username)
+  // useEffect(() => {
+  //   console.log(customers)
+  // }, [customers])
 
-  let theOtherOne = onlineUsers.find(
-    (user) => user.username !== username && user.username !== ''
-  )
+  // useEffect(() => {
+  //   // sckt.current = io('http://localhost:8900')
+  //   sckt.on('getMessage', (data) => {
+  //     console.log('data:', data)
+  //   })
+  // }, [])
 
-  console.log('tOo:', theOtherOne)
+  let senderUser
+
+  let receiver = 'Peter'
+
+  // if (username !== 'Admin') {
+  //   receiver = 'Admin'
+  // } else {
+  //   receiver = ''
+  // }
+
+  // useEffect(() => {
+  //   sckt.current.on('getMessage', (data) => {
+  //     console.log(data)
+  //     setCurrentMessage({
+  //       author: data.author,
+  //       message: data.message,
+  //       time: data.time,
+  //     })
+  //   })
+  // }, [sckt])
 
   const sendMessage = async () => {
     if (currentMessage !== '') {
       const messageData = {
+        //room: room,
         author: username,
-        receiver: theOtherOne,
+        receiver: receiver,
         message: currentMessage,
         time:
           new Date(Date.now()).getHours() +
@@ -29,11 +58,32 @@ function Chat({ username, onlineUsers, setChatButton, setShowChat }) {
           new Date(Date.now()).getMinutes(),
       }
 
-      await socket.current.emit('sendMessage', messageData)
+      await sckt.emit('sendMessage', messageData)
       setMessageList((list) => [...list, messageData])
       setCurrentMessage('')
     }
   }
+
+  // sckt.current.emit('sendMessage', {
+  //   author: username,
+  //   receiver: receiver,
+  //   message: currentMessage,
+  //   time:
+  //     new Date(Date.now()).getHours() + ':' + new Date(Date.now()).getMinutes(),
+  // })
+
+  // useEffect(() => {
+  //   socket.on('receive_message', (data) => {
+  //     setMessageList((list) => [...list, data])
+  //   })
+  // }, [socket])
+
+  // useEffect(() => {
+  //   sckt.on('getMessage', (data) => {
+  //     console.log(data)
+  //     setMessageList((list) => [...list, data])
+  //   })
+  // }, [sckt])
 
   const closeChat = () => {
     setChatButton(true)
@@ -94,4 +144,4 @@ function Chat({ username, onlineUsers, setChatButton, setShowChat }) {
   )
 }
 
-export default Chat
+export default ChatAdmin

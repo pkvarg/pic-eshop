@@ -1,36 +1,51 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useStateContext } from '../context/StateContext'
-import Chat from '../components/Chat'
 import io from 'socket.io-client'
+import ChatAdmin from '../components/ChatAdmin'
 
 const AdminChat = () => {
   const socket = useRef()
+  socket.current = io('http://localhost:8900')
 
   const [username, setUsername] = useState('Admin')
   const [showChat, setShowChat] = useState(false)
   const { chatButton, setChatButton } = useStateContext()
 
+  let mySocketId
   // useEffect(() => {
   //   socket.current = io('ws://localhost:8900')
-  //   socket.current.on('getMessage', (data) => {
-  //     console.log(data)
+  //   // socket.current.on('getMessage', (data) => {
+  //   //   console.log(data)
 
-  //   })
+  //   // })
+  //   console.log(socket.current.id)
+  //   //mySocketId
   // }, [])
 
+  let customers = []
+
+  console.log('mSid:', mySocketId)
+
   // useEffect(() => {
-  //   socket.current.emit('addUser', username)
   //   socket.current.on('getUsers', (users) => {
-  //     console.log(users)
+  //     users.map((user) => {
+  //       if (user.username === 'Admin') return (mySocketId = user.socketId)
+  //     })
+  //     console.log('AchUsrs:', mySocketId)
   //   })
-  // }, [username])
+  //   //socket.current = io('http://localhost:8900')
+  //   // socket.current.on('getUsers', (users) => {
+  //   //   customers = users
+  //   //   customers.forEach((element) => {
+  //   //     console.log(element)
+  //   //   })
+  //   //   console.log(customers)
+  //   // })
+  // }, [])
 
   const joinChat = () => {
     socket.current = io('http://localhost:8900')
     socket.current.emit('addUser', username)
-    socket.current.on('getUsers', (users) => {
-      console.log(users)
-    })
     setShowChat(true)
   }
 
@@ -65,9 +80,11 @@ const AdminChat = () => {
             </div>
           </>
         ) : (
-          <Chat
-            sckt={socket}
+          <ChatAdmin
+            sckt={(socket.current = io('http://localhost:8900'))}
             username={username}
+            mySocketId={mySocketId}
+            customers={customers}
             setChatButton={setChatButton}
             setShowChat={setShowChat}
           />

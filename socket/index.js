@@ -1,7 +1,7 @@
 const io = require('socket.io')(8900, {
   cors: {
     origin: 'http://localhost:3000',
-    methods: ['GET', 'POST'],
+    //methods: ['GET', 'POST'],
   },
 })
 
@@ -22,6 +22,19 @@ const getUser = (username) => {
   return users.find((user) => user.username === username)
 }
 
+let sender
+let recId
+
+// admin = users.find((user) => user.username === 'Admin')
+// adminSocketId = admin.socketId
+// console.log(adminSocketId)
+
+const getSocketId = (username) => {
+  return users.find((user) => user.username === username)
+}
+
+console.log(sender)
+
 io.on('connection', (socket) => {
   // when connect
   console.log(`User Connected: ${socket.id}`)
@@ -33,24 +46,12 @@ io.on('connection', (socket) => {
   })
 
   // send and get message
-  // socket.on('send_message', (data) => {
-  //   console.log(data)
-  //   socket.to(data.room).emit('receive_message', data)
-  //  })
+
   socket.on('sendMessage', ({ author, receiver, message, time }) => {
     console.log('SM:', author, receiver, message, time)
-    const user = getUser(receiver)
-    console.log('user:', user)
-    // io.to(user.socketId).emit(
-    //   'receive_message',
-    //   author,
-    //   message,
-    //   time
-    // )
-    io.to(user.socketId).emit('getMessage', {
+    io.to(receiver.socketId).emit('getMessage', {
       author,
       message,
-      time,
     })
   })
 

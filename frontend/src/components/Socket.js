@@ -7,46 +7,34 @@ const Socket = () => {
   const [username, setUsername] = useState('')
   const [showChat, setShowChat] = useState(false)
   const [arrivingMessage, setArrivingMessage] = useState(null)
+  const [onlineUsers, setOnlineUsers] = useState(null)
 
   const { chatButton, setChatButton } = useStateContext()
-  const socket = useRef(io('ws://localhost:8900'))
+  const socket = useRef()
+  socket.current = io('ws://localhost:8900')
 
-  // useEffect(() => {
-  //   socket.current.on =
-  //     ('getMessage',
-  //     (data) => {
-  //       console.log(data)
-  //     })
-  // }, [])
+  useEffect(() => {
+    socket.current.on('getMessage', (data) => {
+      console.log('data:', data)
+      // setArrivalMessage({
+      //   sender: data.senderId,
+      //   text: data.text,
+      //   createdAt: Date.now(),
+      // });
+    })
+  }, [])
 
-  // useEffect(() => {
-  //   socket.current = io('ws://localhost:8900')
-  //   socket.current.on('getMessage', (data) => {
-  //     console.log(data)
-  //     setArrivingMessage({
-  //       author: data.author,
-  //       message: data.message,
-  //       time: data.time,
-
-  //     })
-  //   })
-  // }, [])
-
-  //useEffect(() => {}, [arrivingMessage])
-
-  // useEffect(() => {
-  //   socket.current.emit('addUser', username)
-  //   socket.current.on('getUsers', (users) => {
-  //     console.log(users)
-  //   })
-  // }, [])
-
-  const joinChat = () => {
-    // socket.current = io('ws://localhost:8900')
+  useEffect(() => {
     socket.current.emit('addUser', username)
     socket.current.on('getUsers', (users) => {
-      console.log(users)
+      setOnlineUsers(users)
     })
+  }, [])
+
+  console.log('online:', onlineUsers)
+
+  const joinChat = () => {
+    socket.current.emit('addUser', username)
     setShowChat(true)
   }
 
@@ -81,8 +69,8 @@ const Socket = () => {
             </>
           ) : (
             <Chat
-              sckt={socket}
               username={username}
+              onlineUsers={onlineUsers}
               setChatButton={setChatButton}
               setShowChat={setShowChat}
             />
