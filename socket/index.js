@@ -18,22 +18,9 @@ const removeUser = (socketId) => {
   users.filter((user) => user.socketId !== socketId)
 }
 
-const getUser = (username) => {
-  return users.find((user) => user.username === username)
-}
-
-let sender
-let recId
-
-// admin = users.find((user) => user.username === 'Admin')
-// adminSocketId = admin.socketId
-// console.log(adminSocketId)
-
-const getSocketId = (username) => {
-  return users.find((user) => user.username === username)
-}
-
-console.log(sender)
+// const getUser = (username) => {
+//   return users.find((user) => user.username === username)
+// }
 
 io.on('connection', (socket) => {
   // when connect
@@ -52,6 +39,7 @@ io.on('connection', (socket) => {
     io.to(receiver.socketId).emit('getMessage', {
       author,
       message,
+      time,
     })
   })
 
@@ -62,12 +50,3 @@ io.on('connection', (socket) => {
     io.emit('getUsers', users)
   })
 })
-
-// import { Server } from 'socket.io'
-
-// const io = new Server(httpServer, {
-//   cors: {
-//     origin: 'http://localhost:3000',
-//     methods: ['GET', 'POST'],
-//   },
-// })

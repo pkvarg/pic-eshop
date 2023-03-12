@@ -13,16 +13,17 @@ const Socket = () => {
   const socket = useRef()
   socket.current = io('ws://localhost:8900')
 
-  useEffect(() => {
-    socket.current.on('getMessage', (data) => {
-      console.log('data:', data)
-      // setArrivalMessage({
-      //   sender: data.senderId,
-      //   text: data.text,
-      //   createdAt: Date.now(),
-      // });
-    })
-  }, [])
+  // useEffect(() => {
+  //   console.log('aaa')
+  //   socket.current.on('getMessage', (data) => {
+  //     console.log('data:', data)
+  //     setArrivingMessage({
+  //       author: data.author,
+  //       message: data.message,
+  //       time: data.time,
+  //     })
+  //   })
+  // })
 
   useEffect(() => {
     socket.current.emit('addUser', username)
@@ -70,6 +71,7 @@ const Socket = () => {
           ) : (
             <Chat
               username={username}
+              // arrivingMessage={arrivingMessage}
               onlineUsers={onlineUsers}
               setChatButton={setChatButton}
               setShowChat={setShowChat}

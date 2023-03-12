@@ -2,12 +2,41 @@ import React, { useEffect, useState, useRef } from 'react'
 import ScrollToBottom from 'react-scroll-to-bottom'
 import { io } from 'socket.io-client'
 
-function Chat({ username, onlineUsers, setChatButton, setShowChat }) {
+function Chat({
+  username,
+  arrivingMessage,
+  onlineUsers,
+  setChatButton,
+  setShowChat,
+}) {
   const [currentMessage, setCurrentMessage] = useState('')
   const [messageList, setMessageList] = useState([])
   const [minimize, setMinimize] = useState(false)
   const socket = useRef()
   socket.current = io('ws://localhost:8900')
+
+  useEffect(() => {
+    console.log('aaa')
+    socket.current.on('getMessage', (data) => {
+      console.log('data:', data)
+      // setArrivingMessage({
+      //   author: data.author,
+      //   message: data.message,
+      //   time: data.time,
+      // })
+    })
+  })
+
+  // useEffect(() => {
+  //   console.log('aaa')
+  //   socket.current.on('getMessage', (data) => {
+  //     console.log('data:', data)
+  //   })
+  // })
+
+  // useEffect(() => {
+  //   console.log('arrivingM:', arrivingMessage)
+  // }, [arrivingMessage])
 
   console.log('Me:', username)
 
@@ -15,7 +44,7 @@ function Chat({ username, onlineUsers, setChatButton, setShowChat }) {
     (user) => user.username !== username && user.username !== ''
   )
 
-  console.log('tOo:', theOtherOne)
+  console.log('theOtherOne:', theOtherOne)
 
   const sendMessage = async () => {
     if (currentMessage !== '') {
