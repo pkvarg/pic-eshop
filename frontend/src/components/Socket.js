@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useStateContext } from '../context/StateContext'
 import Chat from './Chat'
 import { socket } from './../Socket'
@@ -55,7 +55,9 @@ const Socket = () => {
           ) : (
             <Chat
               username={username}
+              setUsername={setUsername}
               onlineUsers={onlineUsers}
+              setOnlineUsers={setOnlineUsers}
               setChatButton={setChatButton}
               setShowChat={setShowChat}
             />

@@ -1,18 +1,21 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import ScrollToBottom from 'react-scroll-to-bottom'
 import { socket } from './../Socket'
 
-function Chat({ sckt, username, onlineUsers, setChatButton, setShowChat }) {
+function Chat({ username, onlineUsers, setChatButton, setShowChat }) {
   const [currentMessage, setCurrentMessage] = useState('')
   const [messageList, setMessageList] = useState([])
   const [minimize, setMinimize] = useState(false)
-  const [received, setReceived] = useState('')
 
   let theOtherOne = onlineUsers.find(
     (user) => user.username !== username && user.username !== ''
   )
 
-  console.log('theOtherOne:', theOtherOne)
+  console.log('theOther:', theOtherOne)
+
+  // let admin = onlineUsers.find((user) => user.username === 'Admin')
+
+  // console.log('admin:', admin)
 
   const sendMessage = async () => {
     if (currentMessage !== '') {
@@ -25,7 +28,6 @@ function Chat({ sckt, username, onlineUsers, setChatButton, setShowChat }) {
           ':' +
           new Date(Date.now()).getMinutes(),
       }
-      //socket.current = io('ws://localhost:8990')
 
       await socket.emit('sendMessage', messageData)
       setMessageList((list) => [...list, messageData])
@@ -34,12 +36,9 @@ function Chat({ sckt, username, onlineUsers, setChatButton, setShowChat }) {
   }
 
   useEffect(() => {
-    console.log('use effect')
     socket.on('receiveMessage', (data) => {
       console.log('data:', data)
-      setReceived(data)
       setMessageList((list) => [...list, data])
-      console.log('REC:', received)
     })
   }, [])
 
