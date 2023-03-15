@@ -1,9 +1,30 @@
-const io = require('socket.io')(8900, {
+import { Server } from 'socket.io'
+import http from 'http'
+import express from 'express'
+
+const app = express()
+//const httpServer = http.createServer(app)
+
+// const io = new Server(httpServer, {
+//   cors: {
+//     origin: 'http://localhost:3000',
+//     methods: ['GET', 'POST'],
+//   },
+// })
+
+const io = new Server(8990, {
   cors: {
     origin: 'http://localhost:3000',
     //methods: ['GET', 'POST'],
   },
 })
+
+// const io = require('socket.io')(8990, {
+//   cors: {
+//     origin: 'http://localhost:3000',
+//     //methods: ['GET', 'POST'],
+//   },
+// })
 
 const users = []
 
@@ -34,14 +55,19 @@ io.on('connection', (socket) => {
 
   // send and get message
 
-  socket.on('sendMessage', ({ author, receiver, message, time }) => {
-    console.log('SM:', author, receiver, message, time)
-    io.to(receiver.socketId).emit('getMessage', {
-      author,
-      message,
-      time,
-    })
+  socket.on('sendMessage', (data) => {
+    console.log('data:', data)
+    io.to(data.receiver.socketId).emit('receiveMessage', data)
   })
+
+  // socket.on('sendMessage', ({ author, receiver, message, time }) => {
+  //   console.log('SM:', author, receiver, message, time)
+  //   io.to(receiver.socketId).emit('getMessage', {
+  //     author,
+  //     message,
+  //     time,
+  //   })
+  // })
 
   // when disconnect
   socket.on('disconnect', () => {
@@ -50,3 +76,5 @@ io.on('connection', (socket) => {
     io.emit('getUsers', users)
   })
 })
+
+// httpServer.listen(8990, console.log(`Socket server running on port 8990`))

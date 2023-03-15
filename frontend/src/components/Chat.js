@@ -1,44 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react'
 import ScrollToBottom from 'react-scroll-to-bottom'
-import { io } from 'socket.io-client'
+import { socket } from './../Socket'
 
-function Chat({
-  username,
-  arrivingMessage,
-  onlineUsers,
-  setChatButton,
-  setShowChat,
-}) {
+function Chat({ sckt, username, onlineUsers, setChatButton, setShowChat }) {
   const [currentMessage, setCurrentMessage] = useState('')
   const [messageList, setMessageList] = useState([])
   const [minimize, setMinimize] = useState(false)
-  const socket = useRef()
-  socket.current = io('ws://localhost:8900')
-
-  useEffect(() => {
-    console.log('aaa')
-    socket.current.on('getMessage', (data) => {
-      console.log('data:', data)
-      // setArrivingMessage({
-      //   author: data.author,
-      //   message: data.message,
-      //   time: data.time,
-      // })
-    })
-  })
-
-  // useEffect(() => {
-  //   console.log('aaa')
-  //   socket.current.on('getMessage', (data) => {
-  //     console.log('data:', data)
-  //   })
-  // })
-
-  // useEffect(() => {
-  //   console.log('arrivingM:', arrivingMessage)
-  // }, [arrivingMessage])
-
-  console.log('Me:', username)
+  const [received, setReceived] = useState('')
 
   let theOtherOne = onlineUsers.find(
     (user) => user.username !== username && user.username !== ''
@@ -57,12 +25,25 @@ function Chat({
           ':' +
           new Date(Date.now()).getMinutes(),
       }
+      //socket.current = io('ws://localhost:8990')
 
-      await socket.current.emit('sendMessage', messageData)
+      await socket.emit('sendMessage', messageData)
       setMessageList((list) => [...list, messageData])
       setCurrentMessage('')
     }
   }
+
+  useEffect(() => {
+    console.log('use effect')
+    socket.on('receiveMessage', (data) => {
+      console.log('data:', data)
+      setReceived(data)
+      setMessageList((list) => [...list, data])
+      console.log('REC:', received)
+    })
+  }, [])
+
+  console.log('Me:', username)
 
   const closeChat = () => {
     setChatButton(true)
