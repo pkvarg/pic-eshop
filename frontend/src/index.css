@@ -259,6 +259,18 @@ p.number-in-cart span {
   place-items: center;
 }
 
+.socket-admin {
+  /* position: absolute;
+  bottom: 0px;
+  right: 50px; */
+  width: 250px;
+  height: 60vh;
+  color: #212121;
+  font-family: 'Open Sans', sans-serif;
+  display: grid;
+  place-items: center;
+}
+
 .joinChatContainer {
   display: flex;
   flex-direction: column;
@@ -334,7 +346,25 @@ p.number-in-cart span {
   position: relative;
   cursor: pointer;
 }
+
 .chat-window .chat-header p {
+  display: block;
+  padding: 0 1em 0 2em;
+  color: #fff;
+  font-weight: 700;
+  line-height: 45px;
+}
+
+.chat-window .chat-header2 {
+  height: 45px;
+  border-radius: 6px 6px 0px 0px;
+  /* border-radius: 6px; */
+  background: red;
+  position: relative;
+  cursor: pointer;
+}
+
+.chat-window .chat-header2 p {
   display: block;
   padding: 0 1em 0 2em;
   color: #fff;
