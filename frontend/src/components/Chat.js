@@ -7,21 +7,15 @@ function Chat({ username, onlineUsers, setChatButton, setShowChat }) {
   const [messageList, setMessageList] = useState([])
   const [minimize, setMinimize] = useState(false)
 
-  let theOtherOne = onlineUsers.find(
-    (user) => user.username !== username && user.username !== ''
-  )
+  let admin = onlineUsers.find((user) => user.username === 'Admin')
 
-  console.log('theOther:', theOtherOne)
-
-  // let admin = onlineUsers.find((user) => user.username === 'Admin')
-
-  // console.log('admin:', admin)
+  console.log('admin:', admin)
 
   const sendMessage = async () => {
     if (currentMessage !== '') {
       const messageData = {
         author: username,
-        receiver: theOtherOne,
+        receiver: admin,
         message: currentMessage,
         time:
           new Date(Date.now()).getHours() +

@@ -8,6 +8,7 @@ const Socket = () => {
   const [showChat, setShowChat] = useState(false)
   const [onlineUsers, setOnlineUsers] = useState(null)
   const { chatButton, setChatButton } = useStateContext()
+  //const [whoIsAdmin, setWhoIsAdmin] = useState()
 
   useEffect(() => {
     socket.emit('addUser', username)

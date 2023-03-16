@@ -51,7 +51,7 @@ const AdminChat = () => {
               <>
                 <div className='flex w-[700px] mb-[5px]'>
                   <div className='flex gap-4 text-[22.5px] m-2'>
-                    <p>{customer.username}</p>
+                    <p key={customer.socketId}>{customer.username}</p>
                     <p>{customer.socketId}</p>
                   </div>
                   <button
