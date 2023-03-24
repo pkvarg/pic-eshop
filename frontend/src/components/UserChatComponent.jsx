@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCommentDots } from '@fortawesome/free-solid-svg-icons'
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons'
@@ -9,37 +10,40 @@ const UserChatComponent = () => {
   const [messageReceived, setMessageReceived] = useState(false)
   const [chatConnectionInfo, setChatConnectionInfo] = useState(false)
   const [reconnect, setReconnect] = useState(false)
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
+  console.log('useinf:', userInfo)
 
   useEffect(() => {
-    // if (!userInfo.isAdmin) {
-    setReconnect(false)
-    var audio = new Audio('/audio/chat-msg.mp3')
-    socket.on('no admin', (msg) => {
-      setChat((chat) => {
-        return [...chat, { admin: 'No admin available at the moment.' }]
+    if (!userInfo || !userInfo.isAdmin) {
+      setReconnect(false)
+      var audio = new Audio('/audio/chat-msg.mp3')
+      socket.on('no admin', (msg) => {
+        setChat((chat) => {
+          return [...chat, { admin: 'No admin available at the moment.' }]
+        })
       })
-    })
-    socket.on('server sends message from admin to client', (msg) => {
-      setChat((chat) => {
-        return [...chat, { admin: msg }]
+      socket.on('server sends message from admin to client', (msg) => {
+        setChat((chat) => {
+          return [...chat, { admin: msg }]
+        })
+        setMessageReceived(true)
+        audio.play()
+        const chatMessages = document.querySelector('.cht-msg')
+        chatMessages.scrollTop = chatMessages.scrollHeight
       })
-      setMessageReceived(true)
-      audio.play()
-      const chatMessages = document.querySelector('.cht-msg')
-      chatMessages.scrollTop = chatMessages.scrollHeight
-    })
 
-    socket.on('admin closed chat', () => {
-      setChat([])
-      setChatConnectionInfo(
-        'Admin closed chat. Type something and submit to reconnect'
-      )
-      setReconnect(true)
-    })
+      socket.on('admin closed chat', () => {
+        setChat([])
+        setChatConnectionInfo(
+          'Admin closed chat. Type something and submit to reconnect'
+        )
+        setReconnect(true)
+      })
 
-    return () => socket.disconnect()
-    //}
-  }, [reconnect])
+      return () => socket.disconnect()
+    }
+  }, [userInfo, reconnect])
 
   const clientSubmitChatMsg = (e) => {
     if (e.keyCode && e.keyCode !== 13) {
@@ -64,7 +68,7 @@ const UserChatComponent = () => {
     }, 200)
   }
 
-  return (
+  return !userInfo || !userInfo.isAdmin ? (
     <>
       <input type='checkbox' id='check' />
       <label className='chat-btn' htmlFor='check'>
@@ -79,7 +83,7 @@ const UserChatComponent = () => {
 
       <div className='chat-wrapper'>
         <div className='chat-header'>
-          <h6>Let's Chat - Online</h6>
+          <h6 className='text-[#ffffff]'>Let's Chat - Online</h6>
         </div>
         <div className='chat-form'>
           <div className='cht-msg'>
@@ -87,12 +91,12 @@ const UserChatComponent = () => {
             {chat.map((item, id) => (
               <div key={id}>
                 {item.client && (
-                  <p>
+                  <p className='bg-[yellow] mb-1 ms-2 text-[black] text-center p-3 rounded-pill w-[60%]'>
                     <b>You wrote:</b> {item.client}
                   </p>
                 )}
                 {item.admin && (
-                  <p className='bg-primary p-3 ms-4 text-light rounded-pill'>
+                  <p className='bg-[orange] ml-[40%] p-3 mb-1 rounded-pill w-[60%] text-center mt-1'>
                     <b>Support wrote:</b> {item.admin}
                   </p>
                 )}
@@ -117,6 +121,8 @@ const UserChatComponent = () => {
         </div>
       </div>
     </>
+  ) : (
+    ''
   )
 }
 

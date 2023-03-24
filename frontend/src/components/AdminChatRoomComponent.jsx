@@ -72,20 +72,26 @@ const AdminChatRoomComponent = ({
             {chatRoom[1].map((msg, idx) => (
               <Fragment key={idx}>
                 {msg.client && (
-                  <p key={idx} className='text-[black] rounded-pill'>
-                    <b className='bg-[yellow] '>User wrote:</b> {msg.client}
+                  <p
+                    key={idx}
+                    className='bg-[yellow] ms-2 text-[black] text-center p-3 rounded-pill w-[60%]'
+                  >
+                    <b className=' '>User wrote:</b> {msg.client}
                   </p>
                 )}
                 {msg.admin && (
-                  <p key={idx}>
-                    <b className='bg-[blue]'>Admin wrote:</b> {msg.admin}
+                  <p
+                    key={idx}
+                    className='bg-[orange] ml-[40%] p-3 mb-1 rounded-pill w-[60%] text-center mt-1'
+                  >
+                    <b className=''>Admin wrote:</b> {msg.admin}
                   </p>
                 )}
               </Fragment>
             ))}
           </div>
 
-          <Form className='ml-1 mb-3'>
+          <Form className='ml-1 mb-3 mt-2'>
             <Form.Group
               className=' flex flex-col'
               controlId={`adminChatMsg${roomIndex}`}

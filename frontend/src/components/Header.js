@@ -30,6 +30,7 @@ const Header = () => {
   const [navbar, setNavbar] = useState(false)
 
   const { messageReceived } = useSelector((state) => state.adminChat)
+  
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
@@ -85,11 +86,11 @@ const Header = () => {
               </Nav.Link>
             </LinkContainer>
           )}
+          {userInfo && userInfo.isAdmin && messageReceived && (
+            <span className='absolute right-[2.5%] top-[9px] -translate-y-[50%] p-2 bg-[#cd3049] border border-light rounded-full'></span>
+          )}
           {userInfo && userInfo.isAdmin && !userInfo.isAssistant && (
             <NavDropdown title='Admin' id='adminmenu'>
-              {messageReceived && (
-                <span className='absolute -translate-y-[50%] p-2 bg-[#cd3049] border border-light rounded-full'></span>
-              )}
               <LinkContainer to='/admin/userlist'>
                 <NavDropdown.Item>Používatelia</NavDropdown.Item>
               </LinkContainer>
