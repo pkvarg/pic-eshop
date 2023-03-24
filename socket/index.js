@@ -9,7 +9,7 @@ const io = new Server(8990, {
 const users = []
 
 const addUser = (username, socketId) => {
-  console.log('addU', username)
+  //console.log('addU', username)
   !users.some((user) => user.username === username) &&
     users.push({ username, socketId })
   console.log('UsersArray', users)
@@ -30,7 +30,7 @@ io.on('connection', (socket) => {
   socket.on('addUser', (username) => {
     addUser(username, socket.id)
     io.emit('getUsers', users)
-    console.log('UN', username)
+    //console.log('UN', username)
   })
 
   // send and get message
@@ -45,5 +45,6 @@ io.on('connection', (socket) => {
     console.log('User Disconnected', socket.id)
     removeUser(socket.id)
     io.emit('getUsers', users)
+    console.log('afterDisconnect:', users)
   })
 })

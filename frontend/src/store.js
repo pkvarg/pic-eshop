@@ -36,6 +36,8 @@ import {
   orderCancellReducer,
 } from './reducers/orderReducers'
 
+import { adminChatReducer } from './reducers/adminChatReducers'
+
 // import {
 //   bannerListReducer,
 //   bannerCreateReducer,
@@ -73,6 +75,7 @@ const reducer = combineReducers({
   orderListMy: orderListMyReducer,
   orderList: orderListReducer,
   orderDelete: orderDeleteReducer,
+  adminChat: adminChatReducer,
 
   // bannerList: bannerListReducer,
   // bannerDetails: bannerDetailsReducer,

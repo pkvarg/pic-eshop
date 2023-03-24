@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { LinkContainer } from 'react-router-bootstrap'
@@ -9,6 +9,13 @@ import { Link } from 'react-router-dom'
 /* Cart as component*/
 import Cart from './Cart'
 import { useStateContext } from '../context/StateContext'
+import { socket } from './../Socket'
+import {
+  setChatRooms,
+  setSocket,
+  setMessageReceived,
+  removeChatRoom,
+} from './../actions/chatActions'
 
 const Header = () => {
   const { showCart, setShowCart, totalQuantities } = useStateContext()
@@ -21,6 +28,35 @@ const Header = () => {
   }
 
   const [navbar, setNavbar] = useState(false)
+
+  const { messageReceived } = useSelector((state) => state.adminChat)
+
+  useEffect(() => {
+    if (userInfo && userInfo.isAdmin) {
+      var audio = new Audio('/audio/chat-msg.mp3')
+      socket.emit(
+        'admin connected with server',
+        'Admin' + Math.floor(Math.random() * 1000000000000)
+      )
+      socket.on(
+        'server sends message from client to admin',
+        ({ user, message }) => {
+          console.log('hc:', user, message)
+
+          dispatch(setChatRooms(user, message))
+          dispatch(setMessageReceived(true))
+
+          audio.play()
+        }
+      )
+      socket.on('disconnected', ({ reason, socketId }) => {
+        console.log(socketId, reason)
+        dispatch(removeChatRoom(socketId))
+      })
+    }
+
+    return () => socket.disconnect()
+  }, [dispatch, userInfo])
 
   return (
     <>
@@ -51,6 +87,9 @@ const Header = () => {
           )}
           {userInfo && userInfo.isAdmin && !userInfo.isAssistant && (
             <NavDropdown title='Admin' id='adminmenu'>
+              {messageReceived && (
+                <span className='absolute -translate-y-[50%] p-2 bg-[#cd3049] border border-light rounded-full'></span>
+              )}
               <LinkContainer to='/admin/userlist'>
                 <NavDropdown.Item>Používatelia</NavDropdown.Item>
               </LinkContainer>

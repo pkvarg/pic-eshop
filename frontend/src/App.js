@@ -25,15 +25,16 @@ import PlaceOrderScreen from './screens/PlaceOrderScreen'
 import { StateContext } from './context/StateContext'
 import { Toaster } from 'react-hot-toast'
 import PaymentCompletion from './screens/PaymentCompletion'
-import Socket from './components/Socket'
+//import Socket from './components/Socket'
 import AdminChat from './components/AdminChat'
+import UserChatComponent from './components/UserChatComponent'
 
 function App() {
   return (
     <>
       <Router>
         <StateContext>
-          <Socket />
+          {/* <Socket /> */}
           <Header />
           <Toaster />
 
@@ -66,7 +67,7 @@ function App() {
               path='/admin/product/:id/edit'
               element={<ProductEditScreen />}
             />
-            <Route path='/order/:id' element={<OrderScreen />} />
+            {/* <Route path='/order/:id' element={<OrderScreen />} /> */}
             <Route path='/admin/orderlist' element={<OrderListScreen />} />
             <Route path='/create-discount' element={<CreateDiscount />} />
             <Route path='/admin/reviews' element={<Reviews />} />
@@ -78,6 +79,7 @@ function App() {
             <Route path='/completion' element={<PaymentCompletion />} />
             <Route path='/admin/chat' element={<AdminChat />} />
           </Routes>
+          <UserChatComponent />
           <Footer />
         </StateContext>
       </Router>

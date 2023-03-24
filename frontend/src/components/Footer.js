@@ -9,12 +9,12 @@ const Footer = () => {
       <div className=''>Info</div>
       <div className=''>Linky</div>
       <div className=''>Kontakt</div>
-      <button
+      {/* <button
         className={chatButton ? 'chatButton' : 'Socket-none'}
         onClick={() => setChatButton(false)}
       >
         Chat
-      </button>
+      </button> */}
     </div>
   )
 }
