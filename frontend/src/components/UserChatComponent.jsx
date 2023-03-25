@@ -2,21 +2,24 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCommentDots } from '@fortawesome/free-solid-svg-icons'
+
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons'
+import { faRotateRight } from '@fortawesome/free-solid-svg-icons'
+
 import { socket } from './../Socket'
 
 const UserChatComponent = () => {
   const [chat, setChat] = useState([])
   const [messageReceived, setMessageReceived] = useState(false)
   const [chatConnectionInfo, setChatConnectionInfo] = useState(false)
-  const [reconnect, setReconnect] = useState(false)
+  //const [reconnect, setReconnect] = useState(false)
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
   console.log('useinf:', userInfo)
 
   useEffect(() => {
     if (!userInfo || !userInfo.isAdmin) {
-      setReconnect(false)
+      //setReconnect(false)
       var audio = new Audio('/audio/chat-msg.mp3')
       socket.on('no admin', (msg) => {
         setChat((chat) => {
@@ -36,14 +39,22 @@ const UserChatComponent = () => {
       socket.on('admin closed chat', () => {
         setChat([])
         setChatConnectionInfo(
-          'Admin closed chat. Type something and submit to reconnect'
+          `Admin closed the chat. Reload to start a new chat`
         )
-        setReconnect(true)
+        //setReconnect(true)
       })
 
-      return () => socket.disconnect()
+      //return () => socket.disconnect()
     }
-  }, [userInfo, reconnect])
+  }, [userInfo])
+
+  const rejoinChat = () => {
+    window.location.reload(false)
+  }
+
+  // const closeChat = () => {
+  //   socket.disconnect()
+  // }
 
   const clientSubmitChatMsg = (e) => {
     if (e.keyCode && e.keyCode !== 13) {
@@ -82,8 +93,17 @@ const UserChatComponent = () => {
       </label>
 
       <div className='chat-wrapper'>
-        <div className='chat-header'>
-          <h6 className='text-[#ffffff]'>Let's Chat - Online</h6>
+        <div className='chat-header flex items-center justify-between'>
+          <h6 className='text-[#ffffff]'>Let's Chat</h6>
+          <div
+            className='text-[#ffffff] cursor-pointer'
+            onClick={() => rejoinChat()}
+          >
+            <FontAwesomeIcon icon={faRotateRight} className='text-[15px]' />
+          </div>
+          {/* <div className='cursor-pointer' onClick={() => closeChat()}>
+            X
+          </div> */}
         </div>
         <div className='chat-form'>
           <div className='cht-msg'>
@@ -92,12 +112,12 @@ const UserChatComponent = () => {
               <div key={id}>
                 {item.client && (
                   <p className='bg-[yellow] mb-1 ms-2 text-[black] text-center p-3 rounded-pill w-[60%]'>
-                    <b>You wrote:</b> {item.client}
+                    <b>You:</b> {item.client}
                   </p>
                 )}
                 {item.admin && (
                   <p className='bg-[orange] ml-[40%] p-3 mb-1 rounded-pill w-[60%] text-center mt-1'>
-                    <b>Support wrote:</b> {item.admin}
+                    <b>Support:</b> {item.admin}
                   </p>
                 )}
               </div>

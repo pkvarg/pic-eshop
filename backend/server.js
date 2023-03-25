@@ -131,7 +131,7 @@ io.on('connection', (socket) => {
         let admin = get_random(admins)
         activeChats.push({ clientId: socket.id, adminId: admin.id })
         targetAdminId = admin.id
-        console.log('admin:', admin)
+        console.log('admin:', admin, 'client:', socket.id)
       }
       socket.broadcast
         .to(targetAdminId)

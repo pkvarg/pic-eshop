@@ -30,11 +30,13 @@ const Header = () => {
   const [navbar, setNavbar] = useState(false)
 
   const { messageReceived } = useSelector((state) => state.adminChat)
-  
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
       var audio = new Audio('/audio/chat-msg.mp3')
+      //audio
+
+      // audio end
       socket.emit(
         'admin connected with server',
         'Admin' + Math.floor(Math.random() * 1000000000000)
@@ -53,6 +55,7 @@ const Header = () => {
       socket.on('disconnected', ({ reason, socketId }) => {
         console.log(socketId, reason)
         dispatch(removeChatRoom(socketId))
+        alert('Chat closed.')
       })
     }
 

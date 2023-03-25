@@ -50,25 +50,28 @@ const AdminChatRoomComponent = ({
     if (chatMessages) chatMessages.scrollTop = chatMessages.scrollHeight
   })
 
-  console.log('chatR', chatRoom)
+  //console.log('chatR', chatRoom)
 
   return (
     <>
       <Toast
         show={'toast' + roomIndex}
-        onClose={() => close(chatRoom[0])}
-        className='ms-4 mb-5 ml-4 w-[33%]'
+        transition={false}
+        //onClose={() => close(chatRoom[0])}
+        className='ms-4 mb-5 ml-4 w-[33%] border-none mt-4'
       >
         <div className='bg-[#0000FF] text-[#fff] flex justify-between items-center px-2 h-12 rounded-t-lg'>
-          <Toast.Header>
-            <strong className='me-auto'>Chat with User</strong>
+          <Toast.Header className='!bg-[#0000ff]'>
+            <strong className='me-auto  text-[#ffffff] text-uppercase'>
+              Chat with User
+            </strong>
           </Toast.Header>
-          <div onClick={() => close()} className='cursor-pointer'>
+          <div onClick={() => close(chatRoom[0])} className='cursor-pointer'>
             X
           </div>
         </div>
         <Toast.Body>
-          <div className='cht-msg'>
+          <div className={`cht-msg${socketUser}`}>
             {chatRoom[1].map((msg, idx) => (
               <Fragment key={idx}>
                 {msg.client && (
