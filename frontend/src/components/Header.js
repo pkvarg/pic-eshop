@@ -31,9 +31,17 @@ const Header = () => {
 
   const { messageReceived } = useSelector((state) => state.adminChat)
 
+  var audio = new Audio('/audio/chat-msg.mp3')
+
+  const preloadAudio = () => {
+    audio.play()
+  }
+
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
-      var audio = new Audio('/audio/chat-msg.mp3')
+      // var audio = new Audio('/audio/chat-msg.mp3')
+
+      console.log(audio)
       //audio
 
       // audio end
@@ -59,7 +67,7 @@ const Header = () => {
       })
     }
 
-    return () => socket.disconnect()
+    //return () => socket.disconnect()
   }, [dispatch, userInfo])
 
   return (
@@ -104,7 +112,9 @@ const Header = () => {
                 <NavDropdown.Item>Objednávky</NavDropdown.Item>
               </LinkContainer>
               <LinkContainer to='/admin/chat'>
-                <NavDropdown.Item>Chat</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => preloadAudio()}>
+                  Chat
+                </NavDropdown.Item>
               </LinkContainer>
 
               {/* <LinkContainer to='/admin/banner'>
